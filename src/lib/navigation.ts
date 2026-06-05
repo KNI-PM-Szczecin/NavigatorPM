@@ -1,11 +1,13 @@
 import { NavigationNode } from '@/types/manifest';
 import { algorithmRegistry } from './algorithms/registry';
 
+export type Algorithm = 'A-star' | 'Dijkstra' | 'BFS' | 'Greedy';
+
 export function findPath(
     nodes: NavigationNode[],
     startId: string,
     endId: string,
-    algorithmIdentifier: string = 'A-star'
+    algorithmIdentifier: Algorithm = 'A-star'
 ): string[] {
     const algorithm = algorithmRegistry.getAlgorithm(algorithmIdentifier);
     

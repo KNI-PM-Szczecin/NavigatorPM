@@ -8,22 +8,26 @@ import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 
-export default async function FloorsPage({ params }: { params: { id: string } }) {
+export default async function FloorsPage({ params }: { params: Promise<{ id: string }> }) {
     const auth = await isAuthenticated();
     if (!auth) redirect('/admin-portal-721');
 
     const buildingId = (await params).id;
-    const building = data.getAllBuildings().find(b => b.id === buildingId);
+    const building = (await data.getAllBuildings()).find(b => b.id === buildingId);
     
     if (!building) redirect('/admin-portal-721/buildings');
 
-    const floors = data.getFloors(buildingId);
+    const floors = await data.getFloors(buildingId);
     
     const locale = (await cookies()).get('locale')?.value || 'en-US';
 
-        const buildingTransRaw = db.prepare("SELECT locale, translation FROM translations WHERE entity_type = 'building' AND field_name = 'name' AND entity_id = ?").all(buildingId) as any[];
+    const buildingTransRaw = await db.buildingTranslation.findMany({
+        where: {
+            buildingId
+        }
+    });
     const buildingTranslations: Record<string, string> = {};
-    buildingTransRaw.forEach(row => buildingTranslations[row.locale] = row.translation);
+    buildingTransRaw.forEach(row => buildingTranslations[row.language] = row.name);
 
     return (
         <FloorsClient 

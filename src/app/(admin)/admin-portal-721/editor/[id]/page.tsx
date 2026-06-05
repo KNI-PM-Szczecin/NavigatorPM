@@ -7,12 +7,12 @@ import db from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
-export default async function EditorPage({ params }: { params: { id: string } }) {
+export default async function EditorPage({ params }: { params: Promise<{ id: string }> }) {
     const auth = await isAuthenticated();
     if (!auth) redirect('/admin-portal-721');
 
     const floorId = (await params).id;
-    const rawFloor = data.getFloor(floorId);
+    const rawFloor = await data.getFloor(floorId);
     
     if (!rawFloor || !rawFloor.svgMapUrl) redirect(`/admin-portal-721/floor/${floorId}`);
 
@@ -24,37 +24,19 @@ export default async function EditorPage({ params }: { params: { id: string } })
         svgMapUrl: rawFloor.svgMapUrl
     };
 
-    const initialNodesRaw = data.getNodes(floorId);
-    
-        const nodeIds = initialNodesRaw.map(n => n.qrId);
-    const nodeTranslationsRaw = nodeIds.length > 0 
-        ? db.prepare(`SELECT entity_id, locale, field_name, translation FROM translations WHERE entity_type = 'node' AND entity_id IN (${nodeIds.map(() => '?').join(',')})`).all(nodeIds) as any[]
-        : [];
-
-    const nodeTranslationsMap: Record<string, Record<string, Record<string, string>>> = {};
-    nodeTranslationsRaw.forEach(row => {
-        if (!nodeTranslationsMap[row.entity_id]) nodeTranslationsMap[row.entity_id] = {};
-        if (!nodeTranslationsMap[row.entity_id][row.locale]) nodeTranslationsMap[row.entity_id][row.locale] = {};
-        nodeTranslationsMap[row.entity_id][row.locale][row.field_name] = row.translation;
-    });
-
-    const initialNodes = initialNodesRaw.map(n => ({
-        ...n,
-        translations: nodeTranslationsMap[n.qrId] || {}
-    }));
-
-        const allFloors = data.getFloors(floor.buildingId);
+    const initialNodes = await data.getNodes(floorId);
+    const allFloors = await data.getFloors(floor.buildingId);
     const crossFloorTargets: any = {};
 
-    allFloors.forEach(f => {
+    await Promise.all(allFloors.map(async (f) => {
         if (f.id !== floorId) {
-            const fNodes = data.getNodes(f.id);
+            const fNodes = await data.getNodes(f.id);
             crossFloorTargets[f.id] = {
                 floorName: f.name,
                 connectors: fNodes.filter(n => n.type === 'connector')
             };
         }
-    });
+    }));
 
     return (
         <MapEditorClient 

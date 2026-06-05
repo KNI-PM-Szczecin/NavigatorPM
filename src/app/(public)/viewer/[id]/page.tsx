@@ -9,12 +9,12 @@ export default async function ViewerPage({
     params,
     searchParams 
 }: { 
-    params: { id: string },
-    searchParams: { from?: string, to?: string }
+    params: Promise<{ id: string }>,
+    searchParams: Promise<{ from?: string, to?: string }>
 }) {
     const floorId = (await params).id;
     const { from, to } = await searchParams;
-    const floor = data.getFloor(floorId);
+    const floor = await data.getFloor(floorId);
     
     if (!floor) redirect('/');
 

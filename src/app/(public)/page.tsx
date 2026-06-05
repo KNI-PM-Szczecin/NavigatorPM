@@ -5,29 +5,53 @@ import db from '@/lib/db';
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-    const allBuildings = data.getAllBuildings();
+    const allBuildings = await data.getAllBuildings();
     const visibleBuildings = allBuildings.filter(b => b.isVisible);
+    const buildingIds = visibleBuildings.map(b => b.id);
 
-        const buildingsData = visibleBuildings.map(b => {
-        const floors = data.getFloors(b.id).filter(f => f.isVisible);
-        
-                const buildingTransRaw = db.prepare("SELECT locale, translation FROM translations WHERE entity_type = 'building' AND field_name = 'name' AND entity_id = ?").all(b.id) as any[];
-        const buildingTranslations: Record<string, string> = {};
-        buildingTransRaw.forEach(row => buildingTranslations[row.locale] = row.translation);
+    const buildingTranslationsRaw = buildingIds.length > 0
+        ? await db.buildingTranslation.findMany({
+            where: {
+                buildingId: { in: buildingIds }
+            }
+        })
+        : [];
 
-                const floorsWithTrans = floors.map(f => {
-            const floorTransRaw = db.prepare("SELECT locale, translation FROM translations WHERE entity_type = 'floor' AND field_name = 'name' AND entity_id = ?").all(f.id) as any[];
-            const floorTranslations: Record<string, string> = {};
-            floorTransRaw.forEach(row => floorTranslations[row.locale] = row.translation);
-            return { ...f, translations: floorTranslations };
+    const buildingTranslationsMap: Record<string, Record<string, string>> = {};
+    buildingTranslationsRaw.forEach(row => {
+        if (!buildingTranslationsMap[row.buildingId]) buildingTranslationsMap[row.buildingId] = {};
+        buildingTranslationsMap[row.buildingId][row.language] = row.name;
+    });
+
+    const buildingsData = await Promise.all(visibleBuildings.map(async (b) => {
+        const floors = (await data.getFloors(b.id)).filter(f => f.isVisible);
+        const floorIds = floors.map(f => f.id);
+
+        const floorTranslationsRaw = floorIds.length > 0
+            ? await db.floorTranslation.findMany({
+                where: {
+                    floorId: { in: floorIds }
+                }
+            })
+            : [];
+
+        const floorTranslationsMap: Record<string, Record<string, string>> = {};
+        floorTranslationsRaw.forEach(row => {
+            if (!floorTranslationsMap[row.floorId]) floorTranslationsMap[row.floorId] = {};
+            floorTranslationsMap[row.floorId][row.language] = row.name;
         });
+
+        const floorsWithTrans = floors.map(f => ({
+            ...f,
+            translations: floorTranslationsMap[f.id] || {}
+        }));
 
         return {
             ...b,
-            translations: buildingTranslations,
+            translations: buildingTranslationsMap[b.id] || {},
             floors: floorsWithTrans
         };
-    });
+    }));
 
     return <HomePageClient buildings={buildingsData} />;
 }

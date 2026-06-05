@@ -11,13 +11,13 @@ export default async function BuildingsPage() {
     const auth = await isAuthenticated();
     if (!auth) redirect('/admin-portal-721');
 
-    const buildings = data.getAllBuildings();
+    const buildings = await data.getAllBuildings();
     
-        const translationsRaw = db.prepare("SELECT entity_id, locale, translation FROM translations WHERE entity_type = 'building' AND field_name = 'name'").all() as any[];
+    const translationsRaw = await db.buildingTranslation.findMany();
     const translations: Record<string, Record<string, string>> = {};
     translationsRaw.forEach(row => {
-        if (!translations[row.entity_id]) translations[row.entity_id] = {};
-        translations[row.entity_id][row.locale] = row.translation;
+        if (!translations[row.buildingId]) translations[row.buildingId] = {};
+        translations[row.buildingId][row.language] = row.name;
     });
 
     return (

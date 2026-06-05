@@ -1,0 +1,103 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:../navigator.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Building {
+  id           String                @id
+  address      String?
+  isVisible    Boolean               @default(true) @map("is_visible")
+  floors       Floor[]
+  translations BuildingTranslation[]
+
+  @@map("buildings")
+}
+
+model BuildingTranslation {
+  id          String   @id @default(uuid())
+  buildingId  String   @map("building_id")
+  language    String
+  name        String
+  description String?
+  building    Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  @@unique([buildingId, language])
+  @@map("building_translations")
+}
+
+model Floor {
+  id           String             @id
+  buildingId   String             @map("building_id")
+  level        Int
+  mapImageUrl  String?            @map("map_image_url")
+  isVisible    Boolean            @default(true) @map("is_visible")
+  building     Building           @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  nodes        Node[]
+  translations FloorTranslation[]
+
+  @@map("floors")
+}
+
+model FloorTranslation {
+  id       String @id @default(uuid())
+  floorId  String @map("floor_id")
+  language String
+  name     String
+  floor    Floor  @relation(fields: [floorId], references: [id], onDelete: Cascade)
+
+  @@unique([floorId, language])
+  @@map("floor_translations")
+}
+
+model Node {
+  id          String  @id
+  floorId     String  @map("floor_id")
+  xCoordinate Float   @map("x_coordinate")
+  yCoordinate Float   @map("y_coordinate")
+  type        String
+  floor       Floor   @relation(fields: [floorId], references: [id], onDelete: Cascade)
+  poi         POI?
+  edgesA      Edge[]  @relation("NodeA")
+  edgesB      Edge[]  @relation("NodeB")
+
+  @@map("nodes")
+}
+
+model Edge {
+  id           String  @id
+  nodeAId      String  @map("node_a_id")
+  nodeBId      String  @map("node_b_id")
+  weight       Float
+  isAccessible Boolean @default(true)
+  nodeA        Node    @relation("NodeA", fields: [nodeAId], references: [id], onDelete: Cascade)
+  nodeB        Node    @relation("NodeB", fields: [nodeBId], references: [id], onDelete: Cascade)
+
+  @@map("edges")
+}
+
+model POI {
+  id           String           @id
+  nodeId       String           @unique @map("node_id")
+  category     String
+  subCategory  String           @map("sub_category")
+  node         Node             @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  translations POITranslation[]
+
+  @@map("poi")
+}
+
+model POITranslation {
+  id          String @id @default(uuid())
+  poiId       String @map("poi_id")
+  language    String
+  name        String
+  description String
+  poi         POI    @relation(fields: [poiId], references: [id], onDelete: Cascade)
+
+  @@unique([poiId, language])
+  @@map("poi_translations")
+}

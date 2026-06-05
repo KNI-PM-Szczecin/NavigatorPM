@@ -4,7 +4,7 @@ import path from 'path';
 
 export async function GET(
     request: Request,
-    { params }: { params: { code: string } }
+    { params }: { params: Promise<{ code: string }> }
 ) {
     const code = (await params).code;
     const filePath = path.join(process.cwd(), 'src/locales', `${code}.json`);

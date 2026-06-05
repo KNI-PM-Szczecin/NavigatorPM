@@ -4,7 +4,6 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useSettings } from '@/context/SettingsContext';
 import { NavigationNode, FloorManifest } from '@/types/manifest';
-import { findPath } from '@/lib/navigation';
 import { algorithmRegistry } from '@/lib/algorithms/registry';
 
 interface ViewerClientProps {
@@ -100,6 +99,34 @@ export default function ViewerClient({ buildingId, initialFloorId, isAdmin, init
         });
     }, [data]);
 
+    const workerRef = useRef<Worker | null>(null);
+
+    useEffect(() => {
+        workerRef.current = new Worker(
+            new URL('../../lib/algorithms/pathfinding.worker.ts', import.meta.url)
+        );
+
+        workerRef.current.onmessage = (e: MessageEvent) => {
+            const { success, path, error } = e.data;
+            if (success) {
+                setCalculatedPath(path);
+                if (path.length > 0) {
+                    const firstNode = data?.nodes.find(n => (n.qrId || (n as any).qr_id) === path[0]);
+                    if (firstNode) setCurrentFloorId(firstNode.floorId);
+                    if (window.innerWidth <= 768) setIsMenuOpen(false);
+                } else {
+                    alert("No path found! Ensure points are connected.");
+                }
+            } else {
+                console.error("Pathfinding worker error:", error);
+            }
+        };
+
+        return () => {
+            workerRef.current?.terminate();
+        };
+    }, [data]);
+
     const handleStartNavigation = (overrideFrom?: string, overrideTo?: string) => {
         const sId = overrideFrom || startNodeId;
         const eId = overrideTo || endNodeId;
@@ -109,16 +136,12 @@ export default function ViewerClient({ buildingId, initialFloorId, isAdmin, init
         setActiveStartNodeId(sId);
         setActiveEndNodeId(eId);
         
-        const path = findPath(data.nodes, sId, eId, algorithm);
-        setCalculatedPath(path);
-        
-        if (path.length > 0) {
-            const firstNode = data.nodes.find(n => (n.qrId || (n as any).qr_id) === path[0]);
-            if (firstNode) setCurrentFloorId(firstNode.floorId);
-            if (window.innerWidth <= 768) setIsMenuOpen(false);
-        } else {
-            alert("No path found! Ensure points are connected.");
-        }
+        workerRef.current?.postMessage({
+            nodes: data.nodes,
+            startId: sId,
+            endId: eId,
+            algorithmIdentifier: algorithm
+        });
     };
 
     const handleMouseDown = (e: React.MouseEvent) => {

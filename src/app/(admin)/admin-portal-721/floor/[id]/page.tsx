@@ -7,24 +7,24 @@ import db from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
-export default async function FloorSettingsPage({ params }: { params: { id: string } }) {
+export default async function FloorSettingsPage({ params }: { params: Promise<{ id: string }> }) {
     const auth = await isAuthenticated();
     if (!auth) redirect('/admin-portal-721');
 
     const floorId = (await params).id;
-    const floor = data.getFloor(floorId);
+    const floor = await data.getFloor(floorId);
     
     if (!floor) redirect('/admin-portal-721/buildings');
 
-        const translationsRaw = db.prepare(`
-        SELECT locale, translation 
-        FROM translations 
-        WHERE entity_type = 'floor' AND field_name = 'name' AND entity_id = ?
-    `).all(floorId) as any[];
+    const translationsRaw = await db.floorTranslation.findMany({
+        where: {
+            floorId
+        }
+    });
     
     const translations: Record<string, string> = {};
     translationsRaw.forEach(row => {
-        translations[row.locale] = row.translation;
+        translations[row.language] = row.name;
     });
 
     return (

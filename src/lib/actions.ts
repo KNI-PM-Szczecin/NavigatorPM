@@ -1,40 +1,100 @@
 "use server";
 
-import db from './db';
+import prisma from './db';
 import * as data from './data';
-import bcrypt from 'bcryptjs';
-import { logout } from './auth';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 
 export async function resetSystemToDefaults() {
-    db.prepare('DELETE FROM settings').run();
-    db.prepare('DELETE FROM admin').run();
-    db.prepare('DELETE FROM translations').run();
-    data.getAllBuildings().forEach(b => data.deleteBuilding(b.id));
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync('admin123', salt);
-    db.prepare('INSERT INTO admin (username, password_hash) VALUES (?, ?)').run('admin', hash);
-    await logout();
-    redirect('/admin-portal-721');
-}
+    await prisma.pOITranslation.deleteMany();
+    await prisma.pOI.deleteMany();
+    await prisma.edge.deleteMany();
+    await prisma.node.deleteMany();
+    await prisma.floorTranslation.deleteMany();
+    await prisma.floor.deleteMany();
+    await prisma.buildingTranslation.deleteMany();
+    await prisma.building.deleteMany();
 
-export async function handleLogout() {
-    await logout();
-    redirect('/admin-portal-721');
-}
+    const fs = require('fs');
+    const path = require('path');
+    const dataDir = path.join(process.cwd(), 'data');
+    if (fs.existsSync(dataDir)) {
+        fs.rmSync(dataDir, { recursive: true, force: true });
+    }
 
-export async function changePassword(newPassword: string) {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(newPassword, salt);
-    db.prepare('UPDATE admin SET password_hash = ? WHERE username = ?').run(hash, 'admin');
+    redirect('/admin-portal-721/buildings');
 }
 
 export async function saveTranslation(entityType: string, entityId: string, locale: string, fieldName: string, translation: string) {
-    db.prepare(`
-        INSERT OR REPLACE INTO translations (entity_type, entity_id, locale, field_name, translation)
-        VALUES (?, ?, ?, ?, ?)
-    `).run(entityType, entityId, locale, fieldName, translation);
+    if (entityType === 'building') {
+        await prisma.buildingTranslation.upsert({
+            where: {
+                buildingId_language: {
+                    buildingId: entityId,
+                    language: locale
+                }
+            },
+            update: {
+                name: translation
+            },
+            create: {
+                buildingId: entityId,
+                language: locale,
+                name: translation
+            }
+        });
+    } else if (entityType === 'floor') {
+        await prisma.floorTranslation.upsert({
+            where: {
+                floorId_language: {
+                    floorId: entityId,
+                    language: locale
+                }
+            },
+            update: {
+                name: translation
+            },
+            create: {
+                floorId: entityId,
+                language: locale,
+                name: translation
+            }
+        });
+    } else if (entityType === 'node') {
+        let poi = await prisma.pOI.findUnique({
+            where: { nodeId: entityId }
+        });
+        if (!poi) {
+            const node = await prisma.node.findUnique({ where: { id: entityId } });
+            poi = await prisma.pOI.create({
+                data: {
+                    id: entityId,
+                    nodeId: entityId,
+                    category: node?.type === 'room' ? 'ROOM' : 'POI',
+                    subCategory: 'NONE'
+                }
+            });
+        }
+        
+        await prisma.pOITranslation.upsert({
+            where: {
+                poiId_language: {
+                    poiId: poi.id,
+                    language: locale
+                }
+            },
+            update: {
+                name: fieldName === 'name' ? translation : undefined,
+                description: fieldName === 'description' ? translation : undefined
+            },
+            create: {
+                poiId: poi.id,
+                language: locale,
+                name: fieldName === 'name' ? translation : '',
+                description: fieldName === 'description' ? translation : ''
+            }
+        });
+    }
 }
 
 export async function addBuildingAction(formData: FormData) {
@@ -44,7 +104,7 @@ export async function addBuildingAction(formData: FormData) {
     const address = formData.get('address') as string;
     const isVisible = formData.get('isVisible') === 'true';
 
-    data.saveBuilding({ id, name, description, address, isVisible });
+    await data.saveBuilding({ id, name, description, address, isVisible });
     revalidatePath('/admin-portal-721/buildings');
     revalidatePath('/');
 }
@@ -56,13 +116,13 @@ export async function saveBuildingAction(formData: FormData) {
     const address = formData.get('address') as string;
     const isVisible = formData.get('isVisible') === 'true';
 
-    data.saveBuilding({ id, name, description, address, isVisible });
+    await data.saveBuilding({ id, name, description, address, isVisible });
     revalidatePath('/admin-portal-721/buildings');
     revalidatePath('/');
 }
 
 export async function deleteBuildingAction(id: string) {
-    data.deleteBuilding(id);
+    await data.deleteBuilding(id);
     revalidatePath('/admin-portal-721/buildings');
     revalidatePath('/');
 }
@@ -72,12 +132,12 @@ export async function addFloorAction(buildingId: string, formData: FormData) {
     const name = formData.get('name') as string;
     const id = `${buildingId}-F${level}`;
     
-    data.saveFloor({ id, buildingId, level, name, svgMapUrl: '', isVisible: false });
+    await data.saveFloor({ id, buildingId, level, name, svgMapUrl: '', isVisible: false });
     revalidatePath(`/admin-portal-721/buildings/${buildingId}/floors`);
 }
 
 export async function updateFloorAction(floorId: string, formData: FormData) {
-    const floor = data.getFloor(floorId);
+    const floor = await data.getFloor(floorId);
     if (!floor) return;
 
     let svgBuffer: Buffer | undefined;
@@ -93,7 +153,7 @@ export async function updateFloorAction(floorId: string, formData: FormData) {
 
     floor.isVisible = isVisible;
 
-    data.saveFloor(floor, svgBuffer);
+    await data.saveFloor(floor, svgBuffer);
     revalidatePath(`/admin-portal-721/floor/${floorId}`);
     revalidatePath(`/admin-portal-721/buildings/${floor.buildingId}/floors`);
     revalidatePath('/');
@@ -105,23 +165,24 @@ export async function deleteFloorAction(id: string) {
     if (require('fs').existsSync(fDir)) {
         require('fs').rmSync(fDir, { recursive: true, force: true });
     }
+    await data.deleteFloor(id);
     revalidatePath(`/admin-portal-721/buildings/${bId}/floors`);
     revalidatePath('/');
 }
 
 export async function saveNodesAction(floorId: string, nodes: any[]) {
-        data.saveNodes(floorId, nodes);
+    await data.saveNodes(floorId, nodes);
 
-                for (const node of nodes) {
+    for (const node of nodes) {
         for (const connId of node.connections) {
             if (!connId.startsWith(floorId)) {
-                                const targetFloorId = connId.split('-').slice(0, 2).join('-');
-                const targetNodes = data.getNodes(targetFloorId);
+                const targetFloorId = connId.split('-').slice(0, 2).join('-');
+                const targetNodes = await data.getNodes(targetFloorId);
                 const targetNode = targetNodes.find(n => n.qrId === connId);
                 
                 if (targetNode && !targetNode.connections.includes(node.qrId)) {
                     targetNode.connections.push(node.qrId);
-                    data.saveNodes(targetFloorId, targetNodes);
+                    await data.saveNodes(targetFloorId, targetNodes);
                 }
             }
         }
@@ -131,11 +192,11 @@ export async function saveNodesAction(floorId: string, nodes: any[]) {
 }
 
 export async function cloneFloorData(sourceFloorId: string, targetFloorId: string, mode: 'overwrite' | 'merge') {
-    const sourceNodes = data.getNodes(sourceFloorId);
-    const targetFloor = data.getFloor(targetFloorId);
+    const sourceNodes = await data.getNodes(sourceFloorId);
+    const targetFloor = await data.getFloor(targetFloorId);
     if (!targetFloor) return;
 
-    let targetNodes = mode === 'overwrite' ? [] : data.getNodes(targetFloorId);
+    let targetNodes = mode === 'overwrite' ? [] : await data.getNodes(targetFloorId);
 
     const newNodes = sourceNodes.map(node => {
         const nodeNumber = node.qrId.split('-').pop();
@@ -157,6 +218,6 @@ export async function cloneFloorData(sourceFloorId: string, targetFloorId: strin
         targetNodes = newNodes;
     }
 
-    data.saveNodes(targetFloorId, targetNodes);
+    await data.saveNodes(targetFloorId, targetNodes);
     revalidatePath(`/admin-portal-721/editor/${targetFloorId}`);
 }

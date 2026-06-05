@@ -5,8 +5,28 @@ export class DijkstraAlgorithm implements NavigationAlgorithm {
     readonly name = "Dijkstra";
     readonly identifier = "Dijkstra";
 
-    private getDistance(a: { x: number, y: number }, b: { x: number, y: number }): number {
-        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+    private getFloorLevel(floorId: string): number {
+        const parts = floorId.split('-F');
+        if (parts.length > 1) {
+            const levelNum = parseInt(parts[parts.length - 1], 10);
+            if (!isNaN(levelNum)) return levelNum;
+        }
+        return 0;
+    }
+
+    private getDistance(a: NavigationNode, b: NavigationNode): number {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist2D = Math.sqrt(dx * dx + dy * dy);
+        
+        if (a.floorId !== b.floorId) {
+            const levelA = this.getFloorLevel(a.floorId);
+            const levelB = this.getFloorLevel(b.floorId);
+            const levelDiff = Math.abs(levelA - levelB);
+            return dist2D + levelDiff * 150;
+        }
+        
+        return dist2D;
     }
 
     findPath(nodes: NavigationNode[], startIdRaw: string, endIdRaw: string): string[] {
