@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SettingsProvider } from "@/context/SettingsContext";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import fs from 'fs';
 import path from 'path';
 
@@ -37,7 +36,6 @@ export default function RootLayout({
       <body>
         <SettingsProvider>
           <LanguageProvider initialLocales={initialLocales}>
-            <LanguageSwitcher />
             {children}
           </LanguageProvider>
         </SettingsProvider>

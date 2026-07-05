@@ -1,0 +1,879 @@
+[
+  {
+    "qrId": "0-F0-1",
+    "floorId": "0-F0",
+    "x": 54.55635491606715,
+    "y": 90.3240555872231,
+    "type": "poi",
+    "connections": [
+      "0-F0-7"
+    ],
+    "name": "Entry",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-2",
+    "floorId": "0-F0",
+    "x": 54.55635491606715,
+    "y": 87.24170200054259,
+    "type": "invisible",
+    "connections": [
+      "0-F0-7",
+      "0-F0-8",
+      "0-F0-3"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-3",
+    "floorId": "0-F0",
+    "x": 47.20223820943246,
+    "y": 87.24170200054259,
+    "type": "room",
+    "connections": [
+      "0-F0-2",
+      "0-F0-4"
+    ],
+    "name": "001",
+    "shortName": "001",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-4",
+    "floorId": "0-F0",
+    "x": 28.337330135891285,
+    "y": 87.24170200054259,
+    "type": "invisible",
+    "connections": [
+      "0-F0-3",
+      "0-F0-5"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-5",
+    "floorId": "0-F0",
+    "x": 13.229416466826539,
+    "y": 90.83127832933509,
+    "type": "room",
+    "connections": [
+      "0-F0-4"
+    ],
+    "name": "001-1",
+    "shortName": "001-1",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-6",
+    "floorId": "0-F0",
+    "x": 61.19104716227019,
+    "y": 88.76337022687854,
+    "type": "room",
+    "connections": [
+      "0-F0-7"
+    ],
+    "name": "002",
+    "shortName": "002",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-7",
+    "floorId": "0-F0",
+    "x": 54.55635491606715,
+    "y": 88.76337022687854,
+    "type": "invisible",
+    "connections": [
+      "0-F0-1",
+      "0-F0-6",
+      "0-F0-2"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-8",
+    "floorId": "0-F0",
+    "x": 54.55635491606715,
+    "y": 83.92524560981037,
+    "type": "invisible",
+    "connections": [
+      "0-F0-2",
+      "0-F0-11",
+      "0-F0-10",
+      "0-F0-9"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-9",
+    "floorId": "0-F0",
+    "x": 49.76019184652279,
+    "y": 83.92524560981037,
+    "type": "room",
+    "connections": [
+      "0-F0-8"
+    ],
+    "name": "004",
+    "shortName": "004",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-10",
+    "floorId": "0-F0",
+    "x": 61.19104716227019,
+    "y": 83.92524560981037,
+    "type": "room",
+    "connections": [
+      "0-F0-8",
+      "0-F0-19"
+    ],
+    "name": "003",
+    "shortName": "003",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-11",
+    "floorId": "0-F0",
+    "x": 54.55635491606715,
+    "y": 75.69263033399277,
+    "type": "invisible",
+    "connections": [
+      "0-F0-8",
+      "0-F0-13",
+      "0-F0-12"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-12",
+    "floorId": "0-F0",
+    "x": 49.76019184652279,
+    "y": 75.69263033399277,
+    "type": "room",
+    "connections": [
+      "0-F0-11"
+    ],
+    "name": "Kibel Męski",
+    "shortName": "WC",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-13",
+    "floorId": "0-F0",
+    "x": 54.55635491606715,
+    "y": 69.84006023270062,
+    "type": "invisible",
+    "connections": [
+      "0-F0-11",
+      "0-F0-14",
+      "0-F0-15"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-14",
+    "floorId": "0-F0",
+    "x": 49.76019184652279,
+    "y": 69.84006023270062,
+    "type": "room",
+    "connections": [
+      "0-F0-13"
+    ],
+    "name": "Kibel Damski",
+    "shortName": "WC",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-15",
+    "floorId": "0-F0",
+    "x": 54.55635491606715,
+    "y": 67.77215213024407,
+    "type": "invisible",
+    "connections": [
+      "0-F0-13",
+      "0-F0-16",
+      "0-F0-28"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-16",
+    "floorId": "0-F0",
+    "x": 47.20223820943246,
+    "y": 67.77215213024407,
+    "type": "room",
+    "connections": [
+      "0-F0-15",
+      "0-F0-17"
+    ],
+    "name": "009",
+    "shortName": "009",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-17",
+    "floorId": "0-F0",
+    "x": 28.337330135891285,
+    "y": 67.77215213024407,
+    "type": "invisible",
+    "connections": [
+      "0-F0-16",
+      "0-F0-18"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-18",
+    "floorId": "0-F0",
+    "x": 14.028776978417264,
+    "y": 65.50915835774444,
+    "type": "room",
+    "connections": [
+      "0-F0-17"
+    ],
+    "name": "009-1",
+    "shortName": "009-1",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-19",
+    "floorId": "0-F0",
+    "x": 77.01838529176659,
+    "y": 83.92524560981037,
+    "type": "invisible",
+    "connections": [
+      "0-F0-10",
+      "0-F0-20"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-20",
+    "floorId": "0-F0",
+    "x": 77.01838529176659,
+    "y": 75.69263033399277,
+    "type": "invisible",
+    "connections": [
+      "0-F0-19",
+      "0-F0-22",
+      "0-F0-21"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-21",
+    "floorId": "0-F0",
+    "x": 71.4228617106315,
+    "y": 75.69263033399277,
+    "type": "room",
+    "connections": [
+      "0-F0-20"
+    ],
+    "name": "005",
+    "shortName": "005",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-22",
+    "floorId": "0-F0",
+    "x": 77.01838529176659,
+    "y": 67.77215213024407,
+    "type": "invisible",
+    "connections": [
+      "0-F0-20",
+      "0-F0-23",
+      "0-F0-24"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-23",
+    "floorId": "0-F0",
+    "x": 71.4228617106315,
+    "y": 67.77215213024407,
+    "type": "room",
+    "connections": [
+      "0-F0-22"
+    ],
+    "name": "006",
+    "shortName": "006",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-24",
+    "floorId": "0-F0",
+    "x": 77.01838529176659,
+    "y": 60.163810998564294,
+    "type": "invisible",
+    "connections": [
+      "0-F0-22",
+      "0-F0-25",
+      "0-F0-65"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-25",
+    "floorId": "0-F0",
+    "x": 71.4228617106315,
+    "y": 60.163810998564294,
+    "type": "room",
+    "connections": [
+      "0-F0-24"
+    ],
+    "name": "007",
+    "shortName": "007",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-28",
+    "floorId": "0-F0",
+    "x": 54.636290967226216,
+    "y": 55.91094339162533,
+    "type": "invisible",
+    "connections": [
+      "0-F0-15",
+      "0-F0-40",
+      "0-F0-43"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-29",
+    "floorId": "0-F0",
+    "x": 45.44364508393286,
+    "y": 55.91094339162533,
+    "type": "invisible",
+    "connections": [
+      "0-F0-40",
+      "0-F0-30",
+      "0-F0-38"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-30",
+    "floorId": "0-F0",
+    "x": 36.25099920063949,
+    "y": 55.91094339162533,
+    "type": "invisible",
+    "connections": [
+      "0-F0-29",
+      "0-F0-31",
+      "0-F0-37",
+      "0-F0-41"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-31",
+    "floorId": "0-F0",
+    "x": 27.77777777777778,
+    "y": 55.91094339162533,
+    "type": "invisible",
+    "connections": [
+      "0-F0-30",
+      "0-F0-32",
+      "0-F0-36",
+      "0-F0-42"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-32",
+    "floorId": "0-F0",
+    "x": 18.984812150279776,
+    "y": 55.91094339162533,
+    "type": "invisible",
+    "connections": [
+      "0-F0-31",
+      "0-F0-34",
+      "0-F0-33",
+      "0-F0-35"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-33",
+    "floorId": "0-F0",
+    "x": 14.66826538768985,
+    "y": 57.86180009205605,
+    "type": "room",
+    "connections": [
+      "0-F0-32"
+    ],
+    "name": "105",
+    "shortName": "105",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-34",
+    "floorId": "0-F0",
+    "x": 14.66826538768985,
+    "y": 53.0626926089965,
+    "type": "room",
+    "connections": [
+      "0-F0-32"
+    ],
+    "name": "104",
+    "shortName": "104",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-35",
+    "floorId": "0-F0",
+    "x": 18.984812150279776,
+    "y": 57.86180009205605,
+    "type": "room",
+    "connections": [
+      "0-F0-32"
+    ],
+    "name": "106",
+    "shortName": "106",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-36",
+    "floorId": "0-F0",
+    "x": 27.77777777777778,
+    "y": 57.86180009205605,
+    "type": "room",
+    "connections": [
+      "0-F0-31"
+    ],
+    "name": "107",
+    "description": "Chillera utopa",
+    "shortName": "107",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-37",
+    "floorId": "0-F0",
+    "x": 36.25099920063949,
+    "y": 57.86180009205605,
+    "type": "room",
+    "connections": [
+      "0-F0-30"
+    ],
+    "name": "108",
+    "description": "Vibecode manager",
+    "shortName": "108",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-38",
+    "floorId": "0-F0",
+    "x": 45.44364508393286,
+    "y": 57.86180009205605,
+    "type": "room",
+    "connections": [
+      "0-F0-29"
+    ],
+    "name": "109",
+    "description": "Biuro robienia chaosu",
+    "shortName": "109",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-39",
+    "floorId": "0-F0",
+    "x": 49.52038369304556,
+    "y": 53.0626926089965,
+    "type": "room",
+    "connections": [
+      "0-F0-40"
+    ],
+    "name": "101",
+    "shortName": "101",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-40",
+    "floorId": "0-F0",
+    "x": 49.52038369304556,
+    "y": 55.91094339162533,
+    "type": "invisible",
+    "connections": [
+      "0-F0-28",
+      "0-F0-29",
+      "0-F0-39"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-41",
+    "floorId": "0-F0",
+    "x": 36.25099920063949,
+    "y": 53.0626926089965,
+    "type": "room",
+    "connections": [
+      "0-F0-30"
+    ],
+    "name": "102",
+    "shortName": "102",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-42",
+    "floorId": "0-F0",
+    "x": 27.77777777777778,
+    "y": 53.0626926089965,
+    "type": "room",
+    "connections": [
+      "0-F0-31"
+    ],
+    "name": "103",
+    "description": "VibeCodding",
+    "shortName": "103",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-43",
+    "floorId": "0-F0",
+    "x": 54.636290967226216,
+    "y": 51.38495584662609,
+    "type": "invisible",
+    "connections": [
+      "0-F0-28",
+      "0-F0-44",
+      "0-F0-45"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-44",
+    "floorId": "0-F0",
+    "x": 60.631494804156674,
+    "y": 51.38495584662609,
+    "type": "room",
+    "connections": [
+      "0-F0-43"
+    ],
+    "name": "211",
+    "shortName": "211",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-45",
+    "floorId": "0-F0",
+    "x": 54.636290967226216,
+    "y": 40.53819259223132,
+    "type": "invisible",
+    "connections": [
+      "0-F0-43",
+      "0-F0-46"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-46",
+    "floorId": "0-F0",
+    "x": 45.44364508393286,
+    "y": 40.53819259223132,
+    "type": "invisible",
+    "connections": [
+      "0-F0-45",
+      "0-F0-49",
+      "0-F0-47"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-47",
+    "floorId": "0-F0",
+    "x": 45.44364508393286,
+    "y": 41.86477514852421,
+    "type": "room",
+    "connections": [
+      "0-F0-46"
+    ],
+    "name": "201",
+    "shortName": "201",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-48",
+    "floorId": "0-F0",
+    "x": 42.805755395683455,
+    "y": 38.548318757791996,
+    "type": "room",
+    "connections": [
+      "0-F0-49"
+    ],
+    "name": "210",
+    "shortName": "210",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-49",
+    "floorId": "0-F0",
+    "x": 42.805755395683455,
+    "y": 40.53819259223132,
+    "type": "invisible",
+    "connections": [
+      "0-F0-46",
+      "0-F0-50",
+      "0-F0-48"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-50",
+    "floorId": "0-F0",
+    "x": 36.25099920063949,
+    "y": 40.53819259223132,
+    "type": "invisible",
+    "connections": [
+      "0-F0-49",
+      "0-F0-53",
+      "0-F0-51"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-51",
+    "floorId": "0-F0",
+    "x": 36.25099920063949,
+    "y": 41.86477514852421,
+    "type": "room",
+    "connections": [
+      "0-F0-50"
+    ],
+    "name": "202",
+    "shortName": "202",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-52",
+    "floorId": "0-F0",
+    "x": 33.932853717026376,
+    "y": 38.58733589180061,
+    "type": "room",
+    "connections": [
+      "0-F0-53"
+    ],
+    "name": "209",
+    "shortName": "209",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-53",
+    "floorId": "0-F0",
+    "x": 33.932853717026376,
+    "y": 40.53819259223132,
+    "type": "invisible",
+    "connections": [
+      "0-F0-50",
+      "0-F0-54",
+      "0-F0-52"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-54",
+    "floorId": "0-F0",
+    "x": 27.1382893685052,
+    "y": 40.53819259223132,
+    "type": "invisible",
+    "connections": [
+      "0-F0-53",
+      "0-F0-57",
+      "0-F0-55"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-55",
+    "floorId": "0-F0",
+    "x": 27.1382893685052,
+    "y": 41.86477514852421,
+    "type": "room",
+    "connections": [
+      "0-F0-54"
+    ],
+    "name": "203",
+    "shortName": "203",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-56",
+    "floorId": "0-F0",
+    "x": 24.580335731414866,
+    "y": 38.58733589180061,
+    "type": "room",
+    "connections": [
+      "0-F0-57"
+    ],
+    "name": "208",
+    "shortName": "208",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-57",
+    "floorId": "0-F0",
+    "x": 24.580335731414866,
+    "y": 40.53819259223132,
+    "type": "invisible",
+    "connections": [
+      "0-F0-54",
+      "0-F0-58",
+      "0-F0-56"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-58",
+    "floorId": "0-F0",
+    "x": 20.183852917665867,
+    "y": 40.53819259223132,
+    "type": "invisible",
+    "connections": [
+      "0-F0-57",
+      "0-F0-62",
+      "0-F0-59"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-59",
+    "floorId": "0-F0",
+    "x": 20.26378896882494,
+    "y": 41.86477514852421,
+    "type": "invisible",
+    "connections": [
+      "0-F0-58",
+      "0-F0-61",
+      "0-F0-60"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-60",
+    "floorId": "0-F0",
+    "x": 20.26378896882494,
+    "y": 43.62054617891185,
+    "type": "room",
+    "connections": [
+      "0-F0-59"
+    ],
+    "name": "204",
+    "shortName": "204",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-61",
+    "floorId": "0-F0",
+    "x": 17.70583533173461,
+    "y": 41.86477514852421,
+    "type": "room",
+    "connections": [
+      "0-F0-59"
+    ],
+    "name": "205",
+    "shortName": "205",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-62",
+    "floorId": "0-F0",
+    "x": 20.26378896882494,
+    "y": 35.62203370714593,
+    "type": "invisible",
+    "connections": [
+      "0-F0-58",
+      "0-F0-63"
+    ],
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-63",
+    "floorId": "0-F0",
+    "x": 17.70583533173461,
+    "y": 35.62203370714593,
+    "type": "room",
+    "connections": [
+      "0-F0-62"
+    ],
+    "name": "206",
+    "shortName": "206",
+    "translations": {}
+  },
+  {
+    "qrId": "0-F0-64",
+    "floorId": "0-F0",
+    "x": 59.992006394884086,
+    "y": 44.127768921023836,
+    "type": "poi",
+    "connections": [],
+    "name": "Poidełko",
+    "iconColor": "#66adff",
+    "isNavigable": false,
+    "translations": {
+      "en-US": {
+        "name": "Drinking fountain",
+        "shortName": "Drinking fountain"
+      },
+      "pl-PL": {
+        "name": "Poidełko",
+        "shortName": "Poidełko"
+      }
+    }
+  },
+  {
+    "qrId": "0-F0-65",
+    "floorId": "0-F0",
+    "x": 77.01838529176659,
+    "y": 46.03960848744593,
+    "type": "invisible",
+    "connections": [
+      "0-F0-66",
+      "0-F0-24",
+      "0-F0-68"
+    ]
+  },
+  {
+    "qrId": "0-F0-66",
+    "floorId": "0-F0",
+    "x": 72.54196642685852,
+    "y": 46.03960848744593,
+    "type": "room",
+    "connections": [
+      "0-F0-65"
+    ],
+    "name": "302",
+    "shortName": "302"
+  },
+  {
+    "qrId": "0-F0-67",
+    "floorId": "0-F0",
+    "x": 72.54196642685852,
+    "y": 43.62054617891185,
+    "type": "room",
+    "connections": [
+      "0-F0-68"
+    ],
+    "name": "301",
+    "shortName": "301"
+  },
+  {
+    "qrId": "0-F0-68",
+    "floorId": "0-F0",
+    "x": 77.01838529176659,
+    "y": 43.62054617891185,
+    "type": "invisible",
+    "connections": [
+      "0-F0-67",
+      "0-F0-65"
+    ]
+  },
+  {
+    "qrId": "0-F0-69",
+    "floorId": "0-F0",
+    "x": 78.53717026378897,
+    "y": 41.201483870377764,
+    "type": "poi",
+    "connections": [],
+    "name": "Poidełko",
+    "shortName": "Poidełko",
+    "isNavigable": false
+  }
+]

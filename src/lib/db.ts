@@ -6,6 +6,11 @@ const dbPath = path.join(process.cwd(), 'navigator.db');
 const db = new Database(dbPath, { timeout: 5000 });
 
 db.pragma('journal_mode = WAL');
+db.pragma('foreign_keys = ON');
+
+const runMigration = (sql: string) => {
+    try { db.exec(sql); } catch (_) { /* column already exists */ }
+};
 
 try {
     db.exec(`
@@ -19,7 +24,8 @@ try {
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
         description TEXT,
-        address TEXT
+        address TEXT,
+        is_visible INTEGER NOT NULL DEFAULT 1
       );
 
       CREATE TABLE IF NOT EXISTS floors (
@@ -28,6 +34,8 @@ try {
         level INTEGER NOT NULL,
         name TEXT NOT NULL,
         svg_map_url TEXT,
+        svg_content BLOB,
+        is_visible INTEGER NOT NULL DEFAULT 0,
         FOREIGN KEY (building_id) REFERENCES buildings (id)
       );
 
@@ -36,10 +44,14 @@ try {
         floor_id TEXT NOT NULL,
         x REAL NOT NULL,
         y REAL NOT NULL,
-        type TEXT CHECK(type IN ('invisible', 'poi', 'room', 'location')) NOT NULL,
-        connections TEXT NOT NULL, -- JSON array
+        type TEXT NOT NULL,
+        connections TEXT NOT NULL DEFAULT '[]',
+        name TEXT,
+        short_name TEXT,
+        description TEXT,
         icon_name TEXT,
         icon_color TEXT,
+        is_navigable INTEGER NOT NULL DEFAULT 1,
         FOREIGN KEY (floor_id) REFERENCES floors (id)
       );
 
@@ -50,16 +62,25 @@ try {
 
       CREATE TABLE IF NOT EXISTS translations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        entity_type TEXT NOT NULL, -- 'building' or 'floor'
+        entity_type TEXT NOT NULL,
         entity_id TEXT NOT NULL,
         locale TEXT NOT NULL,
-        field_name TEXT NOT NULL, -- e.g. 'name' or 'description'
+        field_name TEXT NOT NULL,
         translation TEXT NOT NULL,
         UNIQUE(entity_type, entity_id, locale, field_name)
       );
     `);
 
-        const adminCount = db.prepare('SELECT COUNT(*) as count FROM admin').get() as { count: number };
+    // Migrations for existing databases
+    runMigration('ALTER TABLE buildings ADD COLUMN is_visible INTEGER NOT NULL DEFAULT 1');
+    runMigration('ALTER TABLE floors ADD COLUMN is_visible INTEGER NOT NULL DEFAULT 0');
+    runMigration('ALTER TABLE floors ADD COLUMN svg_content BLOB');
+    runMigration('ALTER TABLE nodes ADD COLUMN name TEXT');
+    runMigration('ALTER TABLE nodes ADD COLUMN short_name TEXT');
+    runMigration('ALTER TABLE nodes ADD COLUMN description TEXT');
+    runMigration('ALTER TABLE nodes ADD COLUMN is_navigable INTEGER NOT NULL DEFAULT 1');
+
+    const adminCount = db.prepare('SELECT COUNT(*) as count FROM admin').get() as { count: number };
     if (adminCount && adminCount.count === 0) {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync('admin123', salt);

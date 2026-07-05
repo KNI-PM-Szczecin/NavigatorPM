@@ -34,8 +34,6 @@ next-env.d.ts
 
 # Project Specific
 GEMINI.md
-navigator.db
 navigator.db-shm
 navigator.db-wal
-data/
 public/uploads/

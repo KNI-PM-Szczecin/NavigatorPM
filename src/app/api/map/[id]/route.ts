@@ -1,21 +1,18 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import db from '@/lib/db';
 
 export async function GET(
     request: Request,
     { params }: { params: { id: string } }
 ) {
     const floorId = (await params).id;
-    const [bId] = floorId.split('-F');
-    const svgPath = path.join(process.cwd(), 'data', bId, floorId, 'map.svg');
+    const row = db.prepare('SELECT svg_content FROM floors WHERE id = ?').get(floorId) as any;
 
-    if (!fs.existsSync(svgPath)) {
+    if (!row?.svg_content) {
         return new NextResponse('Map not found', { status: 404 });
     }
 
-    const svg = fs.readFileSync(svgPath);
-    return new NextResponse(svg, {
+    return new NextResponse(row.svg_content, {
         headers: {
             'Content-Type': 'image/svg+xml',
             'Cache-Control': 'no-cache'

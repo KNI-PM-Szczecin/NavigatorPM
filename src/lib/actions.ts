@@ -101,10 +101,7 @@ export async function updateFloorAction(floorId: string, formData: FormData) {
 
 export async function deleteFloorAction(id: string) {
     const [bId] = id.split('-F');
-    const fDir = require('path').join(process.cwd(), 'data', bId, id);
-    if (require('fs').existsSync(fDir)) {
-        require('fs').rmSync(fDir, { recursive: true, force: true });
-    }
+    data.deleteFloor(id);
     revalidatePath(`/admin-portal-721/buildings/${bId}/floors`);
     revalidatePath('/');
 }
