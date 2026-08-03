@@ -1,42 +1,77 @@
 "use client";
-import React, { useCallback, useRef } from "react";
-import QuickPinchZoom, { make3dTransformValue } from "react-quick-pinch-zoom";
+
+import Image from "next/image";
+import {
+  ReactZoomPanPinchContentRef,
+  TransformComponent,
+  TransformWrapper,
+  useControls,
+} from "react-zoom-pan-pinch";
+import mapImage from "@/public/image.png";
+import { useEffect, useRef } from "react";
+import UseIsLandscape from "@/components/use-is-landscape";
+
+// This function unfocues bottombar's input, because it's very annoying
+const unfocusInput = () => {
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+};
 
 const BuildingMap = () => {
-  const imgRef = useRef<HTMLImageElement>(null);
+  const transformWrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
+  const orientation = UseIsLandscape();
 
-  const onUpdate = useCallback(
-    ({ x, y, scale }: { x: number; y: number; scale: number }) => {
-      const { current: img } = imgRef;
-      if (img) {
-        const value = make3dTransformValue({ x, y, scale });
-        img.style.setProperty("transform", value);
-      }
-    },
-    []
-  );
+  // This code resets the map view when the screen orientation is changed
+  useEffect(() => {
+    if (transformWrapperRef.current !== null) {
+      transformWrapperRef.current.setTransform(0, 0, 2);
+      transformWrapperRef.current.centerView();
+    }
+  }, [orientation]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden bg-black">
-      <QuickPinchZoom
-        onUpdate={onUpdate}
-        containerProps={{ className: "h-full w-full" }}
-        maxZoom={8}
-        minZoom={0.5}
-        tapZoomFactor={2}
-        doubleTapToggleZoom
-        inertia
-        centerContained
-        verticalPadding={128}
+    <div
+      className="fixed inset-0 overflow-hidden bg-black"
+      onPointerDown={unfocusInput}
+    >
+      {/* Zoom engine, holds zoom, x-offset and y-offset */}
+      <TransformWrapper
+        ref={transformWrapperRef}
+        initialScale={1} // start with scale 1
+        minScale={1} // you cannot zoom below 1
+        maxScale={8} // you can't zoom more than 8
+        centerOnInit // center the image after launch
+        limitToBounds // forbids you from dragging the image outside the screen
+        doubleClick={{
+          mode: "toggle",
+          step: 2,
+        }} // first double tap zooms, the following one unzooms
       >
-        <img
-          ref={imgRef}
-          alt="Map"
-          src="/image.png"
-          draggable={false}
-          className="h-auto max-w-none origin-top-left will-change-transform select-none"
-        />
-      </QuickPinchZoom>
+        {({ centerView }) => (
+          // render prop from transform Wrapper
+          <TransformComponent
+            wrapperStyle={{
+              width: "100vw", // whole screen width
+              height: "100dvh", // whole screen height of mobile
+              overflow: "hidden", // nothing sticks out outside the screen
+              touchAction: "none", // doesn't allow your to scroll with gestures
+            }}
+            contentStyle={{
+              width: "max-content",
+              height: "100dvh",
+            }} // container that allows you to drag left and right
+          >
+            <Image
+              src={mapImage}
+              alt="Map"
+              draggable={false}
+              onLoad={() => centerView(1, 0)}
+              className="block h-dvh w-auto max-w-none select-none"
+            />
+          </TransformComponent>
+        )}
+      </TransformWrapper>
     </div>
   );
 };
