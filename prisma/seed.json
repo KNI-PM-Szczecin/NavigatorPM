@@ -1,0 +1,137 @@
+{
+  "buildings": [
+    {
+      "id": "b1",
+      "address": "ul. Akademicka 1",
+      "isVisible": true
+    }
+  ],
+  "buildingTranslations": [
+    {
+      "buildingId": "b1",
+      "language": "pl",
+      "name": "Wydział Informatyki",
+      "description": "Główny budynek wydziału"
+    },
+    {
+      "buildingId": "b1",
+      "language": "en",
+      "name": "Faculty of Computer Science",
+      "description": "Main faculty building"
+    }
+  ],
+  "floors": [
+    {
+      "id": "f1",
+      "buildingId": "b1",
+      "level": 0,
+      "mapImageUrl": "/maps/floor_0.svg",
+      "isVisible": true
+    }
+  ],
+  "floorTranslations": [
+    {
+      "floorId": "f1",
+      "language": "pl",
+      "name": "Parter"
+    },
+    {
+      "floorId": "f1",
+      "language": "en",
+      "name": "Ground Floor"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "floorId": "f1",
+      "xCoordinate": 10.5,
+      "yCoordinate": 50.0,
+      "type": "POI"
+    },
+    {
+      "id": "n2",
+      "floorId": "f1",
+      "xCoordinate": 20.0,
+      "yCoordinate": 50.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3",
+      "floorId": "f1",
+      "xCoordinate": 50.0,
+      "yCoordinate": 50.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n4",
+      "floorId": "f1",
+      "xCoordinate": 50.0,
+      "yCoordinate": 30.0,
+      "type": "POI"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "nodeAId": "n1",
+      "nodeBId": "n2",
+      "weight": 9.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e2",
+      "nodeAId": "n2",
+      "nodeBId": "n3",
+      "weight": 30.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3",
+      "nodeAId": "n3",
+      "nodeBId": "n4",
+      "weight": 20.0,
+      "isAccessible": true
+    }
+  ],
+  "pois": [
+    {
+      "id": "p1",
+      "nodeId": "n1",
+      "category": "QR_CODE",
+      "subCategory": null
+    },
+    {
+      "id": "p2",
+      "nodeId": "n4",
+      "category": "ROOM",
+      "subCategory": "LECTURE"
+    }
+  ],
+  "poiTranslations": [
+    {
+      "poiId": "p1",
+      "language": "pl",
+      "name": "Wejście Główne (Start)",
+      "description": "Punkt skanowania przy drzwiach głównych"
+    },
+    {
+      "poiId": "p1",
+      "language": "en",
+      "name": "Main Entrance (Start)",
+      "description": "Scanning point at the main doors"
+    },
+    {
+      "poiId": "p2",
+      "language": "pl",
+      "name": "Sala 105",
+      "description": "Laboratorium sieciowe"
+    },
+    {
+      "poiId": "p2",
+      "language": "en",
+      "name": "Room 105",
+      "description": "Network Laboratory"
+    }
+  ]
+}
