@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const prisma = new PrismaClient();
 
 async function main() {
-  if (process.env.NODE_ENV !== "development") {
+  if (process.env.NODE_ENV === "production") {
     console.error(
       "❌ Seeding is only allowed in development mode. Aborting seeding process."
     );
