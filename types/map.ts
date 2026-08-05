@@ -16,7 +16,6 @@ export interface Floor {
   buildingId: string;
   level: number;
   mapImageUrl: string;
-  isVisible: boolean;
 }
 
 export interface FloorTranslation {

@@ -1,4 +1,4 @@
-import { nodesById, poisById } from "@/data/mapStore";
+import { mapData, nodesById, poisById } from "@/data/mapStore";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -17,11 +17,13 @@ export async function GET(
 
     const node = nodesById[qrPoi.nodeId];
 
-    // TODO: Get the floor and building information from the node and include it in the response to get data for loading the map and floor plan for the QR code location. This will help in rendering the map and floor plan for the QR code location.
+    const floor = mapData.floors.find((f) => f.id === node?.floorId);
+
     const formattedQR = {
-      poiId: qrPoi.id,
       nodeId: qrPoi.nodeId,
       floorId: node.floorId,
+      buildingId: floor?.buildingId,
+      mapImageUrl: floor?.mapImageUrl,
     };
 
     return NextResponse.json(formattedQR, { status: 200 });
