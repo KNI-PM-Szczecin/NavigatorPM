@@ -16,8 +16,6 @@ async function main() {
     process.exit(1);
   }
 
-  console.log("🌱 Seeding database...");
-
   const seedFilePath = path.join(__dirname, "seed.json");
   const data = JSON.parse(fs.readFileSync(seedFilePath, "utf-8"));
 
@@ -31,6 +29,8 @@ async function main() {
   await prisma.floor.deleteMany();
   await prisma.buildingTranslation.deleteMany();
   await prisma.building.deleteMany();
+
+  console.log("🌱 Seeding database...");
 
   console.log("🏗️ Loading buildings...");
 

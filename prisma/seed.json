@@ -18,120 +18,463 @@
       "language": "en",
       "name": "Faculty of Computer Science",
       "description": "Main faculty building"
+    },
+    {
+      "buildingId": "b1",
+      "language": "uk",
+      "name": "Факультет інформатики",
+      "description": "Головний корпус факультету"
     }
   ],
   "floors": [
     {
-      "id": "f1",
+      "id": "f0",
       "buildingId": "b1",
       "level": 0,
       "mapImageUrl": "/maps/floor_0.svg",
       "isVisible": true
+    },
+    {
+      "id": "f1",
+      "buildingId": "b1",
+      "level": 1,
+      "mapImageUrl": "/maps/floor_1.svg",
+      "isVisible": true
     }
   ],
   "floorTranslations": [
-    {
-      "floorId": "f1",
-      "language": "pl",
-      "name": "Parter"
-    },
-    {
-      "floorId": "f1",
-      "language": "en",
-      "name": "Ground Floor"
-    }
+    { "floorId": "f0", "language": "pl", "name": "Parter" },
+    { "floorId": "f0", "language": "en", "name": "Ground Floor" },
+    { "floorId": "f0", "language": "uk", "name": "Перший поверх" },
+    { "floorId": "f1", "language": "pl", "name": "Piętro 1" },
+    { "floorId": "f1", "language": "en", "name": "First Floor" },
+    { "floorId": "f1", "language": "uk", "name": "Другий поверх" }
   ],
   "nodes": [
     {
-      "id": "n1",
-      "floorId": "f1",
-      "xCoordinate": 10.5,
-      "yCoordinate": 50.0,
+      "id": "n0_start",
+      "floorId": "f0",
+      "xCoordinate": 0.0,
+      "yCoordinate": 0.0,
       "type": "POI"
     },
     {
-      "id": "n2",
+      "id": "n0_h1",
+      "floorId": "f0",
+      "xCoordinate": 10.0,
+      "yCoordinate": 0.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n0_dziekanat",
+      "floorId": "f0",
+      "xCoordinate": 10.0,
+      "yCoordinate": -10.0,
+      "type": "POI"
+    },
+    {
+      "id": "n0_h2",
+      "floorId": "f0",
+      "xCoordinate": 20.0,
+      "yCoordinate": 0.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n0_bufet",
+      "floorId": "f0",
+      "xCoordinate": 20.0,
+      "yCoordinate": -10.0,
+      "type": "POI"
+    },
+    {
+      "id": "n0_h3",
+      "floorId": "f0",
+      "xCoordinate": 30.0,
+      "yCoordinate": 0.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n0_aula",
+      "floorId": "f0",
+      "xCoordinate": 30.0,
+      "yCoordinate": 10.0,
+      "type": "POI"
+    },
+    {
+      "id": "n0_stairs",
+      "floorId": "f0",
+      "xCoordinate": 40.0,
+      "yCoordinate": 0.0,
+      "type": "WALKWAY"
+    },
+
+    {
+      "id": "n1_stairs",
+      "floorId": "f1",
+      "xCoordinate": 40.0,
+      "yCoordinate": 0.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n1_start",
+      "floorId": "f1",
+      "xCoordinate": 40.0,
+      "yCoordinate": 10.0,
+      "type": "POI"
+    },
+    {
+      "id": "n1_wc",
+      "floorId": "f1",
+      "xCoordinate": 40.0,
+      "yCoordinate": -10.0,
+      "type": "POI"
+    },
+    {
+      "id": "n1_h1",
+      "floorId": "f1",
+      "xCoordinate": 30.0,
+      "yCoordinate": 0.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n1_h2",
       "floorId": "f1",
       "xCoordinate": 20.0,
-      "yCoordinate": 50.0,
+      "yCoordinate": 0.0,
       "type": "WALKWAY"
     },
     {
-      "id": "n3",
+      "id": "n1_r101",
       "floorId": "f1",
-      "xCoordinate": 50.0,
-      "yCoordinate": 50.0,
+      "xCoordinate": 20.0,
+      "yCoordinate": 10.0,
+      "type": "POI"
+    },
+    {
+      "id": "n1_h3",
+      "floorId": "f1",
+      "xCoordinate": 10.0,
+      "yCoordinate": 0.0,
       "type": "WALKWAY"
     },
     {
-      "id": "n4",
+      "id": "n1_r102",
       "floorId": "f1",
-      "xCoordinate": 50.0,
-      "yCoordinate": 30.0,
+      "xCoordinate": 10.0,
+      "yCoordinate": 10.0,
       "type": "POI"
     }
   ],
   "edges": [
     {
-      "id": "e1",
-      "nodeAId": "n1",
-      "nodeBId": "n2",
-      "weight": 9.5,
+      "id": "e_01",
+      "nodeAId": "n0_start",
+      "nodeBId": "n0_h1",
+      "weight": 10.0,
       "isAccessible": true
     },
     {
-      "id": "e2",
-      "nodeAId": "n2",
-      "nodeBId": "n3",
-      "weight": 30.0,
+      "id": "e_02",
+      "nodeAId": "n0_h1",
+      "nodeBId": "n0_dziekanat",
+      "weight": 10.0,
       "isAccessible": true
     },
     {
-      "id": "e3",
-      "nodeAId": "n3",
-      "nodeBId": "n4",
-      "weight": 20.0,
+      "id": "e_03",
+      "nodeAId": "n0_h1",
+      "nodeBId": "n0_h2",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_04",
+      "nodeAId": "n0_h2",
+      "nodeBId": "n0_bufet",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_05",
+      "nodeAId": "n0_h2",
+      "nodeBId": "n0_h3",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_06",
+      "nodeAId": "n0_h3",
+      "nodeBId": "n0_aula",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_07",
+      "nodeAId": "n0_h3",
+      "nodeBId": "n0_stairs",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+
+    {
+      "id": "e_stairs",
+      "nodeAId": "n0_stairs",
+      "nodeBId": "n1_stairs",
+      "weight": 15.0,
+      "isAccessible": true
+    },
+
+    {
+      "id": "e_11",
+      "nodeAId": "n1_stairs",
+      "nodeBId": "n1_start",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_12",
+      "nodeAId": "n1_stairs",
+      "nodeBId": "n1_wc",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_13",
+      "nodeAId": "n1_stairs",
+      "nodeBId": "n1_h1",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_14",
+      "nodeAId": "n1_h1",
+      "nodeBId": "n1_h2",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_15",
+      "nodeAId": "n1_h2",
+      "nodeBId": "n1_r101",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_16",
+      "nodeAId": "n1_h2",
+      "nodeBId": "n1_h3",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e_17",
+      "nodeAId": "n1_h3",
+      "nodeBId": "n1_r102",
+      "weight": 10.0,
       "isAccessible": true
     }
   ],
   "pois": [
     {
-      "id": "p1",
-      "nodeId": "n1",
+      "id": "p_start",
+      "nodeId": "n0_start",
       "category": "QR_CODE",
       "subCategory": null
     },
     {
-      "id": "p2",
-      "nodeId": "n4",
+      "id": "p_start_2",
+      "nodeId": "n1_start",
+      "category": "QR_CODE",
+      "subCategory": null
+    },
+    {
+      "id": "p_dziekanat",
+      "nodeId": "n0_dziekanat",
+      "category": "OFFICE",
+      "subCategory": "DEAN"
+    },
+    {
+      "id": "p_bufet",
+      "nodeId": "n0_bufet",
+      "category": "SERVICE",
+      "subCategory": "CANTEEN"
+    },
+    {
+      "id": "p_aula",
+      "nodeId": "n0_aula",
       "category": "ROOM",
-      "subCategory": "LECTURE"
+      "subCategory": "LECTURE_HALL"
+    },
+    {
+      "id": "p_wc",
+      "nodeId": "n1_wc",
+      "category": "TOILET",
+      "subCategory": "UNISEX"
+    },
+    {
+      "id": "p_r101",
+      "nodeId": "n1_r101",
+      "category": "ROOM",
+      "subCategory": "LAB"
+    },
+    {
+      "id": "p_r102",
+      "nodeId": "n1_r102",
+      "category": "ROOM",
+      "subCategory": "CLASSROOM"
     }
   ],
   "poiTranslations": [
     {
-      "poiId": "p1",
+      "poiId": "p_start",
       "language": "pl",
-      "name": "Wejście Główne (Start)",
-      "description": "Punkt skanowania przy drzwiach głównych"
+      "name": "Wejście Główne (Parter)",
+      "description": "Kod QR przy wejściu"
     },
     {
-      "poiId": "p1",
+      "poiId": "p_start",
       "language": "en",
-      "name": "Main Entrance (Start)",
-      "description": "Scanning point at the main doors"
+      "name": "Main Entrance (Ground Floor)",
+      "description": "QR code at entrance"
     },
     {
-      "poiId": "p2",
+      "poiId": "p_start",
+      "language": "uk",
+      "name": "Головний вхід (Перший поверх)",
+      "description": "QR-код на вході"
+    },
+
+    {
+      "poiId": "p_start_2",
       "language": "pl",
-      "name": "Sala 105",
-      "description": "Laboratorium sieciowe"
+      "name": "Kod QR (Piętro 1)",
+      "description": "Kod QR przy schodach na piętrze"
     },
     {
-      "poiId": "p2",
+      "poiId": "p_start_2",
       "language": "en",
-      "name": "Room 105",
-      "description": "Network Laboratory"
+      "name": "QR Code (First Floor)",
+      "description": "QR code by stairs upstairs"
+    },
+    {
+      "poiId": "p_start_2",
+      "language": "uk",
+      "name": "QR-код (Другий поверх)",
+      "description": "QR-код біля сходах на поверсі"
+    },
+
+    {
+      "poiId": "p_dziekanat",
+      "language": "pl",
+      "name": "Dziekanat",
+      "description": "Obsługa studentów"
+    },
+    {
+      "poiId": "p_dziekanat",
+      "language": "en",
+      "name": "Dean's Office",
+      "description": "Student services"
+    },
+    {
+      "poiId": "p_dziekanat",
+      "language": "uk",
+      "name": "Деканат",
+      "description": "Обслуговування студентів"
+    },
+
+    {
+      "poiId": "p_bufet",
+      "language": "pl",
+      "name": "Bufet",
+      "description": "Przekąski i kawa"
+    },
+    {
+      "poiId": "p_bufet",
+      "language": "en",
+      "name": "Canteen",
+      "description": "Snacks and coffee"
+    },
+    {
+      "poiId": "p_bufet",
+      "language": "uk",
+      "name": "Буфет",
+      "description": "Закуски та кава"
+    },
+
+    {
+      "poiId": "p_aula",
+      "language": "pl",
+      "name": "Aula A",
+      "description": "Główna sala wykładowa"
+    },
+    {
+      "poiId": "p_aula",
+      "language": "en",
+      "name": "Auditorium A",
+      "description": "Main lecture hall"
+    },
+    {
+      "poiId": "p_aula",
+      "language": "uk",
+      "name": "Аудиторія А",
+      "description": "Головна лекційна зала"
+    },
+
+    {
+      "poiId": "p_wc",
+      "language": "pl",
+      "name": "Toaleta",
+      "description": null
+    },
+    {
+      "poiId": "p_wc",
+      "language": "en",
+      "name": "Restroom",
+      "description": null
+    },
+    {
+      "poiId": "p_wc",
+      "language": "uk",
+      "name": "Туалет",
+      "description": null
+    },
+
+    {
+      "poiId": "p_r101",
+      "language": "pl",
+      "name": "Sala 101",
+      "description": "Laboratorium"
+    },
+    {
+      "poiId": "p_r101",
+      "language": "en",
+      "name": "Room 101",
+      "description": "Laboratory"
+    },
+    {
+      "poiId": "p_r101",
+      "language": "uk",
+      "name": "Аудиторія 101",
+      "description": "Лабораторія"
+    },
+
+    {
+      "poiId": "p_r102",
+      "language": "pl",
+      "name": "Sala 102",
+      "description": "Sala ćwiczeniowa"
+    },
+    {
+      "poiId": "p_r102",
+      "language": "en",
+      "name": "Room 102",
+      "description": "Classroom"
+    },
+    {
+      "poiId": "p_r102",
+      "language": "uk",
+      "name": "Аудиторія 102",
+      "description": "Клас для практичних занять"
     }
   ]
 }

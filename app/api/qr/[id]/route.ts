@@ -3,14 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const qrId = params.id;
+    const poiId = (await params).id;
 
     const qrPOI = await prisma.pOI.findUnique({
       where: {
-        nodeId: qrId,
+        id: poiId,
+        category: "QR_CODE",
       },
       include: {
         // Include node information for the POI floor and building details
@@ -22,6 +23,7 @@ export async function GET(
       return NextResponse.json({ error: "QR code not found" }, { status: 404 });
     }
 
+    // TODO: Get the floor and building information from the node and include it in the response to get data for loading the map and floor plan for the QR code location. This will help in rendering the map and floor plan for the QR code location.
     const formattedQR = {
       poiId: qrPOI.id,
       nodeId: qrPOI.nodeId,
