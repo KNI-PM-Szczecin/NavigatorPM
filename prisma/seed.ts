@@ -9,6 +9,13 @@ const __dirname = path.dirname(__filename);
 const prisma = new PrismaClient();
 
 async function main() {
+  if (process.env.NODE_ENV !== "development") {
+    console.error(
+      "❌ Seeding is only allowed in development mode. Aborting seeding process."
+    );
+    process.exit(1);
+  }
+
   console.log("🌱 Seeding database...");
 
   const seedFilePath = path.join(__dirname, "seed.json");
