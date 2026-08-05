@@ -7,7 +7,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "setup": "node -e \"const fs=require('fs'); if(!fs.existsSync('.env')) fs.copyFileSync('.env.example', '.env')\" && npm install && npx prisma generate && npx prisma db push && npx prisma db seed",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit"
@@ -37,7 +36,6 @@
     "eslint-config-next": "^16.2.12",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "tsx": "^4.23.8",
     "typescript": "^5.9.3"
