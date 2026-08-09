@@ -5,9 +5,9 @@ import {
   ReactZoomPanPinchContentRef,
   TransformComponent,
   TransformWrapper,
-  useControls,
 } from "react-zoom-pan-pinch";
-import mapImage from "@/public/image.png";
+import mapImage from "@/public/mapa.svg";
+import mapImageLabels from "@/public/mapa_labels.svg";
 import { useEffect, useRef } from "react";
 import UseIsLandscape from "@/components/use-is-landscape";
 
@@ -62,13 +62,22 @@ const BuildingMap = () => {
               height: "100dvh",
             }} // container that allows you to drag left and right
           >
-            <Image
-              src={mapImage}
-              alt="Map"
-              draggable={false}
-              onLoad={() => centerView(1, 0)}
-              className="block h-dvh w-auto max-w-none select-none"
-            />
+            <div className="relative h-dvh bg-white">
+              <Image
+                src={mapImage}
+                alt="Map"
+                draggable={false}
+                onLoad={() => centerView(1, 0)}
+                className="block h-full w-auto max-w-none select-none"
+              />
+              <Image
+                src={mapImageLabels}
+                alt="Map"
+                draggable={false}
+                onLoad={() => centerView(1, 0)}
+                className="absolute top-0 left-0 z-10 h-dvh w-auto max-w-none select-none"
+              />
+            </div>
           </TransformComponent>
         )}
       </TransformWrapper>
