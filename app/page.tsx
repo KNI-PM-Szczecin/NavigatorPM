@@ -1,8 +1,6 @@
-import BottomBar from "@/components/bottom-bar";
+import SearchMenu from "@/components/search-menu";
 import BuildingMap from "@/components/building-map";
 import SafeArea from "@/components/safe-area";
-
-type Param = string | string[] | undefined;
 
 export default async function Page({
   searchParams,
@@ -24,7 +22,7 @@ export default async function Page({
     <div className="relative h-dvh w-full overflow-hidden">
       <BuildingMap />
       <SafeArea className="pointer-events-none relative h-screen w-screen">
-        <BottomBar initialLocation={initialLocation} />
+        <SearchMenu initialLocation={initialLocation} />
       </SafeArea>
     </div>
   );

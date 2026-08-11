@@ -6,7 +6,7 @@ type BottomBarProps = {
   initialLocation: string | null;
 };
 
-const BottomBar = ({ initialLocation }: BottomBarProps) => {
+const SearchMenu = ({ initialLocation }: BottomBarProps) => {
   const [showEntryInput, setShowEntryInput] = useState<boolean>(
     initialLocation === null
   );
@@ -50,4 +50,4 @@ const BottomBar = ({ initialLocation }: BottomBarProps) => {
   );
 };
 
-export default BottomBar;
+export default SearchMenu;
