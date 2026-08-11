@@ -5,6 +5,11 @@ export type AppLanguage = "pl" | "en" | "uk";
 const SUPPORTED_LANGUAGES: AppLanguage[] = ["pl", "en", "uk"];
 const DEFAULT_LANGUAGE: AppLanguage = "pl";
 
+/**
+ * Replaces Accept-Language header with AppLanguage object.
+ * @param acceptLanguage Raw HTTP header value, can be null
+ * @returns
+ */
 export function parseLanguage(acceptLanguage: string | null): AppLanguage {
   if (!acceptLanguage) return DEFAULT_LANGUAGE;
 

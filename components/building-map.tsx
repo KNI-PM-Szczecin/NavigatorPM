@@ -1,15 +1,22 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import {
   ReactZoomPanPinchContentRef,
   TransformComponent,
   TransformWrapper,
 } from "react-zoom-pan-pinch";
-import mapImage from "@/public/mapa.svg";
-import mapImageLabels from "@/public/mapa_labels.svg";
 import { useEffect, useRef } from "react";
 import UseIsLandscape from "@/components/use-is-landscape";
+import floor0 from "@/public/maps/floor_0.svg";
+import floor1 from "@/public/maps/floor_0.svg"; // Placeholder
+import floor2 from "@/public/maps/floor_0.svg"; // Placeholder
+
+const floors: Record<string, StaticImageData> = {
+  "/maps/floor_0.svg": floor0,
+  "/maps/floor_1.svg": floor1,
+  "/maps/floor_2.svg": floor2,
+};
 
 // This function unfocues bottombar's input, because it's very annoying
 const unfocusInput = () => {
@@ -18,9 +25,16 @@ const unfocusInput = () => {
   }
 };
 
-const BuildingMap = () => {
+const BuildingMap = ({
+  initialFloorUrl,
+}: {
+  initialFloorUrl: string | null;
+}) => {
   const transformWrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
   const orientation = UseIsLandscape();
+  const floor_url = initialFloorUrl
+    ? floors[initialFloorUrl]
+    : "/maps/floor_0.svg";
 
   // This code resets the map view when the screen orientation is changed
   useEffect(() => {
@@ -64,19 +78,19 @@ const BuildingMap = () => {
           >
             <div className="relative h-dvh bg-white">
               <Image
-                src={mapImage}
+                src={floor_url}
                 alt="Map"
                 draggable={false}
                 onLoad={() => centerView(1, 0)}
                 className="block h-full w-auto max-w-none select-none"
               />
-              <Image
-                src={mapImageLabels}
+              {/* <Image
+                src={initialFloorUrl}
                 alt="Map"
                 draggable={false}
                 onLoad={() => centerView(1, 0)}
                 className="absolute top-0 left-0 z-10 h-dvh w-auto max-w-none select-none"
-              />
+              /> */}
             </div>
           </TransformComponent>
         )}
