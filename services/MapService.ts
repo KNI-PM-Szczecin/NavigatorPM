@@ -81,9 +81,17 @@ export function getPois(lang: AppLanguage = DEFAULT_LANGUAGE) {
         );
       }
 
+      const node = nodesById[poi.nodeId];
+      const floorId = node ? node.floorId : null;
+      const floor = floorId
+        ? mapData.floors.find((f) => f.id === floorId)
+        : null;
+
       return {
         id: poi.id,
         nodeId: poi.nodeId,
+        floorId: floorId,
+        buildingId: floor?.buildingId,
         category: poi.category,
         subCategory: poi.subCategory,
         name: poiTranslation?.name || null,
@@ -113,7 +121,10 @@ export function getMapData() {
   }
 }
 
-export function getQrContext(qrId: string) {
+export function getQrContext(
+  qrId: string,
+  lang: AppLanguage = DEFAULT_LANGUAGE
+) {
   try {
     const qrPoi = poisById[qrId];
 
@@ -122,17 +133,46 @@ export function getQrContext(qrId: string) {
     }
 
     const node = nodesById[qrPoi.nodeId];
-    if (!node) {
-      return null;
-    }
+    if (!node) return null;
 
     const floor = mapData.floors.find((f) => f.id === node.floorId);
+    if (!floor) return null;
 
+    const building = mapData.buildings.find((b) => b.id === floor.buildingId);
+    if (!building) return null;
+
+    const poiTrans =
+      mapData.poiTranslations.find(
+        (t) => t.poiId === qrPoi.id && t.language === lang
+      ) ||
+      mapData.poiTranslations.find(
+        (t) => t.poiId === qrPoi.id && t.language === DEFAULT_LANGUAGE
+      );
+
+    const floorTrans =
+      mapData.floorTranslations.find(
+        (t) => t.floorId === floor.id && t.language === lang
+      ) ||
+      mapData.floorTranslations.find(
+        (t) => t.floorId === floor.id && t.language === DEFAULT_LANGUAGE
+      );
+
+    const buildingTrans =
+      mapData.buildingTranslations.find(
+        (t) => t.buildingId === building.id && t.language === lang
+      ) ||
+      mapData.buildingTranslations.find(
+        (t) => t.buildingId === building.id && t.language === DEFAULT_LANGUAGE
+      );
     return {
       nodeId: qrPoi.nodeId,
       floorId: node.floorId,
       buildingId: floor?.buildingId,
       mapImageUrl: floor?.mapImageUrl,
+      poiName: poiTrans?.name || "",
+      floorName: floorTrans?.name || "",
+      floorLevel: floor.level,
+      buildingName: buildingTrans?.name || "",
     };
   } catch (error) {
     console.error("Error fetching QR context:", error);
