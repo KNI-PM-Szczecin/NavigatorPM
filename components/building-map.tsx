@@ -11,6 +11,7 @@ import UseIsLandscape from "@/components/use-is-landscape";
 import floor0 from "@/public/maps/floor_0.svg";
 import floor1 from "@/public/maps/floor_0.svg"; // Placeholder
 import floor2 from "@/public/maps/floor_0.svg"; // Placeholder
+import { MapPin } from "lucide-react";
 
 const floors: Record<string, StaticImageData> = {
   "/maps/floor_0.svg": floor0,
@@ -27,20 +28,34 @@ const unfocusInput = () => {
 
 const BuildingMap = ({
   initialFloorUrl,
+  userX,
+  userY,
 }: {
   initialFloorUrl: string | null;
+  userX: number | null;
+  userY: number | null;
 }) => {
+  const enteredViaQR = initialFloorUrl != null;
   const transformWrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
+  const markersDiv = useRef<HTMLDivElement | null>(null);
   const orientation = UseIsLandscape();
-  const floor_url = initialFloorUrl
+  const floorUrl = initialFloorUrl
     ? floors[initialFloorUrl]
-    : "/maps/floor_0.svg";
+    : floors["/maps/floor_0.svg"];
+
+  const userMarker = useRef<HTMLDivElement | null>(null);
+
+  const VIEWBOX = { w: 841.68, h: 595.2 };
 
   // This code resets the map view when the screen orientation is changed
   useEffect(() => {
-    if (transformWrapperRef.current !== null) {
-      transformWrapperRef.current.setTransform(0, 0, 2);
-      transformWrapperRef.current.centerView();
+    const api = transformWrapperRef.current;
+    if (api == null) return;
+
+    if (userMarker.current != null) {
+      api.zoomToElement(userMarker.current, 3, 600);
+    } else {
+      api.centerView(1, 0);
     }
   }, [orientation]);
 
@@ -55,14 +70,13 @@ const BuildingMap = ({
         initialScale={1} // start with scale 1
         minScale={1} // you cannot zoom below 1
         maxScale={8} // you can't zoom more than 8
-        centerOnInit // center the image after launch
         limitToBounds // forbids you from dragging the image outside the screen
         doubleClick={{
           mode: "toggle",
           step: 2,
         }} // first double tap zooms, the following one unzooms
       >
-        {({ centerView }) => (
+        {({ centerView, zoomToElement }) => (
           // render prop from transform Wrapper
           <TransformComponent
             wrapperStyle={{
@@ -78,19 +92,35 @@ const BuildingMap = ({
           >
             <div className="relative h-dvh bg-white">
               <Image
-                src={floor_url}
+                src={floorUrl}
                 alt="Map"
                 draggable={false}
-                onLoad={() => centerView(1, 0)}
+                onLoad={() => {
+                  if (enteredViaQR && userMarker.current != null) {
+                    return zoomToElement(userMarker.current, 3, 600);
+                  }
+                  return centerView(1, 0);
+                }}
                 className="block h-full w-auto max-w-none select-none"
               />
-              {/* <Image
-                src={initialFloorUrl}
-                alt="Map"
-                draggable={false}
-                onLoad={() => centerView(1, 0)}
-                className="absolute top-0 left-0 z-10 h-dvh w-auto max-w-none select-none"
-              /> */}
+              {/* Markers div */}
+              <div className="absolute inset-0 z-40" ref={markersDiv}>
+                {userX != null && userY != null && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: `${(userX / VIEWBOX.w) * 100}%`,
+                      top: `${(userY / VIEWBOX.h) * 100}%`,
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  >
+                    <div
+                      ref={userMarker}
+                      className="h-2 w-2 rounded-full border border-white bg-blue-500 shadow-[0_0_8px_2px_rgb(59_130_246/0.7),0_0_24px_8px_rgb(59_130_246/0.35)]"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </TransformComponent>
         )}

@@ -1,7 +1,8 @@
 import SearchMenu from "@/components/search-menu";
 import BuildingMap from "@/components/building-map";
 import SafeArea from "@/components/safe-area";
-import { getBuildings, getQrContext } from "@/services/MapService";
+import { getQrContext } from "@/services/MapService";
+import Pill from "@/components/pill";
 
 export default async function Page({
   searchParams,
@@ -11,6 +12,13 @@ export default async function Page({
   const { from } = await searchParams;
   let initialLocation: string | null = "";
 
+  const getQRCodeDetails = (poiId: string | null) => {
+    if (!poiId) return null;
+    const qrContext = getQrContext(poiId);
+    if (!qrContext) return null;
+    return qrContext;
+  };
+
   if (Array.isArray(from)) {
     initialLocation = from[0];
   } else if (typeof from == "string") {
@@ -19,19 +27,21 @@ export default async function Page({
     initialLocation = null;
   }
 
-  const qr_context = getQrContext("p_start");
-  if (qr_context != null) {
-    console.log(qr_context);
-    const building = getBuildings().find(
-      (building) => building.id == qr_context.buildingId
-    );
-  }
+  const qr = getQRCodeDetails(initialLocation);
 
   return (
     <div className="relative h-dvh w-full overflow-hidden">
-      <BuildingMap initialFloorUrl={qr_context?.mapImageUrl ?? null} />
+      <BuildingMap
+        initialFloorUrl={qr?.mapImageUrl ?? null}
+        userX={qr?.userX ?? null}
+        userY={qr?.userY ?? null}
+      />
       <SafeArea className="pointer-events-none relative h-screen w-screen">
-        <SearchMenu initialLocation={initialLocation} />
+        <Pill buildingName={qr?.buildingName ?? null} />
+        <SearchMenu
+          initialLocation={initialLocation}
+          poiName={qr?.poiName ?? null}
+        />
       </SafeArea>
     </div>
   );

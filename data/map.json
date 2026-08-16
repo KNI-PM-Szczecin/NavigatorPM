@@ -3,27 +3,21 @@
     {
       "id": "b1",
       "address": "ul. Akademicka 1",
-      "isVisible": true
-    }
-  ],
-  "buildingTranslations": [
-    {
-      "buildingId": "b1",
-      "language": "pl",
-      "name": "Wydział Informatyki",
-      "description": "Główny budynek wydziału"
-    },
-    {
-      "buildingId": "b1",
-      "language": "en",
-      "name": "Faculty of Computer Science",
-      "description": "Main faculty building"
-    },
-    {
-      "buildingId": "b1",
-      "language": "uk",
-      "name": "Факультет інформатики",
-      "description": "Головний корпус факультету"
+      "isVisible": true,
+      "translations": {
+        "pl": {
+          "name": "Wydział Informatyki",
+          "description": "Główny budynek wydziału"
+        },
+        "en": {
+          "name": "Faculty of Computer Science",
+          "description": "Main faculty building"
+        },
+        "uk": {
+          "name": "Факультет інформатики",
+          "description": "Головний корпус факультету"
+        }
+      }
     }
   ],
   "floors": [
@@ -32,30 +26,44 @@
       "buildingId": "b1",
       "level": 0,
       "mapImageUrl": "/maps/floor_0.svg",
-      "isVisible": true
+      "isVisible": true,
+      "translations": {
+        "pl": {
+          "name": "Parter"
+        },
+        "en": {
+          "name": "Ground Floor"
+        },
+        "uk": {
+          "name": "Перший поверх"
+        }
+      }
     },
     {
       "id": "f1",
       "buildingId": "b1",
       "level": 1,
       "mapImageUrl": "/maps/floor_1.svg",
-      "isVisible": true
+      "isVisible": true,
+      "translations": {
+        "pl": {
+          "name": "Piętro 1"
+        },
+        "en": {
+          "name": "First Floor"
+        },
+        "uk": {
+          "name": "Другий поверх"
+        }
+      }
     }
-  ],
-  "floorTranslations": [
-    { "floorId": "f0", "language": "pl", "name": "Parter" },
-    { "floorId": "f0", "language": "en", "name": "Ground Floor" },
-    { "floorId": "f0", "language": "uk", "name": "Перший поверх" },
-    { "floorId": "f1", "language": "pl", "name": "Piętro 1" },
-    { "floorId": "f1", "language": "en", "name": "First Floor" },
-    { "floorId": "f1", "language": "uk", "name": "Другий поверх" }
   ],
   "nodes": [
     {
       "id": "n0_start",
       "floorId": "f0",
-      "xCoordinate": 0.0,
-      "yCoordinate": 0.0,
+      "xCoordinate": 233.0,
+      "yCoordinate": 194.0,
       "type": "POI"
     },
     {
@@ -107,7 +115,6 @@
       "yCoordinate": 0.0,
       "type": "WALKWAY"
     },
-
     {
       "id": "n1_stairs",
       "floorId": "f1",
@@ -215,7 +222,6 @@
       "weight": 10.0,
       "isAccessible": true
     },
-
     {
       "id": "e_stairs",
       "nodeAId": "n0_stairs",
@@ -223,7 +229,6 @@
       "weight": 15.0,
       "isAccessible": true
     },
-
     {
       "id": "e_11",
       "nodeAId": "n1_stairs",
@@ -279,202 +284,161 @@
       "id": "p_start",
       "nodeId": "n0_start",
       "category": "QR_CODE",
-      "subCategory": null
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Wejście Główne (Parter)",
+          "description": "Kod QR przy wejściu"
+        },
+        "en": {
+          "name": "Main Entrance (Ground Floor)",
+          "description": "QR code at entrance"
+        },
+        "uk": {
+          "name": "Головний вхід (Перший поверх)",
+          "description": "QR-код на вході"
+        }
+      }
     },
     {
       "id": "p_start_2",
       "nodeId": "n1_start",
       "category": "QR_CODE",
-      "subCategory": null
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Kod QR (Piętro 1)",
+          "description": "Kod QR przy schodach na piętrze"
+        },
+        "en": {
+          "name": "QR Code (First Floor)",
+          "description": "QR code by stairs upstairs"
+        },
+        "uk": {
+          "name": "QR-код (Другий поверх)",
+          "description": "QR-код біля сходах на поверсі"
+        }
+      }
     },
     {
       "id": "p_dziekanat",
       "nodeId": "n0_dziekanat",
       "category": "OFFICE",
-      "subCategory": "DEAN"
+      "subCategory": "DEAN",
+      "translations": {
+        "pl": {
+          "name": "Dziekanat",
+          "description": "Obsługa studentów"
+        },
+        "en": {
+          "name": "Dean's Office",
+          "description": "Student services"
+        },
+        "uk": {
+          "name": "Деканат",
+          "description": "Обслуговування студентів"
+        }
+      }
     },
     {
       "id": "p_bufet",
       "nodeId": "n0_bufet",
       "category": "SERVICE",
-      "subCategory": "CANTEEN"
+      "subCategory": "CANTEEN",
+      "translations": {
+        "pl": {
+          "name": "Bufet",
+          "description": "Przekąski i kawa"
+        },
+        "en": {
+          "name": "Canteen",
+          "description": "Snacks and coffee"
+        },
+        "uk": {
+          "name": "Буфет",
+          "description": "Закуски та кава"
+        }
+      }
     },
     {
       "id": "p_aula",
       "nodeId": "n0_aula",
       "category": "ROOM",
-      "subCategory": "LECTURE_HALL"
+      "subCategory": "LECTURE_HALL",
+      "translations": {
+        "pl": {
+          "name": "Aula A",
+          "description": "Główna sala wykładowa"
+        },
+        "en": {
+          "name": "Auditorium A",
+          "description": "Main lecture hall"
+        },
+        "uk": {
+          "name": "Аудиторія А",
+          "description": "Головна лекційна зала"
+        }
+      }
     },
     {
       "id": "p_wc",
       "nodeId": "n1_wc",
       "category": "TOILET",
-      "subCategory": "UNISEX"
+      "subCategory": "UNISEX",
+      "translations": {
+        "pl": {
+          "name": "Toaleta",
+          "description": null
+        },
+        "en": {
+          "name": "Restroom",
+          "description": null
+        },
+        "uk": {
+          "name": "Туалет",
+          "description": null
+        }
+      }
     },
     {
       "id": "p_r101",
       "nodeId": "n1_r101",
       "category": "ROOM",
-      "subCategory": "LAB"
+      "subCategory": "LAB",
+      "translations": {
+        "pl": {
+          "name": "Sala 101",
+          "description": "Laboratorium"
+        },
+        "en": {
+          "name": "Room 101",
+          "description": "Laboratory"
+        },
+        "uk": {
+          "name": "Аудиторія 101",
+          "description": "Лабораторія"
+        }
+      }
     },
     {
       "id": "p_r102",
       "nodeId": "n1_r102",
       "category": "ROOM",
-      "subCategory": "CLASSROOM"
-    }
-  ],
-  "poiTranslations": [
-    {
-      "poiId": "p_start",
-      "language": "pl",
-      "name": "Wejście Główne (Parter)",
-      "description": "Kod QR przy wejściu"
-    },
-    {
-      "poiId": "p_start",
-      "language": "en",
-      "name": "Main Entrance (Ground Floor)",
-      "description": "QR code at entrance"
-    },
-    {
-      "poiId": "p_start",
-      "language": "uk",
-      "name": "Головний вхід (Перший поверх)",
-      "description": "QR-код на вході"
-    },
-
-    {
-      "poiId": "p_start_2",
-      "language": "pl",
-      "name": "Kod QR (Piętro 1)",
-      "description": "Kod QR przy schodach na piętrze"
-    },
-    {
-      "poiId": "p_start_2",
-      "language": "en",
-      "name": "QR Code (First Floor)",
-      "description": "QR code by stairs upstairs"
-    },
-    {
-      "poiId": "p_start_2",
-      "language": "uk",
-      "name": "QR-код (Другий поверх)",
-      "description": "QR-код біля сходах на поверсі"
-    },
-
-    {
-      "poiId": "p_dziekanat",
-      "language": "pl",
-      "name": "Dziekanat",
-      "description": "Obsługa studentów"
-    },
-    {
-      "poiId": "p_dziekanat",
-      "language": "en",
-      "name": "Dean's Office",
-      "description": "Student services"
-    },
-    {
-      "poiId": "p_dziekanat",
-      "language": "uk",
-      "name": "Деканат",
-      "description": "Обслуговування студентів"
-    },
-
-    {
-      "poiId": "p_bufet",
-      "language": "pl",
-      "name": "Bufet",
-      "description": "Przekąski i kawa"
-    },
-    {
-      "poiId": "p_bufet",
-      "language": "en",
-      "name": "Canteen",
-      "description": "Snacks and coffee"
-    },
-    {
-      "poiId": "p_bufet",
-      "language": "uk",
-      "name": "Буфет",
-      "description": "Закуски та кава"
-    },
-
-    {
-      "poiId": "p_aula",
-      "language": "pl",
-      "name": "Aula A",
-      "description": "Główna sala wykładowa"
-    },
-    {
-      "poiId": "p_aula",
-      "language": "en",
-      "name": "Auditorium A",
-      "description": "Main lecture hall"
-    },
-    {
-      "poiId": "p_aula",
-      "language": "uk",
-      "name": "Аудиторія А",
-      "description": "Головна лекційна зала"
-    },
-
-    {
-      "poiId": "p_wc",
-      "language": "pl",
-      "name": "Toaleta",
-      "description": null
-    },
-    {
-      "poiId": "p_wc",
-      "language": "en",
-      "name": "Restroom",
-      "description": null
-    },
-    {
-      "poiId": "p_wc",
-      "language": "uk",
-      "name": "Туалет",
-      "description": null
-    },
-
-    {
-      "poiId": "p_r101",
-      "language": "pl",
-      "name": "Sala 101",
-      "description": "Laboratorium"
-    },
-    {
-      "poiId": "p_r101",
-      "language": "en",
-      "name": "Room 101",
-      "description": "Laboratory"
-    },
-    {
-      "poiId": "p_r101",
-      "language": "uk",
-      "name": "Аудиторія 101",
-      "description": "Лабораторія"
-    },
-
-    {
-      "poiId": "p_r102",
-      "language": "pl",
-      "name": "Sala 102",
-      "description": "Sala ćwiczeniowa"
-    },
-    {
-      "poiId": "p_r102",
-      "language": "en",
-      "name": "Room 102",
-      "description": "Classroom"
-    },
-    {
-      "poiId": "p_r102",
-      "language": "uk",
-      "name": "Аудиторія 102",
-      "description": "Клас для практичних занять"
+      "subCategory": "CLASSROOM",
+      "translations": {
+        "pl": {
+          "name": "Sala 102",
+          "description": "Sala ćwiczeniowa"
+        },
+        "en": {
+          "name": "Room 102",
+          "description": "Classroom"
+        },
+        "uk": {
+          "name": "Аудиторія 102",
+          "description": "Клас для практичних занять"
+        }
+      }
     }
   ]
 }

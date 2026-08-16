@@ -1,14 +1,10 @@
+import { AppLanguage } from "@/services/MapService";
+
 export interface Building {
   id: string;
   address: string;
   isVisible: boolean;
-}
-
-export interface BuildingTranslation {
-  buildingId: string;
-  language: string;
-  name: string;
-  description: string | null;
+  translations: Translated<{ name: string }>;
 }
 
 export interface Floor {
@@ -16,13 +12,11 @@ export interface Floor {
   buildingId: string;
   level: number;
   mapImageUrl: string;
+  translations: Translated<{ name: string }>;
 }
 
-export interface FloorTranslation {
-  floorId: string;
-  language: string;
-  name: string;
-}
+// DRY: Don't repeat yourself. let's just keep this as a type
+export type Translated<T> = Partial<Record<AppLanguage, T>>;
 
 export interface Node {
   id: string;
@@ -45,22 +39,13 @@ export interface POI {
   nodeId: string;
   category: string;
   subCategory: string | null;
-}
-
-export interface POITranslation {
-  poiId: string;
-  language: string;
-  name: string;
-  description: string | null;
+  translations: Translated<{ name: string; description: string | null }>;
 }
 
 export interface MapData {
   buildings: Building[];
-  buildingTranslations: BuildingTranslation[];
   floors: Floor[];
-  floorTranslations: FloorTranslation[];
   nodes: Node[];
   edges: Edge[];
   pois: POI[];
-  poiTranslations: POITranslation[];
 }
