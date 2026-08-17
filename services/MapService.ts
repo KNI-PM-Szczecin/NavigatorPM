@@ -27,54 +27,42 @@ export function parseLanguage(acceptLanguage: string | null): AppLanguage {
   return matchedLang || DEFAULT_LANGUAGE;
 }
 
-//TODO: Fix this so it works after my commit
-// export function getBuildings(lang: AppLanguage = DEFAULT_LANGUAGE) {
-//   const result = mapData.buildings.map((building) => {
-//     const bTransList = mapData.buildingTranslations.filter(
-//       (t) => t.buildingId === building.id
-//     );
+export function getBuildings(lang: AppLanguage = DEFAULT_LANGUAGE) {
+  const result = mapData.buildings.map((building) => {
+    const bTrans =
+      building.translations[lang] || building.translations[DEFAULT_LANGUAGE];
 
-//     const bTrans =
-//       bTransList.find((t) => t.language === lang) ||
-//       bTransList.find((t) => t.language === DEFAULT_LANGUAGE);
+    const buildingFloors = mapData.floors.filter(
+      (f) => f.buildingId === building.id
+    );
 
-//     const buildingFloors = mapData.floors.filter(
-//       (f) => f.buildingId === building.id
-//     );
+    const formattedFloors = buildingFloors.map((floor) => {
+      const fTrans =
+        floor.translations[lang] || floor.translations[DEFAULT_LANGUAGE];
 
-//     const formattedFloors = buildingFloors.map((floor) => {
-//       const fTransList = mapData.floorTranslations.filter(
-//         (t) => t.floorId === floor.id
-//       );
+      return {
+        id: floor.id,
+        level: floor.level,
+        mapImageUrl: floor.mapImageUrl,
+        name: fTrans?.name || `Poziom ${floor.level}`,
+      };
+    });
 
-//       const fTrans =
-//         fTransList.find((t) => t.language === lang) ||
-//         fTransList.find((t) => t.language === DEFAULT_LANGUAGE);
+    formattedFloors.sort((a, b) => a.level - b.level);
 
-//       return {
-//         id: floor.id,
-//         level: floor.level,
-//         mapImageUrl: floor.mapImageUrl,
-//         name: fTrans?.name || `Poziom ${floor.level}`,
-//       };
-//     });
+    return {
+      id: building.id,
+      address: building.address,
+      name: bTrans?.name || "Brak nazwy",
+      floors: formattedFloors,
+    };
+  });
 
-//     formattedFloors.sort((a, b) => a.level - b.level);
-
-//     return {
-//       id: building.id,
-//       address: building.address,
-//       name: bTrans?.name || "Brak nazwy",
-//       description: bTrans?.description || null,
-//       floors: formattedFloors,
-//     };
-//   });
-
-//   return result;
-// }
+  return result;
+}
 
 export function getNode(id: string) {
-  const node = mapData.nodes.find((node) => node.id == id);
+  const node = nodesById[id];
 
   if (!node) {
     console.log(`Node ${id} was not found.`);
@@ -84,39 +72,31 @@ export function getNode(id: string) {
   return node;
 }
 
-//TODO: Fix this so it works after my commit
-// export function getPois(lang: AppLanguage = DEFAULT_LANGUAGE) {
-//   const visiblePois = mapData.pois.filter((p) => p.category !== "QR_CODE");
+export function getPois(lang: AppLanguage = DEFAULT_LANGUAGE) {
+  const visiblePois = mapData.pois.filter((p) => p.category !== "QR_CODE");
 
-//   const formattedPois = visiblePois.map((poi) => {
-//     let poiTranslation = mapData.poiTranslations.find(
-//       (t) => t.poiId === poi.id && t.language === lang
-//     );
+  const formattedPois = visiblePois.map((poi) => {
+    const poiTrans =
+      poi.translations[lang] || poi.translations[DEFAULT_LANGUAGE];
 
-//     if (!poiTranslation) {
-//       poiTranslation = mapData.poiTranslations.find(
-//         (t) => t.poiId === poi.id && t.language === DEFAULT_LANGUAGE
-//       );
-//     }
+    const node = nodesById[poi.nodeId];
+    const floorId = node ? node.floorId : null;
+    const floor = floorId ? floorsById[floorId] : null;
 
-//     const node = nodesById[poi.nodeId];
-//     const floorId = node ? node.floorId : null;
-//     const floor = floorId ? mapData.floors.find((f) => f.id === floorId) : null;
+    return {
+      id: poi.id,
+      nodeId: poi.nodeId,
+      floorId: floorId,
+      buildingId: floor?.buildingId,
+      category: poi.category,
+      subCategory: poi.subCategory,
+      name: poiTrans?.name || null,
+      description: poiTrans?.description || null,
+    };
+  });
 
-//     return {
-//       id: poi.id,
-//       nodeId: poi.nodeId,
-//       floorId: floorId,
-//       buildingId: floor?.buildingId,
-//       category: poi.category,
-//       subCategory: poi.subCategory,
-//       name: poiTranslation?.name || null,
-//       description: poiTranslation?.description || null,
-//     };
-//   });
-
-//   return formattedPois;
-// }
+  return formattedPois;
+}
 
 export function getMapData() {
   return {
