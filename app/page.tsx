@@ -1,7 +1,7 @@
 import SearchMenu from "@/components/search-menu";
 import BuildingMap from "@/components/building-map";
 import SafeArea from "@/components/safe-area";
-import { getQrContext } from "@/services/MapService";
+import { getPoisNameList, getQrContext } from "@/services/MapService";
 import Pill from "@/components/pill";
 
 export default async function Page({
@@ -28,6 +28,12 @@ export default async function Page({
   }
 
   const qr = getQRCodeDetails(initialLocation);
+  const startPosition =
+    initialLocation && qr
+      ? { id: initialLocation, name: qr.poiName ?? "No translation" }
+      : null;
+
+  const pois = getPoisNameList();
 
   return (
     <div className="relative h-dvh w-full overflow-hidden">
@@ -39,8 +45,8 @@ export default async function Page({
       <SafeArea className="pointer-events-none relative h-screen w-screen">
         <Pill buildingName={qr?.buildingName ?? null} />
         <SearchMenu
-          initialLocation={initialLocation}
-          poiName={qr?.poiName ?? null}
+          startPosition={startPosition ?? null}
+          poiList={pois ?? null}
         />
       </SafeArea>
     </div>

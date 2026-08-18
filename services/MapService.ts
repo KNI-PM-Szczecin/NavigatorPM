@@ -72,6 +72,21 @@ export function getNode(id: string) {
   return node;
 }
 
+/**
+ *
+ * @param lang AppLanguage optional parameter, fallbacks to "pl"
+ * @returns poi list of a json object with id and name
+ */
+export function getPoisNameList(lang: AppLanguage = DEFAULT_LANGUAGE) {
+  const visiblePois = mapData.pois.filter((p) => p.category !== "QR_CODE");
+  const formattedPois = visiblePois.map((poi) => ({
+    id: poi.id,
+    name: poi.translations[lang]?.name ?? "No translation",
+  }));
+
+  return formattedPois;
+}
+
 export function getPois(lang: AppLanguage = DEFAULT_LANGUAGE) {
   const visiblePois = mapData.pois.filter((p) => p.category !== "QR_CODE");
 
@@ -123,7 +138,7 @@ export function getQrContext(
   if (!floor) return null;
 
   // Building can be null
-  const building = buildingsById[floor.buildingId];
+  const building = buildingsById[floor.buildingId] ?? null;
 
   return {
     nodeId: qrPoi.nodeId,

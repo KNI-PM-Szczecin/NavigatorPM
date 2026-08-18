@@ -1,16 +1,37 @@
 "use client";
-import Input from "@/components/ui/input";
+import SearchInput from "@/components/ui/search-input";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type BottomBarProps = {
-  initialLocation: string | null;
-  poiName: string | null;
+export type poiLabel = {
+  id: string;
+  name: string;
 };
 
-const SearchMenu = ({ initialLocation, poiName }: BottomBarProps) => {
+type BottomBarProps = {
+  startPosition: poiLabel | null;
+  poiList: Array<poiLabel> | null;
+};
+
+const SearchMenu = ({ startPosition, poiList }: BottomBarProps) => {
+  const router = useRouter();
   const [showEntryInput, setShowEntryInput] = useState<boolean>(
-    initialLocation === null
+    startPosition === null
   );
+  const [destinationId, setDestinationId] = useState<string | null>(null);
+
+  const onChanged = (value: poiLabel | null) => {
+    setDestinationId(value != null ? value.id : null);
+  };
+
+  const go = () => {
+    if (!destinationId) return;
+    const params = new URLSearchParams();
+    if (!startPosition) return;
+    params.set("from", startPosition.id);
+    params.set("to", destinationId);
+    router.push(`/?${params}`);
+  };
 
   return (
     <div className="pointer-events-auto fixed inset-x-2 bottom-[calc(0.5rem+env(safe-area-inset-bottom))] z-50 flex h-[33dvh] flex-col justify-between gap-1.5 rounded-[36px] border border-white/60 bg-white/90 p-4 text-black shadow-[0_-8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl landscape:top-2 landscape:right-2 landscape:bottom-2 landscape:left-auto landscape:h-auto landscape:w-[33%] landscape:justify-center">
@@ -18,7 +39,7 @@ const SearchMenu = ({ initialLocation, poiName }: BottomBarProps) => {
       {!showEntryInput ? (
         <div className="flex items-baseline gap-1.5 text-sm">
           <span className="text-black/50">Wejście:</span>
-          <span className="font-semibold">{poiName}</span>
+          <span className="font-semibold">{startPosition?.name}</span>
 
           <button
             type="button"
@@ -32,18 +53,23 @@ const SearchMenu = ({ initialLocation, poiName }: BottomBarProps) => {
         <label className="flex flex-col gap-1.5">
           <span className="text-sm text-black/50 select-none">Skąd</span>
 
-          <Input placeholder="Sala 8" />
+          <SearchInput placeholder="Sala 8" />
         </label>
       )}
 
       <label className="flex flex-col gap-1.5">
         <span className="text-sm text-black/50 select-none">Dokąd?</span>
 
-        <Input placeholder="Sala 8" />
+        <SearchInput
+          placeholder="Sala 8"
+          items={poiList}
+          onChanged={onChanged}
+        />
       </label>
       <div></div>
       <button
         type="button"
+        onClick={go}
         className="flex h-12 w-full cursor-pointer items-center justify-center gap-1.5 rounded-full bg-blue-600 font-semibold text-white transition duration-100 select-none active:scale-[0.98]"
       >
         GO

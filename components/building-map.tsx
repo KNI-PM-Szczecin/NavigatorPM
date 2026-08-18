@@ -11,7 +11,6 @@ import UseIsLandscape from "@/components/use-is-landscape";
 import floor0 from "@/public/maps/floor_0.svg";
 import floor1 from "@/public/maps/floor_0.svg"; // Placeholder
 import floor2 from "@/public/maps/floor_0.svg"; // Placeholder
-import { MapPin } from "lucide-react";
 
 const floors: Record<string, StaticImageData> = {
   "/maps/floor_0.svg": floor0,
