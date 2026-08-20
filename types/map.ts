@@ -1,5 +1,3 @@
-import { AppLanguage } from "@/services/MapService";
-
 export interface Building {
   id: string;
   address: string;
@@ -15,7 +13,6 @@ export interface Floor {
   translations: Translated<{ name: string }>;
 }
 
-// DRY: Don't repeat yourself. let's just keep this as a type
 export type Translated<T> = Partial<Record<AppLanguage, T>>;
 
 export interface Node {
@@ -49,3 +46,5 @@ export interface MapData {
   edges: Edge[];
   pois: POI[];
 }
+
+export type AppLanguage = "pl" | "en" | "uk";

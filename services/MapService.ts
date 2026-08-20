@@ -6,7 +6,7 @@ import {
   poisById,
 } from "@/data/mapStore";
 
-export type AppLanguage = "pl" | "en" | "uk";
+import { AppLanguage } from "@/types/map";
 
 const SUPPORTED_LANGUAGES: AppLanguage[] = ["pl", "en", "uk"];
 const DEFAULT_LANGUAGE: AppLanguage = "pl";
