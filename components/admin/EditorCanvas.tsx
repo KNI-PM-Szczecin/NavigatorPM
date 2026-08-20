@@ -70,7 +70,8 @@ export default function EditorCanvas() {
   };
 
   return (
-    <div className="relative flex-1 overflow-hidden bg-[#0a0a0a]">
+    <div className="relative flex-1 overflow-hidden bg-slate-50 dark:bg-[#0a0a0a]">
+      {" "}
       <TransformWrapper
         initialScale={1}
         minScale={1}
@@ -333,7 +334,6 @@ export default function EditorCanvas() {
           );
         }}
       </TransformWrapper>
-
       {errorMessage && (
         <div className="absolute top-20 left-1/2 z-100 flex -translate-x-1/2 items-center gap-3 rounded-lg border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive shadow-lg backdrop-blur">
           <span>{errorMessage}</span>
@@ -345,7 +345,6 @@ export default function EditorCanvas() {
           </button>
         </div>
       )}
-
       {/* SHADCN ALERT DIALOG: Edge delete */}
       <AlertDialog
         open={!!edgeToDeleteId}
