@@ -105,7 +105,7 @@ export default function EditorCanvas() {
 
             addNode(newNode);
             setSelectedNode(newNode.id);
-            setActiveTool("SELECT");
+            // setActiveTool("SELECT");
           };
 
           return (

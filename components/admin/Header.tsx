@@ -1,5 +1,5 @@
 "use client";
-import { saveMapDataAction } from "@/actions/adminActions";
+import { getMapDataAction, saveMapDataAction } from "@/actions/adminActions";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,12 +21,22 @@ import {
 import { toast } from "@/components/ui/toast";
 import { useEditorStore } from "@/hooks/useEditorStore";
 import { Building, Floor } from "@/types/map";
-import { Edit2, Loader2, Plus, Save, Trash2, UserSquare2 } from "lucide-react";
-import { useState } from "react";
+import {
+  Download,
+  Edit2,
+  Loader2,
+  Plus,
+  Save,
+  Trash2,
+  Upload,
+  UserSquare2,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import CreateBuildingForm from "./CreateBuildingForm";
 import CreateFloorForm from "./CreateFloorForm";
 
 export default function EditorHeader() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [showBuildingModal, setShowBuildingModal] = useState(false);
   const [showFloorModal, setShowFloorModal] = useState(false);
@@ -49,6 +59,7 @@ export default function EditorHeader() {
     setActiveBuilding,
     setActiveFloor,
     getExportData,
+    loadMapData,
     nodes,
     deleteBuilding,
     deleteFloor,
@@ -60,27 +71,109 @@ export default function EditorHeader() {
   const activeBuilding = buildings.find((b) => b.id === activeBuildingId);
   const activeFloor = floors.find((f) => f.id === activeFloorId);
 
+  // Save to Server
   const handleSave = async () => {
     setIsSaving(true);
-    const exportData = getExportData();
+
+    const rawData = getExportData();
+
+    const exportData = JSON.parse(JSON.stringify(rawData));
+
     const result = await saveMapDataAction(exportData);
 
     if (result.success) {
       toast.add({
         title: "Success",
-        description: "The map data has been successfully saved to the file.",
+        description:
+          "The map data has been successfully saved to the server file.",
         type: "success",
       });
     } else {
       toast.add({
         title: "Write error",
-        description: "An error occurred while saving map data.",
+        description: result.error || "An error occurred while saving map data.",
         type: "error",
       });
     }
-
     setIsSaving(false);
   };
+
+  // Save to Backup
+  const handleDownloadJson = () => {
+    const exportData = getExportData();
+    const dataStr =
+      "data:text/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(exportData, null, 2));
+
+    const downloadAnchorNode = document.createElement("a");
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute(
+      "download",
+      `navigator_backup_${new Date().toISOString().split("T")[0]}.json`
+    );
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+
+    toast.add({
+      title: "Exported",
+      description: "Backup saved to your local drive.",
+      type: "success",
+    });
+  };
+
+  // Load from Backup
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target?.result as string);
+        if (json && Array.isArray(json.nodes) && Array.isArray(json.edges)) {
+          loadMapData(json);
+          toast.add({
+            title: "Loaded",
+            description:
+              "Map data successfully loaded from file. Remember to 'Save to Server'.",
+            type: "success",
+          });
+        } else {
+          throw new Error("Invalid format");
+        }
+      } catch {
+        toast.add({
+          title: "Error",
+          description: "Invalid or corrupted JSON file.",
+          type: "error",
+        });
+      }
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    };
+    reader.readAsText(file);
+  };
+
+  useEffect(() => {
+    const fetchServerData = async () => {
+      if (nodes.length === 0 && buildings.length === 0) {
+        const result = await getMapDataAction();
+
+        if (result.success && result.data) {
+          loadMapData(result.data);
+
+          toast.add({
+            title: "Zsynchronizowano",
+            description: "Wczytano projekt z serwera (brak danych lokalnych).",
+            type: "success",
+          });
+        }
+      }
+    };
+
+    fetchServerData();
+  }, [nodes.length, buildings.length, loadMapData]);
+
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background px-4">
       {/* LOGO */}
@@ -220,18 +313,49 @@ export default function EditorHeader() {
         <div className="font-mono text-xs text-muted-foreground">
           {nodes.length} nodes
         </div>
-        <button
-          onClick={handleSave}
-          disabled={isSaving}
-          className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary/90 disabled:opacity-50"
-        >
-          {isSaving ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Save className="h-4 w-4" />
-          )}
-          Export JSON
-        </button>
+        <input
+          type="file"
+          accept=".json"
+          ref={fileInputRef}
+          onChange={handleFileUpload}
+          className="hidden"
+        />
+
+        <div className="flex items-center gap-2">
+          {/* Przycisk Importu */}
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm font-medium text-foreground shadow-xs hover:bg-muted"
+            title="Load local backup"
+          >
+            <Upload className="h-4 w-4" />
+          </button>
+
+          {/* Przycisk Eksportu */}
+          <button
+            onClick={handleDownloadJson}
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm font-medium text-foreground shadow-xs hover:bg-muted"
+            title="Download local backup"
+          >
+            <Download className="h-4 w-4" />
+          </button>
+
+          <div className="mx-1 h-4 w-px bg-border"></div>
+
+          {/* Główny przycisk ZAPISU NA SERWER */}
+          <button
+            onClick={handleSave}
+            disabled={isSaving}
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary/90 disabled:opacity-50"
+          >
+            {isSaving ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Save className="h-4 w-4" />
+            )}
+            Save to Server
+          </button>
+        </div>
       </div>
 
       {/* MODALE FORMULARZY */}

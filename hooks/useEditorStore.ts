@@ -16,7 +16,9 @@ interface EditorState extends MapData {
   initData: (data: MapData) => void;
   setActiveBuilding: (id: string) => void;
   setActiveFloor: (id: string) => void;
+
   getExportData: () => MapData;
+  loadMapData: (data: MapData) => void;
 
   addNode: (node: Node) => void;
   addBuilding: (building: Building) => void;
@@ -32,6 +34,7 @@ interface EditorState extends MapData {
   updateNodeCoordinates: (id: string, x: number, y: number) => void;
   deleteNode: (id: string) => void;
   deleteEdge: (id: string) => void;
+
   setSelectedNode: (id: string | null) => void;
   setActiveTool: (tool: ToolType) => void;
   handleNodeClickForEdge: (nodeId: string) => void;
@@ -83,8 +86,22 @@ export const useEditorStore = create<EditorState>()(
 
       getExportData: () => {
         const { buildings, floors, nodes, edges, pois } = get();
-        return { buildings, floors, nodes, edges, pois }; // Zwracamy czysty obiekt MapData
+        return { buildings, floors, nodes, edges, pois };
       },
+
+      loadMapData: (data) =>
+        set((state) => ({
+          ...state,
+          buildings: data.buildings || [],
+          floors: data.floors || [],
+          nodes: data.nodes || [],
+          edges: data.edges || [],
+          pois: data.pois || [],
+          activeBuildingId: null,
+          activeFloorId: null,
+          selectedNodeId: null,
+          activeTool: "SELECT",
+        })),
 
       addNode: (node) => set((state) => ({ nodes: [...state.nodes, node] })),
 
