@@ -11,13 +11,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useEditorStore } from "@/hooks/useEditorStore";
 import { useHotkeys } from "@/hooks/useHotkeys";
-import { Node } from "@/types/map";
+import { Edge, Node } from "@/types/map";
 import {
   GitCommit,
   Grid3x3,
   MapPin,
   Maximize,
   MousePointer2,
+  Route,
   Tag,
   ZoomIn,
   ZoomOut,
@@ -71,8 +72,11 @@ export default function EditorCanvas() {
 
   const handleNodeClick = (e: MouseEvent, nodeId: string) => {
     e.stopPropagation();
+
     if (activeTool === "DRAW_EDGE") {
       handleNodeClickForEdge(nodeId);
+    } else if (activeTool === "DRAW_PATH") {
+      useEditorStore.getState().connectNodesInPath(nodeId);
     } else {
       setSelectedNode(nodeId);
     }
@@ -102,14 +106,16 @@ export default function EditorCanvas() {
               return;
             }
 
-            if (activeTool !== "ADD_NODE" || !canvasRef.current) return;
+            if (
+              (activeTool !== "ADD_NODE" && activeTool !== "DRAW_PATH") ||
+              !canvasRef.current
+            )
+              return;
 
             const rect = canvasRef.current.getBoundingClientRect();
-
             let calcX = (e.clientX - rect.left) / currentScale;
             let calcY = (e.clientY - rect.top) / currentScale;
 
-            // GRID SNAPPING (siatka 24px)
             if (isGridSnapEnabled) {
               calcX = Math.round(calcX / 24) * 24;
               calcY = Math.round(calcY / 24) * 24;
@@ -118,16 +124,15 @@ export default function EditorCanvas() {
               calcY = Math.round(calcY);
             }
 
-            // ORTHOGONAL SNAPPING (SHIFT)
+            // Oś Orthogonalna (Shift) - jako odniesienie bierzemy drawingEdgeFromId (dla krawędzi) lub selectedNodeId (dla Ścieżki)
             if (e.shiftKey) {
               const referenceNodeId = drawingEdgeFromId || selectedNodeId;
               const refNode = floorNodes.find((n) => n.id === referenceNodeId);
-
               if (refNode) {
-                const deltaX = Math.abs(calcX - refNode.xCoordinate);
-                const deltaY = Math.abs(calcY - refNode.yCoordinate);
-
-                if (deltaX > deltaY) {
+                if (
+                  Math.abs(calcX - refNode.xCoordinate) >
+                  Math.abs(calcY - refNode.yCoordinate)
+                ) {
                   calcY = refNode.yCoordinate;
                 } else {
                   calcX = refNode.xCoordinate;
@@ -143,42 +148,62 @@ export default function EditorCanvas() {
               type: "CORRIDOR",
             };
 
-            addNode(newNode);
+            if (activeTool === "DRAW_PATH" && selectedNodeId) {
+              const prevNode = floorNodes.find((n) => n.id === selectedNodeId);
 
-            setSelectedNode(newNode.id);
+              if (prevNode) {
+                const dx = newNode.xCoordinate - prevNode.xCoordinate;
+                const dy = newNode.yCoordinate - prevNode.yCoordinate;
+                const calculatedWeight = Math.round(
+                  Math.sqrt(dx * dx + dy * dy)
+                );
+
+                const newEdge: Edge = {
+                  id: `e_${Date.now()}`,
+                  nodeAId: selectedNodeId,
+                  nodeBId: newNode.id,
+                  weight: calculatedWeight,
+                  isAccessible: true,
+                };
+                useEditorStore.getState().addNodeAndEdge(newNode, newEdge);
+              }
+            } else {
+              addNode(newNode);
+              setSelectedNode(newNode.id);
+            }
           };
 
           const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-            if (
-              activeTool !== "DRAW_EDGE" ||
-              !drawingEdgeFromId ||
-              !canvasRef.current
-            ) {
+            const isDrawingEdge =
+              activeTool === "DRAW_EDGE" && drawingEdgeFromId;
+            const isDrawingPath = activeTool === "DRAW_PATH" && selectedNodeId;
+
+            if (!isDrawingEdge && !isDrawingPath) {
               if (mousePos) setMousePos(null);
               return;
             }
+
+            if (!canvasRef.current) return;
 
             const rect = canvasRef.current.getBoundingClientRect();
             let currentX = (e.clientX - rect.left) / currentScale;
             let currentY = (e.clientY - rect.top) / currentScale;
 
-            const startNode = floorNodes.find(
-              (n) => n.id === drawingEdgeFromId
-            );
+            const activeNodeId = isDrawingEdge
+              ? drawingEdgeFromId
+              : selectedNodeId;
+            const startNode = floorNodes.find((n) => n.id === activeNodeId);
 
             if (startNode && e.shiftKey) {
               const deltaX = Math.abs(currentX - startNode.xCoordinate);
               const deltaY = Math.abs(currentY - startNode.yCoordinate);
-
-              if (deltaX > deltaY) {
-                currentY = startNode.yCoordinate;
-              } else {
-                currentX = startNode.xCoordinate;
-              }
+              if (deltaX > deltaY) currentY = startNode.yCoordinate;
+              else currentX = startNode.xCoordinate;
             }
 
             setMousePos({ x: currentX, y: currentY });
           };
+
           return (
             <>
               <TransformComponent
@@ -299,12 +324,19 @@ export default function EditorCanvas() {
                       );
                     })}
 
-                    {activeTool === "DRAW_EDGE" &&
-                      drawingEdgeFromId &&
+                    {/* WIZUALIZACJA: Rysowana krawędź w locie */}
+                    {(activeTool === "DRAW_EDGE" ||
+                      activeTool === "DRAW_PATH") &&
                       mousePos &&
                       (() => {
+                        const activeStartId =
+                          activeTool === "DRAW_EDGE"
+                            ? drawingEdgeFromId
+                            : selectedNodeId;
+                        if (!activeStartId) return null;
+
                         const startNode = floorNodes.find(
-                          (n) => n.id === drawingEdgeFromId
+                          (n) => n.id === activeStartId
                         );
                         if (!startNode) return null;
 
@@ -316,9 +348,11 @@ export default function EditorCanvas() {
                             y1={startNode.yCoordinate}
                             x2={mousePos.x}
                             y2={mousePos.y}
-                            stroke="#f97316" /* Kolor pomarańczowy, pasujący do aktywnego węzła */
+                            stroke={
+                              activeTool === "DRAW_PATH" ? "#10b981" : "#f97316"
+                            } /* Ścieżka: zielona, Zwykła linia: pomarańczowa */
                             strokeWidth={2 * scaleFactor}
-                            strokeDasharray={`${4 * scaleFactor} ${4 * scaleFactor}`} /* Przerywana linia */
+                            strokeDasharray={`${4 * scaleFactor} ${4 * scaleFactor}`}
                             className="pointer-events-none opacity-70"
                           />
                         );
@@ -365,6 +399,13 @@ export default function EditorCanvas() {
                     title="Selector [V]"
                   >
                     <MousePointer2 className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => setActiveTool("DRAW_PATH")}
+                    className={`rounded-md p-2 transition-colors ${activeTool === "DRAW_PATH" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+                    title="Rysuj ścieżkę ciągłą [P]"
+                  >
+                    <Route className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => setActiveTool("ADD_NODE")}

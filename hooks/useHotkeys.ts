@@ -37,6 +37,9 @@ export function useHotkeys() {
         case "g":
           toggleGridSnap();
           break;
+        case "p":
+          setActiveTool("DRAW_PATH");
+          break;
         case "escape":
           setSelectedNode(null);
           cancelEdgeDrawing();

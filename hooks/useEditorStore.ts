@@ -2,7 +2,7 @@ import { Building, Edge, Floor, MapData, Node, POI } from "@/types/map"; // Dopa
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type ToolType = "SELECT" | "ADD_NODE" | "DRAW_EDGE";
+export type ToolType = "SELECT" | "ADD_NODE" | "DRAW_EDGE" | "DRAW_PATH";
 
 interface EditorState extends MapData {
   // Ui States
@@ -35,12 +35,14 @@ interface EditorState extends MapData {
   deleteNode: (id: string) => void;
   deleteEdge: (id: string) => void;
   cancelEdgeDrawing: () => void;
+  addNodeAndEdge: (node: Node, edge: Edge) => void;
 
   isGridSnapEnabled: boolean;
   toggleGridSnap: () => void;
 
   setSelectedNode: (id: string | null) => void;
   setActiveTool: (tool: ToolType) => void;
+  connectNodesInPath: (targetNodeId: string) => void;
   handleNodeClickForEdge: (nodeId: string) => void;
 }
 
@@ -198,6 +200,13 @@ export const useEditorStore = create<EditorState>()(
 
       cancelEdgeDrawing: () => set({ drawingEdgeFromId: undefined }),
 
+      addNodeAndEdge: (newNode, newEdge) =>
+        set((state) => ({
+          nodes: [...state.nodes, newNode],
+          edges: [...state.edges, newEdge],
+          selectedNodeId: newNode.id,
+        })),
+
       isGridSnapEnabled: false,
 
       toggleGridSnap: () =>
@@ -206,6 +215,46 @@ export const useEditorStore = create<EditorState>()(
       setSelectedNode: (id) => set({ selectedNodeId: id }),
       setActiveTool: (tool) =>
         set({ activeTool: tool, drawingEdgeFromId: null }),
+
+      connectNodesInPath: (targetNodeId: string) => {
+        const { selectedNodeId, nodes, edges } = get();
+
+        if (!selectedNodeId || selectedNodeId === targetNodeId) {
+          return set({ selectedNodeId: targetNodeId });
+        }
+
+        const nodeA = nodes.find((n) => n.id === selectedNodeId);
+        const nodeB = nodes.find((n) => n.id === targetNodeId);
+
+        if (nodeA && nodeB) {
+          const edgeExists = edges.some(
+            (e) =>
+              (e.nodeAId === nodeA.id && e.nodeBId === nodeB.id) ||
+              (e.nodeAId === nodeB.id && e.nodeBId === nodeA.id)
+          );
+
+          if (!edgeExists) {
+            const weight = Math.round(
+              Math.sqrt(
+                Math.pow(nodeB.xCoordinate - nodeA.xCoordinate, 2) +
+                  Math.pow(nodeB.yCoordinate - nodeA.yCoordinate, 2)
+              )
+            );
+
+            const newEdge: Edge = {
+              id: `e_${Date.now()}`,
+              nodeAId: nodeA.id,
+              nodeBId: nodeB.id,
+              weight,
+              isAccessible: true,
+            };
+
+            set({ edges: [...edges, newEdge] });
+          }
+
+          set({ selectedNodeId: targetNodeId });
+        }
+      },
 
       handleNodeClickForEdge: (targetNodeId) => {
         const { drawingEdgeFromId, nodes, edges } = get();
