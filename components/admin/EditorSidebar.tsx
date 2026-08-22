@@ -2,35 +2,29 @@
 
 import { toast } from "@/components/ui/toast";
 import { useEditorStore } from "@/hooks/useEditorStore";
-import { ArrowDownToLine, GitCommit, Plus, Trash2 } from "lucide-react";
+import { AppLanguage } from "@/types/map";
+import { ArrowDownToLine, Info, MapPin, Settings2 } from "lucide-react";
 import { useState } from "react";
-import CreatePoiForm from "./CreatePoiForm";
 
 export default function EditorSidebar() {
-  const { nodes, pois, selectedNodeId, deleteNode, connectToFloorBelow } =
-    useEditorStore();
-  const [showPoiModal, setShowPoiModal] = useState(false);
+  const {
+    selectedNodeId,
+    nodes,
+    pois,
+    updateNode,
+    updatePoi,
+    deletePoi,
+    connectToFloorBelow,
+  } = useEditorStore();
 
-  const activeNode = nodes.find((n) => n.id === selectedNodeId);
-  const linkedPoi = pois.find((p) => p.nodeId === selectedNodeId);
+  const [activeLang, setActiveLang] = useState<AppLanguage>("pl");
 
   const selectedNode = nodes.find((n) => n.id === selectedNodeId);
-
-  if (!activeNode) {
-    return (
-      <aside className="flex w-[320px] flex-col items-center justify-center border-l border-border bg-background p-6 text-center text-muted-foreground">
-        <GitCommit className="mb-4 h-12 w-12 opacity-20" />
-        <p className="text-sm">
-          Select a node on the canvas to view its properties.
-        </p>
-      </aside>
-    );
-  }
+  const selectedPOI = pois.find((p) => p.nodeId === selectedNodeId);
 
   const handleConnectToFloorBelow = () => {
     if (!selectedNode) return;
     const result = connectToFloorBelow(selectedNode.id);
-
     if (result.success) {
       toast.add({
         title: "Sukces",
@@ -38,168 +32,224 @@ export default function EditorSidebar() {
         type: "success",
       });
     } else {
-      toast.add({
-        title: "Błąd",
-        description: result.message,
-        type: "error",
-      });
+      toast.add({ title: "Błąd", description: result.message, type: "error" });
     }
   };
 
+  const handleTranslationChange = (
+    field: "name" | "description",
+    value: string
+  ) => {
+    if (!selectedNode) return;
+
+    const currentTranslations = selectedPOI?.translations || {};
+    const currentLangData = currentTranslations[activeLang] || {
+      name: "",
+      description: "",
+    };
+
+    updatePoi(selectedNode.id, {
+      translations: {
+        ...currentTranslations,
+        [activeLang]: {
+          ...currentLangData,
+          [field]: value,
+        },
+      },
+    });
+  };
+
+  if (!selectedNode) {
+    return (
+      <div className="flex h-full flex-col items-center justify-center border-l border-border bg-background p-6 text-center text-muted-foreground">
+        <MapPin className="mb-4 h-12 w-12 opacity-20" />
+        <p>Select Node to show its properties.</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <aside className="flex w-[320px] shrink-0 flex-col border-l border-border bg-background">
-        {/* HEADER */}
-        <div className="flex items-center justify-between border-b border-border p-4">
-          <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <GitCommit className="h-4 w-4 text-primary" /> Node Properties
-          </h2>
-          <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs text-muted-foreground">
-            {activeNode.id.substring(0, 8)}
-          </span>
-        </div>
+    <div className="flex h-full w-80 flex-col overflow-y-auto border-l border-border bg-background p-4">
+      <div className="mb-6 flex items-center gap-2 border-b pb-4">
+        <Settings2 className="h-5 w-5 text-primary" />
+        <h2 className="text-lg font-semibold">Node Properties</h2>
+      </div>
 
-        {/* PROPERTIES CONTENT */}
-        <div className="flex-1 space-y-6 overflow-y-auto p-4">
-          {/* Coordinates */}
-          <div>
-            <h3 className="mb-3 text-xs font-medium tracking-wider text-muted-foreground uppercase">
-              Coordinates
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1.5">
-                <label className="text-xs text-muted-foreground">X</label>
-                <input
-                  type="number"
-                  value={activeNode.xCoordinate}
-                  onChange={(e) => {
-                    const newX = parseInt(e.target.value) || 0;
-                    useEditorStore
-                      .getState()
-                      .updateNodeCoordinates(
-                        activeNode.id,
-                        newX,
-                        activeNode.yCoordinate
-                      );
-                  }}
-                  className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm transition-colors outline-none focus:border-primary"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs text-muted-foreground">Y</label>
-                <input
-                  type="number"
-                  value={activeNode.yCoordinate}
-                  onChange={(e) => {
-                    const newY = parseInt(e.target.value) || 0;
-                    useEditorStore
-                      .getState()
-                      .updateNodeCoordinates(
-                        activeNode.id,
-                        activeNode.xCoordinate,
-                        newY
-                      );
-                  }}
-                  className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm transition-colors outline-none focus:border-primary"
-                />
-              </div>
-            </div>
-            {selectedNode && (
-              <div className="mt-4 border-t pt-4">
-                <h3 className="mb-2 text-sm font-semibold">
-                  Połączenia pionowe
-                </h3>
-                <button
-                  onClick={handleConnectToFloorBelow}
-                  className="flex w-full items-center justify-center gap-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium transition-colors hover:bg-secondary/80"
-                >
-                  <ArrowDownToLine className="h-4 w-4" />
-                  Połącz z piętrem niżej
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* POI Info */}
-          <div>
-            <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-xs font-medium tracking-wider text-muted-foreground uppercase">
-                Point of Interest
-              </h3>
-            </div>
-
-            {linkedPoi ? (
-              <div className="space-y-3 rounded-md border border-border bg-muted/50 p-3 text-sm">
-                <div>
-                  <span className="block font-bold">
-                    {linkedPoi.translations.pl?.name || "Brak nazwy"}
-                  </span>
-                  <span className="text-xs text-muted-foreground uppercase">
-                    {linkedPoi.category}
-                  </span>
-                </div>
-
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setShowPoiModal(true)}
-                    className="flex-1 rounded border border-border bg-background py-1.5 text-xs transition-colors hover:bg-muted"
-                  >
-                    Edit
-                  </button>
-
-                  {/* Delete button */}
-                  <button
-                    onClick={() => {
-                      if (
-                        confirm("Are you sure you want to delete this POI?")
-                      ) {
-                        useEditorStore.getState().deletePoi(activeNode.id);
-                      }
-                    }}
-                    className="rounded border border-destructive/20 bg-destructive/10 px-2 text-xs text-destructive transition-colors hover:bg-destructive/20"
-                    title="Delete POI"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-2">
-                <div className="rounded-md border border-dashed border-border bg-muted/20 p-3 text-center text-sm text-muted-foreground">
-                  No POI attached
-                </div>
-
-                {/* Create new POI */}
-                <button
-                  onClick={() => setShowPoiModal(true)}
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-muted px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/80"
-                >
-                  <Plus className="h-4 w-4" /> Create new POI
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* DELETE BUTTON */}
-        <div className="border-t border-border p-4">
-          <button
-            onClick={() => deleteNode(activeNode.id)}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-destructive/10 py-2.5 text-sm font-medium text-destructive transition-colors hover:bg-destructive/20"
+      {/* SEKCJA 1: WŁAŚCIWOŚCI WĘZŁA (NODE) */}
+      <div className="mb-6 flex flex-col gap-4">
+        <div>
+          <label className="mb-1 block text-sm font-medium text-muted-foreground">
+            Node type
+          </label>
+          <select
+            value={selectedNode.type}
+            onChange={(e) =>
+              updateNode(selectedNode.id, { type: e.target.value })
+            }
+            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none"
           >
-            <Trash2 className="h-4 w-4" />
-            Delete Node
-          </button>
+            <option value="CORRIDOR">Corridor (Default)</option>
+            <option value="STAIRS">Stairs</option>
+            <option value="ELEVATOR">Elevator</option>
+            <option value="ROOM_ENTRANCE">Entrance</option>
+          </select>
         </div>
-      </aside>
 
-      {/* RENDER MODAL OUTSIDE SIDEBAR LAYOUT */}
-      {showPoiModal && (
-        <CreatePoiForm
-          nodeId={activeNode.id}
-          onClose={() => setShowPoiModal(false)}
-        />
+        <div className="flex gap-4">
+          <div className="flex-1">
+            <label className="mb-1 block text-sm font-medium text-muted-foreground">
+              X
+            </label>
+            <input
+              type="number"
+              value={Math.round(selectedNode.xCoordinate)}
+              onChange={(e) =>
+                updateNode(selectedNode.id, {
+                  xCoordinate: Number(e.target.value),
+                })
+              }
+              className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none"
+            />
+          </div>
+          <div className="flex-1">
+            <label className="mb-1 block text-sm font-medium text-muted-foreground">
+              Y
+            </label>
+            <input
+              type="number"
+              value={Math.round(selectedNode.yCoordinate)}
+              onChange={(e) =>
+                updateNode(selectedNode.id, {
+                  yCoordinate: Number(e.target.value),
+                })
+              }
+              className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <button
+          onClick={handleConnectToFloorBelow}
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium transition-colors hover:bg-secondary/80"
+        >
+          <ArrowDownToLine className="h-4 w-4" />
+          Connect with the floor below
+        </button>
+      </div>
+
+      <hr className="my-2 border-border" />
+
+      {/* SEKCJA 2: PUNKT INFORMACYJNY (POI) */}
+      <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Info className="h-5 w-5 text-primary" />
+          <h3 className="font-semibold">Punkt POI</h3>
+        </div>
+        <label className="relative inline-flex cursor-pointer items-center">
+          <input
+            type="checkbox"
+            className="peer sr-only"
+            checked={!!selectedPOI}
+            onChange={(e) => {
+              if (e.target.checked) {
+                updatePoi(selectedNode.id, { category: "ROOM" });
+              } else {
+                deletePoi(selectedNode.id);
+              }
+            }}
+          />
+          {/* Prosty przełącznik (Switch) w czystym Tailwindzie */}
+          <div className="peer h-5 w-9 rounded-full bg-muted peer-checked:bg-primary after:absolute after:top-0.5 after:left-0.5 after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+        </label>
+      </div>
+
+      {selectedPOI && (
+        <div className="mt-4 flex flex-col gap-4 rounded-md border border-border bg-muted/30 p-3">
+          <div>
+            <label className="mb-1 block text-sm font-medium text-muted-foreground">
+              Category
+            </label>
+            <select
+              value={selectedPOI.category}
+              onChange={(e) =>
+                updatePoi(selectedNode.id, { category: e.target.value })
+              }
+              className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none"
+            >
+              <option value="ROOM">Room</option>
+              <option value="TOILET">Toilet</option>
+              <option value="SHOP">Shop</option>
+              <option value="GASTRONOMY">Gastronomy</option>
+              <option value="INFO">Information Point</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-muted-foreground">
+              Subcategory (optional)
+            </label>
+            <input
+              type="text"
+              placeholder="np. Woman, Men..."
+              value={selectedPOI.subCategory || ""}
+              onChange={(e) =>
+                updatePoi(selectedNode.id, { subCategory: e.target.value })
+              }
+              className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none"
+            />
+          </div>
+
+          {/* ZAKŁADKI JĘZYKOWE */}
+          <div className="mt-2">
+            <div className="flex rounded-md border border-border bg-muted p-1">
+              {(["pl", "en", "uk"] as AppLanguage[]).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setActiveLang(lang)}
+                  className={`flex-1 rounded-sm py-1 text-xs font-medium uppercase transition-colors ${
+                    activeLang === lang
+                      ? "bg-background text-foreground shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {lang}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-3 flex flex-col gap-3">
+              <div>
+                <label className="mb-1 block text-xs font-medium text-muted-foreground">
+                  Name ({activeLang.toUpperCase()})
+                </label>
+                <input
+                  type="text"
+                  value={selectedPOI.translations?.[activeLang]?.name || ""}
+                  onChange={(e) =>
+                    handleTranslationChange("name", e.target.value)
+                  }
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-medium text-muted-foreground">
+                  Description ({activeLang.toUpperCase()})
+                </label>
+                <textarea
+                  rows={2}
+                  value={
+                    selectedPOI.translations?.[activeLang]?.description || ""
+                  }
+                  onChange={(e) =>
+                    handleTranslationChange("description", e.target.value)
+                  }
+                  className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-sm focus:border-primary focus:outline-none"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       )}
-    </>
+    </div>
   );
 }

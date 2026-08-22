@@ -28,7 +28,7 @@ interface EditorState extends MapData {
   updateFloor: (floor: Floor) => void;
   deleteFloor: (id: string) => void;
   addPoi: (poi: POI) => void;
-  updatePoi: (poi: POI) => void;
+  updatePoi: (nodeId: string, poiData: Partial<POI>) => void;
   deletePoi: (nodeId: string) => void;
   updateNode: (id: string, data: Partial<Node>) => void;
   updateNodeCoordinates: (id: string, x: number, y: number) => void;
@@ -158,10 +158,31 @@ export const useEditorStore = create<EditorState>()(
           pois: [...state.pois, poi],
         })),
 
-      updatePoi: (poi: POI) =>
-        set((state) => ({
-          pois: state.pois.map((p) => (p.id === poi.id ? poi : p)),
-        })),
+      updatePoi: (nodeId, poiData) =>
+        set((state) => {
+          const existingPOIIndex = state.pois.findIndex(
+            (p) => p.nodeId === nodeId
+          );
+
+          if (existingPOIIndex >= 0) {
+            const updatedPOIs = [...state.pois];
+            updatedPOIs[existingPOIIndex] = {
+              ...updatedPOIs[existingPOIIndex],
+              ...poiData,
+            };
+            return { pois: updatedPOIs };
+          } else {
+            const newPOI: POI = {
+              id: `poi_${Date.now()}`,
+              nodeId: nodeId,
+              category: poiData.category || "ROOM",
+              subCategory: poiData.subCategory || null,
+              translations: poiData.translations || {},
+              ...poiData,
+            };
+            return { pois: [...state.pois, newPOI] };
+          }
+        }),
 
       deletePoi: (nodeId: string) =>
         set((state) => ({
