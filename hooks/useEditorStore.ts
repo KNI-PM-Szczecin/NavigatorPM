@@ -36,6 +36,9 @@ interface EditorState extends MapData {
   deleteEdge: (id: string) => void;
   cancelEdgeDrawing: () => void;
 
+  isGridSnapEnabled: boolean;
+  toggleGridSnap: () => void;
+
   setSelectedNode: (id: string | null) => void;
   setActiveTool: (tool: ToolType) => void;
   handleNodeClickForEdge: (nodeId: string) => void;
@@ -194,6 +197,11 @@ export const useEditorStore = create<EditorState>()(
         })),
 
       cancelEdgeDrawing: () => set({ drawingEdgeFromId: undefined }),
+
+      isGridSnapEnabled: false,
+
+      toggleGridSnap: () =>
+        set((state) => ({ isGridSnapEnabled: !state.isGridSnapEnabled })),
 
       setSelectedNode: (id) => set({ selectedNodeId: id }),
       setActiveTool: (tool) =>

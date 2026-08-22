@@ -10,6 +10,7 @@ export function useHotkeys() {
     setSelectedNode,
     deleteNode,
     cancelEdgeDrawing,
+    toggleGridSnap,
   } = useEditorStore();
 
   useEffect(() => {
@@ -32,6 +33,9 @@ export function useHotkeys() {
           break;
         case "e":
           setActiveTool("DRAW_EDGE");
+          break;
+        case "g":
+          toggleGridSnap();
           break;
         case "escape":
           setSelectedNode(null);
@@ -57,6 +61,7 @@ export function useHotkeys() {
     selectedNodeId,
     setSelectedNode,
     deleteNode,
+    toggleGridSnap,
     cancelEdgeDrawing,
   ]);
 }

@@ -14,6 +14,7 @@ import { useHotkeys } from "@/hooks/useHotkeys";
 import { Node } from "@/types/map";
 import {
   GitCommit,
+  Grid3x3,
   MapPin,
   Maximize,
   MousePointer2,
@@ -38,9 +39,15 @@ export default function EditorCanvas() {
     setSelectedNode,
     setActiveTool,
     handleNodeClickForEdge,
+    isGridSnapEnabled,
+    toggleGridSnap,
   } = useEditorStore();
 
   useHotkeys();
+
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(
+    null
+  );
 
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +96,9 @@ export default function EditorCanvas() {
         {({ zoomIn, zoomOut, resetTransform }) => {
           const handleCanvasClick = (e: MouseEvent<HTMLDivElement>) => {
             if (!activeFloorId) {
-              setErrorMessage("Select or Create Floor Before creating node!");
+              setErrorMessage(
+                "Wybierz lub utwórz piętro przed dodaniem węzła!"
+              );
               return;
             }
 
@@ -97,19 +106,79 @@ export default function EditorCanvas() {
 
             const rect = canvasRef.current.getBoundingClientRect();
 
+            let calcX = (e.clientX - rect.left) / currentScale;
+            let calcY = (e.clientY - rect.top) / currentScale;
+
+            // GRID SNAPPING (siatka 24px)
+            if (isGridSnapEnabled) {
+              calcX = Math.round(calcX / 24) * 24;
+              calcY = Math.round(calcY / 24) * 24;
+            } else {
+              calcX = Math.round(calcX);
+              calcY = Math.round(calcY);
+            }
+
+            // ORTHOGONAL SNAPPING (SHIFT)
+            if (e.shiftKey) {
+              const referenceNodeId = drawingEdgeFromId || selectedNodeId;
+              const refNode = floorNodes.find((n) => n.id === referenceNodeId);
+
+              if (refNode) {
+                const deltaX = Math.abs(calcX - refNode.xCoordinate);
+                const deltaY = Math.abs(calcY - refNode.yCoordinate);
+
+                if (deltaX > deltaY) {
+                  calcY = refNode.yCoordinate;
+                } else {
+                  calcX = refNode.xCoordinate;
+                }
+              }
+            }
+
             const newNode: Node = {
               id: `n_${Date.now()}`,
               floorId: activeFloorId,
-              xCoordinate: Math.round((e.clientX - rect.left) / currentScale),
-              yCoordinate: Math.round((e.clientY - rect.top) / currentScale),
+              xCoordinate: calcX,
+              yCoordinate: calcY,
               type: "CORRIDOR",
             };
 
             addNode(newNode);
+
             setSelectedNode(newNode.id);
-            // setActiveTool("SELECT");
           };
 
+          const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+            if (
+              activeTool !== "DRAW_EDGE" ||
+              !drawingEdgeFromId ||
+              !canvasRef.current
+            ) {
+              if (mousePos) setMousePos(null);
+              return;
+            }
+
+            const rect = canvasRef.current.getBoundingClientRect();
+            let currentX = (e.clientX - rect.left) / currentScale;
+            let currentY = (e.clientY - rect.top) / currentScale;
+
+            const startNode = floorNodes.find(
+              (n) => n.id === drawingEdgeFromId
+            );
+
+            if (startNode && e.shiftKey) {
+              const deltaX = Math.abs(currentX - startNode.xCoordinate);
+              const deltaY = Math.abs(currentY - startNode.yCoordinate);
+
+              if (deltaX > deltaY) {
+                currentY = startNode.yCoordinate;
+              } else {
+                currentX = startNode.xCoordinate;
+              }
+            }
+
+            setMousePos({ x: currentX, y: currentY });
+          };
           return (
             <>
               <TransformComponent
@@ -118,6 +187,8 @@ export default function EditorCanvas() {
                 <div
                   ref={canvasRef}
                   onClick={handleCanvasClick}
+                  onMouseMove={handleMouseMove}
+                  onMouseLeave={() => setMousePos(null)}
                   className={`relative origin-top-left bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] ${
                     activeTool === "SELECT"
                       ? "cursor-grab active:cursor-grabbing"
@@ -227,6 +298,31 @@ export default function EditorCanvas() {
                         </g>
                       );
                     })}
+
+                    {activeTool === "DRAW_EDGE" &&
+                      drawingEdgeFromId &&
+                      mousePos &&
+                      (() => {
+                        const startNode = floorNodes.find(
+                          (n) => n.id === drawingEdgeFromId
+                        );
+                        if (!startNode) return null;
+
+                        const scaleFactor = Math.max(0.3, 1 / currentScale);
+
+                        return (
+                          <line
+                            x1={startNode.xCoordinate}
+                            y1={startNode.yCoordinate}
+                            x2={mousePos.x}
+                            y2={mousePos.y}
+                            stroke="#f97316" /* Kolor pomarańczowy, pasujący do aktywnego węzła */
+                            strokeWidth={2 * scaleFactor}
+                            strokeDasharray={`${4 * scaleFactor} ${4 * scaleFactor}`} /* Przerywana linia */
+                            className="pointer-events-none opacity-70"
+                          />
+                        );
+                      })()}
                   </svg>
 
                   {/* Nodes */}
@@ -296,12 +392,22 @@ export default function EditorCanvas() {
                       : "text-muted-foreground hover:bg-muted"
                   }`}
                   title={
-                    isWeightVisible
-                      ? "Ukryj wagi krawędzi"
-                      : "Pokaż wagi krawędzi"
+                    isWeightVisible ? "Hide edge weight" : "Show edge weight"
                   }
                 >
                   <Tag className="h-4 w-4" />
+                </button>
+
+                <button
+                  onClick={toggleGridSnap}
+                  className={`rounded-md p-2 transition-colors ${
+                    isGridSnapEnabled
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:bg-muted"
+                  }`}
+                  title="Snap to Grid [G]"
+                >
+                  <Grid3x3 className="h-4 w-4" />
                 </button>
 
                 <div className="h-6 w-px bg-border"></div>
