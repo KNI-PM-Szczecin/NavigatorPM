@@ -34,6 +34,7 @@ interface EditorState extends MapData {
   updateNodeCoordinates: (id: string, x: number, y: number) => void;
   deleteNode: (id: string) => void;
   deleteEdge: (id: string) => void;
+  cancelEdgeDrawing: () => void;
 
   setSelectedNode: (id: string | null) => void;
   setActiveTool: (tool: ToolType) => void;
@@ -181,12 +182,18 @@ export const useEditorStore = create<EditorState>()(
           ),
           selectedNodeId:
             state.selectedNodeId === id ? null : state.selectedNodeId,
+          drawingEdgeFromId:
+            state.drawingEdgeFromId === id
+              ? undefined
+              : state.drawingEdgeFromId,
         })),
 
       deleteEdge: (id) =>
         set((state) => ({
           edges: state.edges.filter((e) => e.id !== id),
         })),
+
+      cancelEdgeDrawing: () => set({ drawingEdgeFromId: undefined }),
 
       setSelectedNode: (id) => set({ selectedNodeId: id }),
       setActiveTool: (tool) =>

@@ -1,5 +1,4 @@
 "use client";
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,6 +10,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useEditorStore } from "@/hooks/useEditorStore";
+import { useHotkeys } from "@/hooks/useHotkeys";
 import { Node } from "@/types/map";
 import {
   GitCommit,
@@ -39,6 +39,8 @@ export default function EditorCanvas() {
     setActiveTool,
     handleNodeClickForEdge,
   } = useEditorStore();
+
+  useHotkeys();
 
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -264,21 +266,21 @@ export default function EditorCanvas() {
                   <button
                     onClick={() => setActiveTool("SELECT")}
                     className={`rounded-md p-2 ${activeTool === "SELECT" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
-                    title="Wskaźnik (Przesuwanie)"
+                    title="Selector [V]"
                   >
                     <MousePointer2 className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => setActiveTool("ADD_NODE")}
                     className={`rounded-md p-2 ${activeTool === "ADD_NODE" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
-                    title="Dodaj węzeł"
+                    title="Add Node [N]"
                   >
                     <MapPin className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => setActiveTool("DRAW_EDGE")}
                     className={`rounded-md p-2 ${activeTool === "DRAW_EDGE" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
-                    title="Połącz węzły"
+                    title="Draw Edges [E]"
                   >
                     <GitCommit className="h-4 w-4" />
                   </button>
