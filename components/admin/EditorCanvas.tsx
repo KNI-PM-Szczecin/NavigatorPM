@@ -70,6 +70,18 @@ export default function EditorCanvas() {
       floorNodes.some((n) => n.id === e.nodeBId)
   );
 
+  const ghostFloor = activeFloor
+    ? floors.find(
+        (f) =>
+          f.buildingId === activeFloor.buildingId &&
+          f.level === activeFloor.level - 1
+      )
+    : undefined;
+
+  const ghostNodes = ghostFloor
+    ? nodes.filter((n) => n.floorId === ghostFloor.id)
+    : [];
+
   const handleNodeClick = (e: MouseEvent, nodeId: string) => {
     e.stopPropagation();
 
@@ -100,9 +112,7 @@ export default function EditorCanvas() {
         {({ zoomIn, zoomOut, resetTransform }) => {
           const handleCanvasClick = (e: MouseEvent<HTMLDivElement>) => {
             if (!activeFloorId) {
-              setErrorMessage(
-                "Wybierz lub utwórz piętro przed dodaniem węzła!"
-              );
+              setErrorMessage("Select or create a floor before seting nodes!");
               return;
             }
 
@@ -116,26 +126,49 @@ export default function EditorCanvas() {
             let calcX = (e.clientX - rect.left) / currentScale;
             let calcY = (e.clientY - rect.top) / currentScale;
 
-            if (isGridSnapEnabled) {
-              calcX = Math.round(calcX / 24) * 24;
-              calcY = Math.round(calcY / 24) * 24;
-            } else {
-              calcX = Math.round(calcX);
-              calcY = Math.round(calcY);
+            const SNAP_RADIUS = 15 / currentScale;
+            let isGhostSnapped = false;
+
+            // GHOST SNAPPING
+            for (const ghost of ghostNodes) {
+              const dx = calcX - ghost.xCoordinate;
+              const dy = calcY - ghost.yCoordinate;
+              if (Math.sqrt(dx * dx + dy * dy) < SNAP_RADIUS) {
+                calcX = ghost.xCoordinate;
+                calcY = ghost.yCoordinate;
+                isGhostSnapped = true;
+                break;
+              }
             }
 
-            // Oś Orthogonalna (Shift) - jako odniesienie bierzemy drawingEdgeFromId (dla krawędzi) lub selectedNodeId (dla Ścieżki)
-            if (e.shiftKey) {
-              const referenceNodeId = drawingEdgeFromId || selectedNodeId;
-              const refNode = floorNodes.find((n) => n.id === referenceNodeId);
-              if (refNode) {
-                if (
-                  Math.abs(calcX - refNode.xCoordinate) >
-                  Math.abs(calcY - refNode.yCoordinate)
-                ) {
-                  calcY = refNode.yCoordinate;
-                } else {
-                  calcX = refNode.xCoordinate;
+            if (!isGhostSnapped) {
+              // Grid Snapping
+              if (isGridSnapEnabled) {
+                calcX = Math.round(calcX / 24) * 24;
+                calcY = Math.round(calcY / 24) * 24;
+              } else {
+                calcX = Math.round(calcX);
+                calcY = Math.round(calcY);
+              }
+
+              // Orthogonal Snapping (Shift)
+              if (e.shiftKey) {
+                const referenceNodeId =
+                  activeTool === "DRAW_PATH" || activeTool === "ADD_NODE"
+                    ? selectedNodeId
+                    : drawingEdgeFromId;
+                const refNode = floorNodes.find(
+                  (n) => n.id === referenceNodeId
+                );
+                if (refNode) {
+                  if (
+                    Math.abs(calcX - refNode.xCoordinate) >
+                    Math.abs(calcY - refNode.yCoordinate)
+                  ) {
+                    calcY = refNode.yCoordinate;
+                  } else {
+                    calcX = refNode.xCoordinate;
+                  }
                 }
               }
             }
@@ -248,6 +281,24 @@ export default function EditorCanvas() {
 
                   {/* Edge map (SVG) */}
                   <svg className="absolute inset-0 z-10 h-full w-full">
+                    {/* WIZUALIZACJA: Duchy z poprzedniego piętra */}
+                    {ghostNodes.map((ghost) => {
+                      const scaleFactor = Math.max(0.3, 1 / currentScale);
+                      return (
+                        <circle
+                          key={`ghost_${ghost.id}`}
+                          cx={ghost.xCoordinate}
+                          cy={ghost.yCoordinate}
+                          r={6 * scaleFactor} // Nieco mniejsze niż normalne węzły
+                          fill="transparent"
+                          stroke="#9ca3af" // Szary kolor (Tailwind: text-gray-400)
+                          strokeWidth={2 * scaleFactor}
+                          strokeDasharray={`${3 * scaleFactor} ${3 * scaleFactor}`}
+                          className="opacity-40"
+                        />
+                      );
+                    })}
+
                     {floorEdges.map((edge) => {
                       const nodeA = floorNodes.find(
                         (n) => n.id === edge.nodeAId

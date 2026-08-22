@@ -1,16 +1,20 @@
 "use client";
 
+import { toast } from "@/components/ui/toast";
 import { useEditorStore } from "@/hooks/useEditorStore";
-import { GitCommit, Plus, Trash2 } from "lucide-react";
+import { ArrowDownToLine, GitCommit, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import CreatePoiForm from "./CreatePoiForm";
 
 export default function EditorSidebar() {
-  const { nodes, pois, selectedNodeId, deleteNode } = useEditorStore();
+  const { nodes, pois, selectedNodeId, deleteNode, connectToFloorBelow } =
+    useEditorStore();
   const [showPoiModal, setShowPoiModal] = useState(false);
 
   const activeNode = nodes.find((n) => n.id === selectedNodeId);
   const linkedPoi = pois.find((p) => p.nodeId === selectedNodeId);
+
+  const selectedNode = nodes.find((n) => n.id === selectedNodeId);
 
   if (!activeNode) {
     return (
@@ -22,6 +26,25 @@ export default function EditorSidebar() {
       </aside>
     );
   }
+
+  const handleConnectToFloorBelow = () => {
+    if (!selectedNode) return;
+    const result = connectToFloorBelow(selectedNode.id);
+
+    if (result.success) {
+      toast.add({
+        title: "Sukces",
+        description: result.message,
+        type: "success",
+      });
+    } else {
+      toast.add({
+        title: "Błąd",
+        description: result.message,
+        type: "error",
+      });
+    }
+  };
 
   return (
     <>
@@ -81,6 +104,20 @@ export default function EditorSidebar() {
                 />
               </div>
             </div>
+            {selectedNode && (
+              <div className="mt-4 border-t pt-4">
+                <h3 className="mb-2 text-sm font-semibold">
+                  Połączenia pionowe
+                </h3>
+                <button
+                  onClick={handleConnectToFloorBelow}
+                  className="flex w-full items-center justify-center gap-2 rounded-md bg-secondary px-3 py-2 text-sm font-medium transition-colors hover:bg-secondary/80"
+                >
+                  <ArrowDownToLine className="h-4 w-4" />
+                  Połącz z piętrem niżej
+                </button>
+              </div>
+            )}
           </div>
 
           {/* POI Info */}

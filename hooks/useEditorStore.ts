@@ -44,6 +44,10 @@ interface EditorState extends MapData {
   setActiveTool: (tool: ToolType) => void;
   connectNodesInPath: (targetNodeId: string) => void;
   handleNodeClickForEdge: (nodeId: string) => void;
+  connectToFloorBelow: (nodeId: string) => {
+    success: boolean;
+    message: string;
+  };
 }
 
 export const useEditorStore = create<EditorState>()(
@@ -293,6 +297,78 @@ export const useEditorStore = create<EditorState>()(
 
           set({ edges: [...edges, newEdge], drawingEdgeFromId: null });
         }
+      },
+
+      connectToFloorBelow: (nodeId: string) => {
+        let result = { success: false, message: "Nieznany błąd." };
+
+        set((state) => {
+          const nodeA = state.nodes.find((n) => n.id === nodeId);
+          if (!nodeA) return state;
+
+          const currentFloor = state.floors.find((f) => f.id === nodeA.floorId);
+          if (!currentFloor) return state;
+
+          const floorBelow = state.floors.find(
+            (f) =>
+              f.buildingId === currentFloor.buildingId &&
+              f.level === currentFloor.level - 1
+          );
+
+          if (!floorBelow) {
+            result = {
+              success: false,
+              message: "To jest już najniższy poziom w tym budynku.",
+            };
+            return state;
+          }
+
+          const targetNode = state.nodes.find(
+            (n) =>
+              n.floorId === floorBelow.id &&
+              Math.abs(n.xCoordinate - nodeA.xCoordinate) < 2 &&
+              Math.abs(n.yCoordinate - nodeA.yCoordinate) < 2
+          );
+
+          if (!targetNode) {
+            result = {
+              success: false,
+              message:
+                "Nie znaleziono węzła na piętrze poniżej w tym samym miejscu (X, Y)!",
+            };
+            return state;
+          }
+
+          const edgeExists = state.edges.some(
+            (e) =>
+              (e.nodeAId === nodeA.id && e.nodeBId === targetNode.id) ||
+              (e.nodeAId === targetNode.id && e.nodeBId === nodeA.id)
+          );
+
+          if (edgeExists) {
+            result = {
+              success: false,
+              message: "To połączenie z niższym piętrem już istnieje!",
+            };
+            return state;
+          }
+
+          const newEdge: Edge = {
+            id: `e_${Date.now()}`,
+            nodeAId: nodeA.id,
+            nodeBId: targetNode.id,
+            weight: 150,
+            isAccessible: true,
+          };
+
+          result = {
+            success: true,
+            message: "Pomyślnie połączono z piętrem niżej!",
+          };
+          return { edges: [...state.edges, newEdge] };
+        });
+
+        return result; // Zwracamy obiekt z wynikiem!
       },
     }),
     {
