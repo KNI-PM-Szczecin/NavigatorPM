@@ -5,6 +5,8 @@ import {
   nodesById,
   poisById,
 } from "@/data/mapStore";
+import { generateSvgPath } from "@/utils/generateSvgPath";
+import { pathfindingAlgorithm } from "@/utils/pathfinding";
 
 import { AppLanguage } from "@/types/map";
 
@@ -120,33 +122,77 @@ export function getMapData() {
   };
 }
 
-export function getQrContext(
+export function getSVGRoute(originId: string, destinationId: string) {
+  const originNodeId = poisById[originId] ? poisById[originId].nodeId : null;
+  const destinationNodeId = poisById[destinationId]
+    ? poisById[destinationId].nodeId
+    : null;
+
+  if (!originNodeId) {
+    console.error(`Origin ID: ${originId} doesn't exist.`);
+    return;
+  }
+
+  if (!destinationNodeId) {
+    console.error(`Destination ID: ${destinationId} doesn't exist.`);
+    return;
+  }
+
+  const nodes = pathfindingAlgorithm(
+    originNodeId,
+    destinationNodeId,
+    mapData.nodes,
+    mapData.edges,
+    false
+  );
+
+  if (!nodes || nodes.length < 2) {
+    console.error(`Path from ${originId} to ${destinationId} has no nodes`);
+    return;
+  }
+
+  return generateSvgPath(nodes);
+}
+
+export function getPoiContext(
   qrId: string,
   lang: AppLanguage = DEFAULT_LANGUAGE
 ) {
-  const qrPoi = poisById[qrId];
+  const poi = poisById[qrId];
 
-  if (!qrPoi || qrPoi.category !== "QR_CODE") {
+  if (!poi) {
+    console.error(`Poi with id ${qrId} was not found.`);
     return null;
   }
 
-  // If there aren't any nodes or floors, return null. The QR code is invalid
-  const node = nodesById[qrPoi.nodeId];
-  if (!node) return null;
+  // If there aren't any nodes or floors, return null. The Poi is invalid
+  const node = nodesById[poi.nodeId];
+  if (!node) {
+    console.error(`Poi ${poi.nodeId} has no nodes`);
+    return null;
+  }
 
   const floor = floorsById[node.floorId];
-  if (!floor) return null;
+  if (!floor) {
+    console.error(`Node ${node.id} has no floors`);
+    return null;
+  }
 
-  // Building can be null
-  const building = buildingsById[floor.buildingId] ?? null;
+  const building = buildingsById[floor.buildingId];
+  if (!building) {
+    console.error(
+      `Floor ${floor.id} points at a missing building ${floor.buildingId}`
+    );
+    return null;
+  }
 
   return {
-    nodeId: qrPoi.nodeId,
+    nodeId: poi.nodeId,
     floorId: node.floorId,
     buildingId: floor?.buildingId,
     mapImageUrl: floor?.mapImageUrl,
-    poiName: qrPoi.translations[lang]?.name,
-    poiDescription: qrPoi.translations[lang]?.description,
+    poiName: poi.translations[lang]?.name,
+    poiDescription: poi.translations[lang]?.description,
     floorName: floor.translations[lang]?.name,
     floorLevel: floor.level,
     userX: node.xCoordinate,

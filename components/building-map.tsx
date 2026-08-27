@@ -29,30 +29,45 @@ const BuildingMap = ({
   initialFloorUrl,
   userX,
   userY,
+  route,
 }: {
   initialFloorUrl: string | null;
   userX: number | null;
   userY: number | null;
+  route: string | null;
 }) => {
   const enteredViaQR = initialFloorUrl != null;
   const transformWrapperRef = useRef<ReactZoomPanPinchContentRef | null>(null);
   const markersDiv = useRef<HTMLDivElement | null>(null);
   const orientation = UseIsLandscape();
-  const floorUrl = initialFloorUrl
-    ? floors[initialFloorUrl]
-    : floors["/maps/floor_0.svg"];
+  const floorUrl =
+    (initialFloorUrl ? floors[initialFloorUrl] : undefined) ?? floor0;
 
   const userMarker = useRef<HTMLDivElement | null>(null);
 
-  const VIEWBOX = { w: 841.68, h: 595.2 };
+  const VIEWBOX = { x: 106.7, y: 123.7, w: 654.5, h: 311.5 };
+
+  const FOCUS = 90;
+  const focusBox = useRef<HTMLDivElement | null>(null);
+
+  const focusStyle =
+    userX != null && userY != null
+      ? {
+          position: "absolute" as const,
+          left: `${((userX - VIEWBOX.x - FOCUS / 2) / VIEWBOX.w) * 100}%`,
+          top: `${((userY - VIEWBOX.y - FOCUS / 2) / VIEWBOX.h) * 100}%`,
+          width: `${(FOCUS / VIEWBOX.w) * 100}%`,
+          height: `${(FOCUS / VIEWBOX.h) * 100}%`,
+        }
+      : null;
 
   // This code resets the map view when the screen orientation is changed
   useEffect(() => {
     const api = transformWrapperRef.current;
     if (api == null) return;
 
-    if (userMarker.current != null) {
-      api.zoomToElement(userMarker.current, 3, 600);
+    if (focusBox.current != null) {
+      api.zoomToElement(focusBox.current, undefined, 600);
     } else {
       api.centerView(1, 0);
     }
@@ -60,7 +75,7 @@ const BuildingMap = ({
 
   return (
     <div
-      className="fixed inset-0 overflow-hidden bg-black"
+      className="fixed inset-0 overflow-hidden bg-white"
       onPointerDown={unfocusInput}
     >
       {/* Zoom engine, holds zoom, x-offset and y-offset */}
@@ -79,24 +94,24 @@ const BuildingMap = ({
           // render prop from transform Wrapper
           <TransformComponent
             wrapperStyle={{
-              width: "100vw", // whole screen width
-              height: "100dvh", // whole screen height of mobile
-              overflow: "hidden", // nothing sticks out outside the screen
-              touchAction: "none", // doesn't allow your to scroll with gestures
+              width: "100vw",
+              height: "100dvh",
+              overflow: "hidden",
+              touchAction: "none",
             }}
             contentStyle={{
               width: "max-content",
               height: "100dvh",
-            }} // container that allows you to drag left and right
+            }}
           >
-            <div className="relative h-dvh bg-white">
+            <div className="relative h-[67dvh] bg-white">
               <Image
                 src={floorUrl}
                 alt="Map"
                 draggable={false}
                 onLoad={() => {
-                  if (enteredViaQR && userMarker.current != null) {
-                    return zoomToElement(userMarker.current, 3, 600);
+                  if (enteredViaQR && focusBox.current != null) {
+                    return zoomToElement(focusBox.current, undefined, 600);
                   }
                   return centerView(1, 0);
                 }}
@@ -104,12 +119,13 @@ const BuildingMap = ({
               />
               {/* Markers div */}
               <div className="absolute inset-0 z-40" ref={markersDiv}>
+                {focusStyle && <div ref={focusBox} style={focusStyle} />}
                 {userX != null && userY != null && (
                   <div
                     style={{
                       position: "absolute",
-                      left: `${(userX / VIEWBOX.w) * 100}%`,
-                      top: `${(userY / VIEWBOX.h) * 100}%`,
+                      left: `${((userX - VIEWBOX.x) / VIEWBOX.w) * 100}%`,
+                      top: `${((userY - VIEWBOX.y) / VIEWBOX.h) * 100}%`,
                       transform: "translate(-50%, -50%)",
                     }}
                   >
@@ -120,6 +136,22 @@ const BuildingMap = ({
                   </div>
                 )}
               </div>
+              {route && (
+                <svg
+                  viewBox={`${VIEWBOX.x} ${VIEWBOX.y} ${VIEWBOX.w} ${VIEWBOX.h}`}
+                  className="pointer-events-none absolute inset-0 z-30 h-full w-full"
+                >
+                  <path
+                    d={route}
+                    fill="none"
+                    stroke="rgb(59 130 246)"
+                    strokeWidth={3}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
+              )}
             </div>
           </TransformComponent>
         )}

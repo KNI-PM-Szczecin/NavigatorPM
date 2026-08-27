@@ -24,7 +24,10 @@ const SearchInput = ({ placeholder, items, onChanged }: InputProps) => {
       itemToStringValue={(item: poiLabel) => item.id}
       itemToStringLabel={(item: poiLabel) => item.name}
     >
-      <ComboboxInput placeholder={placeholder} />
+      <ComboboxInput
+        placeholder={placeholder}
+        className="h-12 w-full rounded-2xl border-0 bg-white text-black shadow-lg ring-1 ring-black/10 transition duration-100 ease-in-out hover:ring-2 hover:ring-blue-500/30 has-[[data-slot=input-group-control]:focus-visible]:ring-2 has-[[data-slot=input-group-control]:focus-visible]:ring-blue-500/30 [&_input]:px-4 [&_input]:text-lg [&_input]:placeholder:text-black/50"
+      />
       <ComboboxContent>
         <ComboboxEmpty>Nie ma sali</ComboboxEmpty>
         <ComboboxList>
@@ -40,10 +43,3 @@ const SearchInput = ({ placeholder, items, onChanged }: InputProps) => {
 };
 
 export default SearchInput;
-{
-  /* <input
-      type="text"
-      placeholder={placeholder}
-      className="h-12 w-full rounded-2xl bg-black/4 px-4 text-lg transition duration-100 ease-in-out outline-none placeholder:text-black/50 hover:ring-2 hover:ring-blue-500/30 focus:ring-2 focus:ring-blue-500/30"
-    /> */
-}

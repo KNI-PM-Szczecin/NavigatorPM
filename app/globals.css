@@ -126,6 +126,10 @@
   html {
     @apply font-sans;
   }
+  ::selection {
+    background-color: --alpha(var(--color-blue-500) / 25%);
+    color: inherit;
+  }
 }
 
 html,

@@ -10,10 +10,18 @@ export function generateSvgPath(pathNodes: Node[]): string {
   if (!pathNodes || pathNodes.length < 2) return "";
 
   const startNode = pathNodes[0];
+  if (!startNode) {
+    console.log("Node was not found");
+    return "";
+  }
   let pathString = `M ${startNode.xCoordinate} ${startNode.yCoordinate}`;
 
   for (let i = 1; i < pathNodes.length; i++) {
     const node = pathNodes[i];
+    if (!node) {
+      console.error("i don't know what to say");
+      return "";
+    }
     pathString += ` L ${node.xCoordinate} ${node.yCoordinate}`;
   }
 

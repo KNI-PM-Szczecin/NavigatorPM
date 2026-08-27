@@ -1,4 +1,5 @@
 "use client";
+import { GlowGlassCard } from "@/components/ui/glasscard";
 import SearchInput from "@/components/ui/search-input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -18,24 +19,43 @@ const SearchMenu = ({ startPosition, poiList }: BottomBarProps) => {
   const [showEntryInput, setShowEntryInput] = useState<boolean>(
     startPosition === null
   );
+  const [originId, setOriginId] = useState<string | null>(null);
   const [destinationId, setDestinationId] = useState<string | null>(null);
 
-  const onChanged = (value: poiLabel | null) => {
+  const onDestinationChanged = (value: poiLabel | null) => {
     setDestinationId(value != null ? value.id : null);
   };
 
+  const onOriginChanged = (value: poiLabel | null) => {
+    setOriginId(value != null ? value.id : null);
+  };
+
   const go = () => {
-    if (!destinationId) return;
+    const destination = destinationId;
+
+    if (!destination) return;
     const params = new URLSearchParams();
-    if (!startPosition) return;
-    params.set("from", startPosition.id);
-    params.set("to", destinationId);
+
+    const origin = originId ?? startPosition?.id ?? null;
+    if (!origin) return;
+
+    // let's check if our user is a fucking dumbass
+    if (origin === destination) {
+      console.log("You are a fucking moron");
+      return;
+    }
+
+    params.set("from", origin);
+    params.set("to", destination);
+
     router.push(`/?${params}`);
   };
 
   return (
-    <div className="pointer-events-auto fixed inset-x-2 bottom-[calc(0.5rem+env(safe-area-inset-bottom))] z-50 flex h-[33dvh] flex-col justify-between gap-1.5 rounded-[36px] border border-white/60 bg-white/90 p-4 text-black shadow-[0_-8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl landscape:top-2 landscape:right-2 landscape:bottom-2 landscape:left-auto landscape:h-auto landscape:w-[33%] landscape:justify-center">
-      {/* <h1>Budynek</h1> */}
+    <GlowGlassCard
+      className="pointer-events-auto fixed inset-x-2 bottom-[calc(0.5rem+env(safe-area-inset-bottom))] z-50 h-[33dvh] p-4 text-black landscape:top-2 landscape:right-2 landscape:bottom-2 landscape:left-auto landscape:h-auto landscape:w-[33%]"
+      contentClassName="flex h-full flex-col justify-between gap-3 landscape:justify-center"
+    >
       {!showEntryInput ? (
         <div className="flex items-baseline gap-1.5 text-sm">
           <span className="text-black/50">Wejście:</span>
@@ -53,7 +73,11 @@ const SearchMenu = ({ startPosition, poiList }: BottomBarProps) => {
         <label className="flex flex-col gap-1.5">
           <span className="text-sm text-black/50 select-none">Skąd</span>
 
-          <SearchInput placeholder="Sala 8" />
+          <SearchInput
+            placeholder="Sala 8"
+            items={poiList}
+            onChanged={onOriginChanged}
+          />
         </label>
       )}
 
@@ -63,7 +87,7 @@ const SearchMenu = ({ startPosition, poiList }: BottomBarProps) => {
         <SearchInput
           placeholder="Sala 8"
           items={poiList}
-          onChanged={onChanged}
+          onChanged={onDestinationChanged}
         />
       </label>
       <div></div>
@@ -74,7 +98,7 @@ const SearchMenu = ({ startPosition, poiList }: BottomBarProps) => {
       >
         GO
       </button>
-    </div>
+    </GlowGlassCard>
   );
 };
 

@@ -2,11 +2,11 @@
   "buildings": [
     {
       "id": "b1",
-      "address": "ul. Akademicka 1",
+      "address": "Wały Chrobrego 1/2, 70-500 Szczecin",
       "isVisible": true,
       "translations": {
         "pl": {
-          "name": "Wydział Informatyki",
+          "name": "Wały chrobrego",
           "description": "Główny budynek wydziału"
         },
         "en": {
@@ -24,18 +24,18 @@
     {
       "id": "f0",
       "buildingId": "b1",
-      "level": 0,
+      "level": 3,
       "mapImageUrl": "/maps/floor_0.svg",
       "isVisible": true,
       "translations": {
         "pl": {
-          "name": "Parter"
+          "name": "III piętro"
         },
         "en": {
-          "name": "Ground Floor"
+          "name": "Third Floor"
         },
         "uk": {
-          "name": "Перший поверх"
+          "name": "Третій поверх"
         }
       }
     },
@@ -59,62 +59,6 @@
     }
   ],
   "nodes": [
-    {
-      "id": "n0_start",
-      "floorId": "f0",
-      "xCoordinate": 233.0,
-      "yCoordinate": 194.0,
-      "type": "POI"
-    },
-    {
-      "id": "n0_h1",
-      "floorId": "f0",
-      "xCoordinate": 10.0,
-      "yCoordinate": 0.0,
-      "type": "WALKWAY"
-    },
-    {
-      "id": "n0_dziekanat",
-      "floorId": "f0",
-      "xCoordinate": 10.0,
-      "yCoordinate": -10.0,
-      "type": "POI"
-    },
-    {
-      "id": "n0_h2",
-      "floorId": "f0",
-      "xCoordinate": 20.0,
-      "yCoordinate": 0.0,
-      "type": "WALKWAY"
-    },
-    {
-      "id": "n0_bufet",
-      "floorId": "f0",
-      "xCoordinate": 20.0,
-      "yCoordinate": -10.0,
-      "type": "POI"
-    },
-    {
-      "id": "n0_h3",
-      "floorId": "f0",
-      "xCoordinate": 30.0,
-      "yCoordinate": 0.0,
-      "type": "WALKWAY"
-    },
-    {
-      "id": "n0_aula",
-      "floorId": "f0",
-      "xCoordinate": 30.0,
-      "yCoordinate": 10.0,
-      "type": "POI"
-    },
-    {
-      "id": "n0_stairs",
-      "floorId": "f0",
-      "xCoordinate": 40.0,
-      "yCoordinate": 0.0,
-      "type": "WALKWAY"
-    },
     {
       "id": "n1_stairs",
       "floorId": "f1",
@@ -170,65 +114,1024 @@
       "xCoordinate": 10.0,
       "yCoordinate": 10.0,
       "type": "POI"
+    },
+    {
+      "id": "n3_c_n00",
+      "floorId": "f0",
+      "xCoordinate": 272.0,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n01",
+      "floorId": "f0",
+      "xCoordinate": 281.8,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n02",
+      "floorId": "f0",
+      "xCoordinate": 358.65,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n03",
+      "floorId": "f0",
+      "xCoordinate": 365.9,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n04",
+      "floorId": "f0",
+      "xCoordinate": 387.8,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n05",
+      "floorId": "f0",
+      "xCoordinate": 390.2,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n06",
+      "floorId": "f0",
+      "xCoordinate": 409.7,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n07",
+      "floorId": "f0",
+      "xCoordinate": 431.6,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n08",
+      "floorId": "f0",
+      "xCoordinate": 451.8,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n09",
+      "floorId": "f0",
+      "xCoordinate": 473.0,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n10",
+      "floorId": "f0",
+      "xCoordinate": 493.9,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n11",
+      "floorId": "f0",
+      "xCoordinate": 515.7,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n12",
+      "floorId": "f0",
+      "xCoordinate": 536.2,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n13",
+      "floorId": "f0",
+      "xCoordinate": 557.7,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n14",
+      "floorId": "f0",
+      "xCoordinate": 577.9,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n15",
+      "floorId": "f0",
+      "xCoordinate": 621.4,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n16",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n17",
+      "floorId": "f0",
+      "xCoordinate": 643.1,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n18",
+      "floorId": "f0",
+      "xCoordinate": 656.4,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_n19",
+      "floorId": "f0",
+      "xCoordinate": 660.0,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s00",
+      "floorId": "f0",
+      "xCoordinate": 318.0,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s01",
+      "floorId": "f0",
+      "xCoordinate": 358.65,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s02",
+      "floorId": "f0",
+      "xCoordinate": 360.7,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s03",
+      "floorId": "f0",
+      "xCoordinate": 397.9,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s04",
+      "floorId": "f0",
+      "xCoordinate": 465.0,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s05",
+      "floorId": "f0",
+      "xCoordinate": 493.5,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s06",
+      "floorId": "f0",
+      "xCoordinate": 524.6,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s07",
+      "floorId": "f0",
+      "xCoordinate": 559.5,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s08",
+      "floorId": "f0",
+      "xCoordinate": 597.7,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s09",
+      "floorId": "f0",
+      "xCoordinate": 629.9,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s10",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s11",
+      "floorId": "f0",
+      "xCoordinate": 635.6,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_s12",
+      "floorId": "f0",
+      "xCoordinate": 674.0,
+      "yCoordinate": 365.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_w01",
+      "floorId": "f0",
+      "xCoordinate": 358.65,
+      "yCoordinate": 233.2,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_w02",
+      "floorId": "f0",
+      "xCoordinate": 358.65,
+      "yCoordinate": 234.1,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_w03",
+      "floorId": "f0",
+      "xCoordinate": 358.65,
+      "yCoordinate": 255.7,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_w04",
+      "floorId": "f0",
+      "xCoordinate": 358.65,
+      "yCoordinate": 276.5,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_w05",
+      "floorId": "f0",
+      "xCoordinate": 358.65,
+      "yCoordinate": 280.2,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_w06",
+      "floorId": "f0",
+      "xCoordinate": 358.65,
+      "yCoordinate": 294.3,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_e01",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 217.9,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_e02",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 250.8,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_e03",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 276.5,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_e04",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 294.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_e05",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 328.2,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_e06",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 334.4,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_e07",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 351.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_fw00",
+      "floorId": "f0",
+      "xCoordinate": 232.4,
+      "yCoordinate": 168.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_fw01",
+      "floorId": "f0",
+      "xCoordinate": 232.4,
+      "yCoordinate": 189.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_fw02",
+      "floorId": "f0",
+      "xCoordinate": 232.4,
+      "yCoordinate": 197.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_fw03",
+      "floorId": "f0",
+      "xCoordinate": 232.4,
+      "yCoordinate": 224.3,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_fw04",
+      "floorId": "f0",
+      "xCoordinate": 232.4,
+      "yCoordinate": 302.3,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_fw05",
+      "floorId": "f0",
+      "xCoordinate": 232.4,
+      "yCoordinate": 338.8,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_fw06",
+      "floorId": "f0",
+      "xCoordinate": 232.4,
+      "yCoordinate": 345.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_fwn00",
+      "floorId": "f0",
+      "xCoordinate": 200.0,
+      "yCoordinate": 197.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_fwn01",
+      "floorId": "f0",
+      "xCoordinate": 216.9,
+      "yCoordinate": 197.0,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_v32000",
+      "floorId": "f0",
+      "xCoordinate": 603.8,
+      "yCoordinate": 171.2,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_c_v32001",
+      "floorId": "f0",
+      "xCoordinate": 621.4,
+      "yCoordinate": 171.2,
+      "type": "WALKWAY"
+    },
+    {
+      "id": "n3_r_302",
+      "floorId": "f0",
+      "xCoordinate": 329.0,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_303",
+      "floorId": "f0",
+      "xCoordinate": 363.7,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_304",
+      "floorId": "f0",
+      "xCoordinate": 398.1,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_306",
+      "floorId": "f0",
+      "xCoordinate": 447.8,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_307",
+      "floorId": "f0",
+      "xCoordinate": 502.3,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_308",
+      "floorId": "f0",
+      "xCoordinate": 532.1,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_309",
+      "floorId": "f0",
+      "xCoordinate": 566.6,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_310",
+      "floorId": "f0",
+      "xCoordinate": 597.7,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_311",
+      "floorId": "f0",
+      "xCoordinate": 630.6,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_312",
+      "floorId": "f0",
+      "xCoordinate": 651.2,
+      "yCoordinate": 401.5,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_313",
+      "floorId": "f0",
+      "xCoordinate": 714.9,
+      "yCoordinate": 381.6,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_314",
+      "floorId": "f0",
+      "xCoordinate": 673.4,
+      "yCoordinate": 328.3,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_315",
+      "floorId": "f0",
+      "xCoordinate": 665.6,
+      "yCoordinate": 351.0,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_316",
+      "floorId": "f0",
+      "xCoordinate": 673.4,
+      "yCoordinate": 294.1,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_317",
+      "floorId": "f0",
+      "xCoordinate": 673.4,
+      "yCoordinate": 218.4,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_318",
+      "floorId": "f0",
+      "xCoordinate": 673.4,
+      "yCoordinate": 250.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_319",
+      "floorId": "f0",
+      "xCoordinate": 673.4,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_320",
+      "floorId": "f0",
+      "xCoordinate": 599.6,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_321",
+      "floorId": "f0",
+      "xCoordinate": 579.2,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_322",
+      "floorId": "f0",
+      "xCoordinate": 557.1,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_323",
+      "floorId": "f0",
+      "xCoordinate": 514.9,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_324",
+      "floorId": "f0",
+      "xCoordinate": 535.1,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_325",
+      "floorId": "f0",
+      "xCoordinate": 493.9,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_326",
+      "floorId": "f0",
+      "xCoordinate": 451.8,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_327",
+      "floorId": "f0",
+      "xCoordinate": 471.9,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_328",
+      "floorId": "f0",
+      "xCoordinate": 431.7,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_329",
+      "floorId": "f0",
+      "xCoordinate": 410.2,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_330",
+      "floorId": "f0",
+      "xCoordinate": 368.8,
+      "yCoordinate": 156.8,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_331",
+      "floorId": "f0",
+      "xCoordinate": 388.8,
+      "yCoordinate": 156.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_334",
+      "floorId": "f0",
+      "xCoordinate": 300.2,
+      "yCoordinate": 168.0,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_337",
+      "floorId": "f0",
+      "xCoordinate": 330.9,
+      "yCoordinate": 222.4,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_339",
+      "floorId": "f0",
+      "xCoordinate": 389.1,
+      "yCoordinate": 320.3,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_340",
+      "floorId": "f0",
+      "xCoordinate": 389.1,
+      "yCoordinate": 277.7,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_341",
+      "floorId": "f0",
+      "xCoordinate": 389.1,
+      "yCoordinate": 256.9,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_342",
+      "floorId": "f0",
+      "xCoordinate": 389.1,
+      "yCoordinate": 233.3,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_343",
+      "floorId": "f0",
+      "xCoordinate": 389.1,
+      "yCoordinate": 211.1,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_347",
+      "floorId": "f0",
+      "xCoordinate": 210.3,
+      "yCoordinate": 302.4,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_348",
+      "floorId": "f0",
+      "xCoordinate": 210.3,
+      "yCoordinate": 225.1,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_349",
+      "floorId": "f0",
+      "xCoordinate": 155.7,
+      "yCoordinate": 172.0,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_349A",
+      "floorId": "f0",
+      "xCoordinate": 200.3,
+      "yCoordinate": 141.3,
+      "type": "POI"
+    },
+    {
+      "id": "n3_r_350",
+      "floorId": "f0",
+      "xCoordinate": 216.9,
+      "yCoordinate": 168.0,
+      "type": "POI"
+    },
+    {
+      "id": "n3_d_302",
+      "floorId": "f0",
+      "xCoordinate": 341.4,
+      "yCoordinate": 383.9,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_303",
+      "floorId": "f0",
+      "xCoordinate": 360.7,
+      "yCoordinate": 377.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_304",
+      "floorId": "f0",
+      "xCoordinate": 397.9,
+      "yCoordinate": 377.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_306",
+      "floorId": "f0",
+      "xCoordinate": 465.0,
+      "yCoordinate": 377.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_307",
+      "floorId": "f0",
+      "xCoordinate": 493.5,
+      "yCoordinate": 377.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_308",
+      "floorId": "f0",
+      "xCoordinate": 524.6,
+      "yCoordinate": 377.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_309",
+      "floorId": "f0",
+      "xCoordinate": 559.5,
+      "yCoordinate": 377.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_310",
+      "floorId": "f0",
+      "xCoordinate": 597.7,
+      "yCoordinate": 377.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_311",
+      "floorId": "f0",
+      "xCoordinate": 629.9,
+      "yCoordinate": 377.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_312",
+      "floorId": "f0",
+      "xCoordinate": 635.6,
+      "yCoordinate": 377.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_313",
+      "floorId": "f0",
+      "xCoordinate": 678.5,
+      "yCoordinate": 370.0,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_314",
+      "floorId": "f0",
+      "xCoordinate": 652.1,
+      "yCoordinate": 328.2,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_315",
+      "floorId": "f0",
+      "xCoordinate": 652.1,
+      "yCoordinate": 351.0,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_316",
+      "floorId": "f0",
+      "xCoordinate": 652.1,
+      "yCoordinate": 294.0,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_317",
+      "floorId": "f0",
+      "xCoordinate": 652.1,
+      "yCoordinate": 217.9,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_318",
+      "floorId": "f0",
+      "xCoordinate": 652.1,
+      "yCoordinate": 250.8,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_319",
+      "floorId": "f0",
+      "xCoordinate": 656.4,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_320",
+      "floorId": "f0",
+      "xCoordinate": 603.8,
+      "yCoordinate": 166.0,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_321",
+      "floorId": "f0",
+      "xCoordinate": 577.9,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_322",
+      "floorId": "f0",
+      "xCoordinate": 557.7,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_323",
+      "floorId": "f0",
+      "xCoordinate": 515.7,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_324",
+      "floorId": "f0",
+      "xCoordinate": 536.2,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_325",
+      "floorId": "f0",
+      "xCoordinate": 493.9,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_326",
+      "floorId": "f0",
+      "xCoordinate": 451.8,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_327",
+      "floorId": "f0",
+      "xCoordinate": 473.0,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_328",
+      "floorId": "f0",
+      "xCoordinate": 431.6,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_329",
+      "floorId": "f0",
+      "xCoordinate": 409.7,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_330",
+      "floorId": "f0",
+      "xCoordinate": 365.9,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_331",
+      "floorId": "f0",
+      "xCoordinate": 387.8,
+      "yCoordinate": 176.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_334",
+      "floorId": "f0",
+      "xCoordinate": 281.8,
+      "yCoordinate": 169.2,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_337",
+      "floorId": "f0",
+      "xCoordinate": 348.0,
+      "yCoordinate": 233.2,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_339",
+      "floorId": "f0",
+      "xCoordinate": 369.3,
+      "yCoordinate": 294.3,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_340",
+      "floorId": "f0",
+      "xCoordinate": 369.3,
+      "yCoordinate": 280.2,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_341",
+      "floorId": "f0",
+      "xCoordinate": 369.3,
+      "yCoordinate": 255.7,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_342",
+      "floorId": "f0",
+      "xCoordinate": 369.3,
+      "yCoordinate": 234.1,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_343",
+      "floorId": "f0",
+      "xCoordinate": 390.2,
+      "yCoordinate": 201.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_347",
+      "floorId": "f0",
+      "xCoordinate": 225.9,
+      "yCoordinate": 302.3,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_348",
+      "floorId": "f0",
+      "xCoordinate": 225.9,
+      "yCoordinate": 224.3,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_349",
+      "floorId": "f0",
+      "xCoordinate": 194.6,
+      "yCoordinate": 191.5,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_d_349A",
+      "floorId": "f0",
+      "xCoordinate": 194.6,
+      "yCoordinate": 154.1,
+      "type": "DOORWAY"
+    },
+    {
+      "id": "n3_st_01",
+      "floorId": "f0",
+      "xCoordinate": 212.6,
+      "yCoordinate": 338.8,
+      "type": "STAIRS"
+    },
+    {
+      "id": "n3_st_02",
+      "floorId": "f0",
+      "xCoordinate": 235.6,
+      "yCoordinate": 160.9,
+      "type": "STAIRS"
+    },
+    {
+      "id": "n3_st_03",
+      "floorId": "f0",
+      "xCoordinate": 334.6,
+      "yCoordinate": 276.5,
+      "type": "STAIRS"
+    },
+    {
+      "id": "n3_st_04",
+      "floorId": "f0",
+      "xCoordinate": 595.4,
+      "yCoordinate": 276.5,
+      "type": "STAIRS"
+    },
+    {
+      "id": "n3_st_05",
+      "floorId": "f0",
+      "xCoordinate": 595.4,
+      "yCoordinate": 334.4,
+      "type": "STAIRS"
+    },
+    {
+      "id": "n3_st_06",
+      "floorId": "f0",
+      "xCoordinate": 643.1,
+      "yCoordinate": 156.7,
+      "type": "STAIRS"
+    },
+    {
+      "id": "n3_qr_314",
+      "floorId": "f0",
+      "xCoordinate": 631.4,
+      "yCoordinate": 328.2,
+      "type": "POI"
     }
   ],
   "edges": [
-    {
-      "id": "e_01",
-      "nodeAId": "n0_start",
-      "nodeBId": "n0_h1",
-      "weight": 10.0,
-      "isAccessible": true
-    },
-    {
-      "id": "e_02",
-      "nodeAId": "n0_h1",
-      "nodeBId": "n0_dziekanat",
-      "weight": 10.0,
-      "isAccessible": true
-    },
-    {
-      "id": "e_03",
-      "nodeAId": "n0_h1",
-      "nodeBId": "n0_h2",
-      "weight": 10.0,
-      "isAccessible": true
-    },
-    {
-      "id": "e_04",
-      "nodeAId": "n0_h2",
-      "nodeBId": "n0_bufet",
-      "weight": 10.0,
-      "isAccessible": true
-    },
-    {
-      "id": "e_05",
-      "nodeAId": "n0_h2",
-      "nodeBId": "n0_h3",
-      "weight": 10.0,
-      "isAccessible": true
-    },
-    {
-      "id": "e_06",
-      "nodeAId": "n0_h3",
-      "nodeBId": "n0_aula",
-      "weight": 10.0,
-      "isAccessible": true
-    },
-    {
-      "id": "e_07",
-      "nodeAId": "n0_h3",
-      "nodeBId": "n0_stairs",
-      "weight": 10.0,
-      "isAccessible": true
-    },
-    {
-      "id": "e_stairs",
-      "nodeAId": "n0_stairs",
-      "nodeBId": "n1_stairs",
-      "weight": 15.0,
-      "isAccessible": true
-    },
     {
       "id": "e_11",
       "nodeAId": "n1_stairs",
@@ -277,29 +1180,1024 @@
       "nodeBId": "n1_r102",
       "weight": 10.0,
       "isAccessible": true
+    },
+    {
+      "id": "e3_001",
+      "nodeAId": "n3_c_n00",
+      "nodeBId": "n3_c_n01",
+      "weight": 9.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_002",
+      "nodeAId": "n3_c_n01",
+      "nodeBId": "n3_c_n02",
+      "weight": 76.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_003",
+      "nodeAId": "n3_c_n02",
+      "nodeBId": "n3_c_n03",
+      "weight": 7.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_004",
+      "nodeAId": "n3_c_n03",
+      "nodeBId": "n3_c_n04",
+      "weight": 21.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_005",
+      "nodeAId": "n3_c_n04",
+      "nodeBId": "n3_c_n05",
+      "weight": 2.4,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_006",
+      "nodeAId": "n3_c_n05",
+      "nodeBId": "n3_c_n06",
+      "weight": 19.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_007",
+      "nodeAId": "n3_c_n06",
+      "nodeBId": "n3_c_n07",
+      "weight": 21.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_008",
+      "nodeAId": "n3_c_n07",
+      "nodeBId": "n3_c_n08",
+      "weight": 20.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_009",
+      "nodeAId": "n3_c_n08",
+      "nodeBId": "n3_c_n09",
+      "weight": 21.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_010",
+      "nodeAId": "n3_c_n09",
+      "nodeBId": "n3_c_n10",
+      "weight": 20.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_011",
+      "nodeAId": "n3_c_n10",
+      "nodeBId": "n3_c_n11",
+      "weight": 21.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_012",
+      "nodeAId": "n3_c_n11",
+      "nodeBId": "n3_c_n12",
+      "weight": 20.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_013",
+      "nodeAId": "n3_c_n12",
+      "nodeBId": "n3_c_n13",
+      "weight": 21.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_014",
+      "nodeAId": "n3_c_n13",
+      "nodeBId": "n3_c_n14",
+      "weight": 20.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_015",
+      "nodeAId": "n3_c_n14",
+      "nodeBId": "n3_c_n15",
+      "weight": 43.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_016",
+      "nodeAId": "n3_c_n15",
+      "nodeBId": "n3_c_n16",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_017",
+      "nodeAId": "n3_c_n16",
+      "nodeBId": "n3_c_n17",
+      "weight": 11.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_018",
+      "nodeAId": "n3_c_n17",
+      "nodeBId": "n3_c_n18",
+      "weight": 13.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_019",
+      "nodeAId": "n3_c_n18",
+      "nodeBId": "n3_c_n19",
+      "weight": 3.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_020",
+      "nodeAId": "n3_c_s00",
+      "nodeBId": "n3_c_s01",
+      "weight": 40.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_021",
+      "nodeAId": "n3_c_s01",
+      "nodeBId": "n3_c_s02",
+      "weight": 2.1,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_022",
+      "nodeAId": "n3_c_s02",
+      "nodeBId": "n3_c_s03",
+      "weight": 37.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_023",
+      "nodeAId": "n3_c_s03",
+      "nodeBId": "n3_c_s04",
+      "weight": 67.1,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_024",
+      "nodeAId": "n3_c_s04",
+      "nodeBId": "n3_c_s05",
+      "weight": 28.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_025",
+      "nodeAId": "n3_c_s05",
+      "nodeBId": "n3_c_s06",
+      "weight": 31.1,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_026",
+      "nodeAId": "n3_c_s06",
+      "nodeBId": "n3_c_s07",
+      "weight": 34.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_027",
+      "nodeAId": "n3_c_s07",
+      "nodeBId": "n3_c_s08",
+      "weight": 38.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_028",
+      "nodeAId": "n3_c_s08",
+      "nodeBId": "n3_c_s09",
+      "weight": 32.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_029",
+      "nodeAId": "n3_c_s09",
+      "nodeBId": "n3_c_s10",
+      "weight": 1.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_030",
+      "nodeAId": "n3_c_s10",
+      "nodeBId": "n3_c_s11",
+      "weight": 4.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_031",
+      "nodeAId": "n3_c_s11",
+      "nodeBId": "n3_c_s12",
+      "weight": 38.4,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_032",
+      "nodeAId": "n3_c_n02",
+      "nodeBId": "n3_c_w01",
+      "weight": 44.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_033",
+      "nodeAId": "n3_c_w01",
+      "nodeBId": "n3_c_w02",
+      "weight": 0.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_034",
+      "nodeAId": "n3_c_w02",
+      "nodeBId": "n3_c_w03",
+      "weight": 21.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_035",
+      "nodeAId": "n3_c_w03",
+      "nodeBId": "n3_c_w04",
+      "weight": 20.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_036",
+      "nodeAId": "n3_c_w04",
+      "nodeBId": "n3_c_w05",
+      "weight": 3.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_037",
+      "nodeAId": "n3_c_w05",
+      "nodeBId": "n3_c_w06",
+      "weight": 14.1,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_038",
+      "nodeAId": "n3_c_w06",
+      "nodeBId": "n3_c_s01",
+      "weight": 71.1,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_039",
+      "nodeAId": "n3_c_n16",
+      "nodeBId": "n3_c_e01",
+      "weight": 28.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_040",
+      "nodeAId": "n3_c_e01",
+      "nodeBId": "n3_c_e02",
+      "weight": 32.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_041",
+      "nodeAId": "n3_c_e02",
+      "nodeBId": "n3_c_e03",
+      "weight": 25.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_042",
+      "nodeAId": "n3_c_e03",
+      "nodeBId": "n3_c_e04",
+      "weight": 17.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_043",
+      "nodeAId": "n3_c_e04",
+      "nodeBId": "n3_c_e05",
+      "weight": 34.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_044",
+      "nodeAId": "n3_c_e05",
+      "nodeBId": "n3_c_e06",
+      "weight": 6.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_045",
+      "nodeAId": "n3_c_e06",
+      "nodeBId": "n3_c_e07",
+      "weight": 16.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_046",
+      "nodeAId": "n3_c_e07",
+      "nodeBId": "n3_c_s10",
+      "weight": 14.4,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_047",
+      "nodeAId": "n3_c_fw00",
+      "nodeBId": "n3_c_fw01",
+      "weight": 21.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_048",
+      "nodeAId": "n3_c_fw01",
+      "nodeBId": "n3_c_fw02",
+      "weight": 8.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_049",
+      "nodeAId": "n3_c_fw02",
+      "nodeBId": "n3_c_fw03",
+      "weight": 27.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_050",
+      "nodeAId": "n3_c_fw03",
+      "nodeBId": "n3_c_fw04",
+      "weight": 78.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_051",
+      "nodeAId": "n3_c_fw04",
+      "nodeBId": "n3_c_fw05",
+      "weight": 36.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_052",
+      "nodeAId": "n3_c_fw05",
+      "nodeBId": "n3_c_fw06",
+      "weight": 6.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_053",
+      "nodeAId": "n3_c_fwn00",
+      "nodeBId": "n3_c_fwn01",
+      "weight": 16.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_054",
+      "nodeAId": "n3_c_fwn01",
+      "nodeBId": "n3_c_fw02",
+      "weight": 15.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_055",
+      "nodeAId": "n3_c_v32000",
+      "nodeBId": "n3_c_v32001",
+      "weight": 17.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_056",
+      "nodeAId": "n3_c_v32001",
+      "nodeBId": "n3_c_n15",
+      "weight": 17.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_057",
+      "nodeAId": "n3_c_fw01",
+      "nodeBId": "n3_c_n00",
+      "weight": 39.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_058",
+      "nodeAId": "n3_r_302",
+      "nodeBId": "n3_d_302",
+      "weight": 21.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_059",
+      "nodeAId": "n3_d_302",
+      "nodeBId": "n3_r_303",
+      "weight": 28.4,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_060",
+      "nodeAId": "n3_r_303",
+      "nodeBId": "n3_d_303",
+      "weight": 24.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_061",
+      "nodeAId": "n3_d_303",
+      "nodeBId": "n3_c_s02",
+      "weight": 12.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_062",
+      "nodeAId": "n3_r_304",
+      "nodeBId": "n3_d_304",
+      "weight": 23.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_063",
+      "nodeAId": "n3_d_304",
+      "nodeBId": "n3_c_s03",
+      "weight": 12.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_064",
+      "nodeAId": "n3_r_306",
+      "nodeBId": "n3_d_306",
+      "weight": 29.4,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_065",
+      "nodeAId": "n3_d_306",
+      "nodeBId": "n3_c_s04",
+      "weight": 12.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_066",
+      "nodeAId": "n3_r_307",
+      "nodeBId": "n3_d_307",
+      "weight": 25.4,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_067",
+      "nodeAId": "n3_d_307",
+      "nodeBId": "n3_c_s05",
+      "weight": 12.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_068",
+      "nodeAId": "n3_r_308",
+      "nodeBId": "n3_d_308",
+      "weight": 25.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_069",
+      "nodeAId": "n3_d_308",
+      "nodeBId": "n3_c_s06",
+      "weight": 12.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_070",
+      "nodeAId": "n3_r_309",
+      "nodeBId": "n3_d_309",
+      "weight": 24.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_071",
+      "nodeAId": "n3_d_309",
+      "nodeBId": "n3_c_s07",
+      "weight": 12.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_072",
+      "nodeAId": "n3_r_310",
+      "nodeBId": "n3_d_310",
+      "weight": 23.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_073",
+      "nodeAId": "n3_d_310",
+      "nodeBId": "n3_c_s08",
+      "weight": 12.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_074",
+      "nodeAId": "n3_r_311",
+      "nodeBId": "n3_d_311",
+      "weight": 23.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_075",
+      "nodeAId": "n3_d_311",
+      "nodeBId": "n3_c_s09",
+      "weight": 12.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_076",
+      "nodeAId": "n3_r_312",
+      "nodeBId": "n3_d_312",
+      "weight": 28.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_077",
+      "nodeAId": "n3_d_312",
+      "nodeBId": "n3_c_s11",
+      "weight": 12.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_078",
+      "nodeAId": "n3_r_313",
+      "nodeBId": "n3_d_313",
+      "weight": 38.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_079",
+      "nodeAId": "n3_d_313",
+      "nodeBId": "n3_c_s12",
+      "weight": 6.4,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_080",
+      "nodeAId": "n3_r_314",
+      "nodeBId": "n3_d_314",
+      "weight": 21.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_081",
+      "nodeAId": "n3_d_314",
+      "nodeBId": "n3_c_e05",
+      "weight": 20.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_082",
+      "nodeAId": "n3_r_315",
+      "nodeBId": "n3_d_315",
+      "weight": 13.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_083",
+      "nodeAId": "n3_d_315",
+      "nodeBId": "n3_c_e07",
+      "weight": 20.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_084",
+      "nodeAId": "n3_r_316",
+      "nodeBId": "n3_d_316",
+      "weight": 21.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_085",
+      "nodeAId": "n3_d_316",
+      "nodeBId": "n3_c_e04",
+      "weight": 20.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_086",
+      "nodeAId": "n3_r_317",
+      "nodeBId": "n3_d_317",
+      "weight": 21.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_087",
+      "nodeAId": "n3_d_317",
+      "nodeBId": "n3_c_e01",
+      "weight": 20.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_088",
+      "nodeAId": "n3_r_318",
+      "nodeBId": "n3_d_318",
+      "weight": 21.3,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_089",
+      "nodeAId": "n3_d_318",
+      "nodeBId": "n3_c_e02",
+      "weight": 20.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_090",
+      "nodeAId": "n3_r_319",
+      "nodeBId": "n3_d_319",
+      "weight": 25.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_091",
+      "nodeAId": "n3_d_319",
+      "nodeBId": "n3_c_n18",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_092",
+      "nodeAId": "n3_r_320",
+      "nodeBId": "n3_d_320",
+      "weight": 10.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_093",
+      "nodeAId": "n3_d_320",
+      "nodeBId": "n3_c_v32000",
+      "weight": 5.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_094",
+      "nodeAId": "n3_r_321",
+      "nodeBId": "n3_d_321",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_095",
+      "nodeAId": "n3_d_321",
+      "nodeBId": "n3_c_n14",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_096",
+      "nodeAId": "n3_r_322",
+      "nodeBId": "n3_d_322",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_097",
+      "nodeAId": "n3_d_322",
+      "nodeBId": "n3_c_n13",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_098",
+      "nodeAId": "n3_r_323",
+      "nodeBId": "n3_d_323",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_099",
+      "nodeAId": "n3_d_323",
+      "nodeBId": "n3_c_n11",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_100",
+      "nodeAId": "n3_r_324",
+      "nodeBId": "n3_d_324",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_101",
+      "nodeAId": "n3_d_324",
+      "nodeBId": "n3_c_n12",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_102",
+      "nodeAId": "n3_r_325",
+      "nodeBId": "n3_d_325",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_103",
+      "nodeAId": "n3_d_325",
+      "nodeBId": "n3_c_n10",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_104",
+      "nodeAId": "n3_r_326",
+      "nodeBId": "n3_d_326",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_105",
+      "nodeAId": "n3_d_326",
+      "nodeBId": "n3_c_n08",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_106",
+      "nodeAId": "n3_r_327",
+      "nodeBId": "n3_d_327",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_107",
+      "nodeAId": "n3_d_327",
+      "nodeBId": "n3_c_n09",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_108",
+      "nodeAId": "n3_r_328",
+      "nodeBId": "n3_d_328",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_109",
+      "nodeAId": "n3_d_328",
+      "nodeBId": "n3_c_n07",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_110",
+      "nodeAId": "n3_r_329",
+      "nodeBId": "n3_d_329",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_111",
+      "nodeAId": "n3_d_329",
+      "nodeBId": "n3_c_n06",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_112",
+      "nodeAId": "n3_r_330",
+      "nodeBId": "n3_d_330",
+      "weight": 19.9,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_113",
+      "nodeAId": "n3_d_330",
+      "nodeBId": "n3_c_n03",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_114",
+      "nodeAId": "n3_r_331",
+      "nodeBId": "n3_d_331",
+      "weight": 19.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_115",
+      "nodeAId": "n3_d_331",
+      "nodeBId": "n3_c_n04",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_116",
+      "nodeAId": "n3_r_334",
+      "nodeBId": "n3_d_334",
+      "weight": 18.4,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_117",
+      "nodeAId": "n3_d_334",
+      "nodeBId": "n3_c_n01",
+      "weight": 19.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_118",
+      "nodeAId": "n3_r_337",
+      "nodeBId": "n3_d_337",
+      "weight": 20.2,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_119",
+      "nodeAId": "n3_d_337",
+      "nodeBId": "n3_c_w01",
+      "weight": 10.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_120",
+      "nodeAId": "n3_r_339",
+      "nodeBId": "n3_d_339",
+      "weight": 32.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_121",
+      "nodeAId": "n3_d_339",
+      "nodeBId": "n3_c_w06",
+      "weight": 10.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_122",
+      "nodeAId": "n3_r_340",
+      "nodeBId": "n3_d_340",
+      "weight": 20.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_123",
+      "nodeAId": "n3_d_340",
+      "nodeBId": "n3_c_w05",
+      "weight": 10.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_124",
+      "nodeAId": "n3_r_341",
+      "nodeBId": "n3_d_341",
+      "weight": 19.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_125",
+      "nodeAId": "n3_d_341",
+      "nodeBId": "n3_c_w03",
+      "weight": 10.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_126",
+      "nodeAId": "n3_r_342",
+      "nodeBId": "n3_d_342",
+      "weight": 19.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_127",
+      "nodeAId": "n3_d_342",
+      "nodeBId": "n3_c_w02",
+      "weight": 10.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_128",
+      "nodeAId": "n3_r_343",
+      "nodeBId": "n3_d_343",
+      "weight": 9.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_129",
+      "nodeAId": "n3_d_343",
+      "nodeBId": "n3_c_n05",
+      "weight": 12.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_130",
+      "nodeAId": "n3_r_347",
+      "nodeBId": "n3_d_347",
+      "weight": 15.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_131",
+      "nodeAId": "n3_d_347",
+      "nodeBId": "n3_c_fw04",
+      "weight": 6.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_132",
+      "nodeAId": "n3_r_348",
+      "nodeBId": "n3_d_348",
+      "weight": 15.6,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_133",
+      "nodeAId": "n3_d_348",
+      "nodeBId": "n3_c_fw03",
+      "weight": 6.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_134",
+      "nodeAId": "n3_r_349",
+      "nodeBId": "n3_d_349",
+      "weight": 43.5,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_135",
+      "nodeAId": "n3_d_349",
+      "nodeBId": "n3_c_fwn00",
+      "weight": 7.7,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_136",
+      "nodeAId": "n3_r_349A",
+      "nodeBId": "n3_d_349A",
+      "weight": 14.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_137",
+      "nodeAId": "n3_d_349A",
+      "nodeBId": "n3_r_349",
+      "weight": 42.8,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_138",
+      "nodeAId": "n3_r_350",
+      "nodeBId": "n3_c_fwn01",
+      "weight": 29.0,
+      "isAccessible": true
+    },
+    {
+      "id": "e3_139",
+      "nodeAId": "n3_st_01",
+      "nodeBId": "n3_c_fw05",
+      "weight": 19.8,
+      "isAccessible": false
+    },
+    {
+      "id": "e3_140",
+      "nodeAId": "n3_st_02",
+      "nodeBId": "n3_c_fw00",
+      "weight": 7.8,
+      "isAccessible": false
+    },
+    {
+      "id": "e3_141",
+      "nodeAId": "n3_st_03",
+      "nodeBId": "n3_c_w04",
+      "weight": 24.0,
+      "isAccessible": false
+    },
+    {
+      "id": "e3_142",
+      "nodeAId": "n3_st_04",
+      "nodeBId": "n3_c_e03",
+      "weight": 36.0,
+      "isAccessible": false
+    },
+    {
+      "id": "e3_143",
+      "nodeAId": "n3_st_05",
+      "nodeBId": "n3_c_e06",
+      "weight": 36.0,
+      "isAccessible": false
+    },
+    {
+      "id": "e3_144",
+      "nodeAId": "n3_st_06",
+      "nodeBId": "n3_c_n17",
+      "weight": 32.3,
+      "isAccessible": false
+    },
+    {
+      "id": "e3_145",
+      "nodeAId": "n3_qr_314",
+      "nodeBId": "n3_c_e05",
+      "weight": 0.0,
+      "isAccessible": true
     }
   ],
   "pois": [
-    {
-      "id": "p_start",
-      "nodeId": "n0_start",
-      "category": "QR_CODE",
-      "subCategory": null,
-      "translations": {
-        "pl": {
-          "name": "Wejście Główne (Parter)",
-          "description": "Kod QR przy wejściu"
-        },
-        "en": {
-          "name": "Main Entrance (Ground Floor)",
-          "description": "QR code at entrance"
-        },
-        "uk": {
-          "name": "Головний вхід (Перший поверх)",
-          "description": "QR-код на вході"
-        }
-      }
-    },
     {
       "id": "p_start_2",
       "nodeId": "n1_start",
@@ -317,66 +2215,6 @@
         "uk": {
           "name": "QR-код (Другий поверх)",
           "description": "QR-код біля сходах на поверсі"
-        }
-      }
-    },
-    {
-      "id": "p_dziekanat",
-      "nodeId": "n0_dziekanat",
-      "category": "OFFICE",
-      "subCategory": "DEAN",
-      "translations": {
-        "pl": {
-          "name": "Dziekanat",
-          "description": "Obsługa studentów"
-        },
-        "en": {
-          "name": "Dean's Office",
-          "description": "Student services"
-        },
-        "uk": {
-          "name": "Деканат",
-          "description": "Обслуговування студентів"
-        }
-      }
-    },
-    {
-      "id": "p_bufet",
-      "nodeId": "n0_bufet",
-      "category": "SERVICE",
-      "subCategory": "CANTEEN",
-      "translations": {
-        "pl": {
-          "name": "Bufet",
-          "description": "Przekąski i kawa"
-        },
-        "en": {
-          "name": "Canteen",
-          "description": "Snacks and coffee"
-        },
-        "uk": {
-          "name": "Буфет",
-          "description": "Закуски та кава"
-        }
-      }
-    },
-    {
-      "id": "p_aula",
-      "nodeId": "n0_aula",
-      "category": "ROOM",
-      "subCategory": "LECTURE_HALL",
-      "translations": {
-        "pl": {
-          "name": "Aula A",
-          "description": "Główna sala wykładowa"
-        },
-        "en": {
-          "name": "Auditorium A",
-          "description": "Main lecture hall"
-        },
-        "uk": {
-          "name": "Аудиторія А",
-          "description": "Головна лекційна зала"
         }
       }
     },
@@ -437,6 +2275,966 @@
         "uk": {
           "name": "Аудиторія 102",
           "description": "Клас для практичних занять"
+        }
+      }
+    },
+    {
+      "id": "p3_r_302",
+      "nodeId": "n3_r_302",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 302",
+          "description": null
+        },
+        "en": {
+          "name": "Room 302",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 302",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_303",
+      "nodeId": "n3_r_303",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 303",
+          "description": null
+        },
+        "en": {
+          "name": "Room 303",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 303",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_304",
+      "nodeId": "n3_r_304",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 304",
+          "description": null
+        },
+        "en": {
+          "name": "Room 304",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 304",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_306",
+      "nodeId": "n3_r_306",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 306",
+          "description": null
+        },
+        "en": {
+          "name": "Room 306",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 306",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_307",
+      "nodeId": "n3_r_307",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 307",
+          "description": null
+        },
+        "en": {
+          "name": "Room 307",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 307",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_308",
+      "nodeId": "n3_r_308",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 308",
+          "description": null
+        },
+        "en": {
+          "name": "Room 308",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 308",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_309",
+      "nodeId": "n3_r_309",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 309",
+          "description": null
+        },
+        "en": {
+          "name": "Room 309",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 309",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_310",
+      "nodeId": "n3_r_310",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 310",
+          "description": null
+        },
+        "en": {
+          "name": "Room 310",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 310",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_311",
+      "nodeId": "n3_r_311",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 311",
+          "description": null
+        },
+        "en": {
+          "name": "Room 311",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 311",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_312",
+      "nodeId": "n3_r_312",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 312",
+          "description": null
+        },
+        "en": {
+          "name": "Room 312",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 312",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_313",
+      "nodeId": "n3_r_313",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 313",
+          "description": null
+        },
+        "en": {
+          "name": "Room 313",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 313",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_314",
+      "nodeId": "n3_r_314",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 314",
+          "description": null
+        },
+        "en": {
+          "name": "Room 314",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 314",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_315",
+      "nodeId": "n3_r_315",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 315",
+          "description": null
+        },
+        "en": {
+          "name": "Room 315",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 315",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_316",
+      "nodeId": "n3_r_316",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 316",
+          "description": null
+        },
+        "en": {
+          "name": "Room 316",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 316",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_317",
+      "nodeId": "n3_r_317",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 317",
+          "description": null
+        },
+        "en": {
+          "name": "Room 317",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 317",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_318",
+      "nodeId": "n3_r_318",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 318",
+          "description": null
+        },
+        "en": {
+          "name": "Room 318",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 318",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_319",
+      "nodeId": "n3_r_319",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 319",
+          "description": null
+        },
+        "en": {
+          "name": "Room 319",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 319",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_320",
+      "nodeId": "n3_r_320",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 320",
+          "description": null
+        },
+        "en": {
+          "name": "Room 320",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 320",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_321",
+      "nodeId": "n3_r_321",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 321",
+          "description": null
+        },
+        "en": {
+          "name": "Room 321",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 321",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_322",
+      "nodeId": "n3_r_322",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 322",
+          "description": null
+        },
+        "en": {
+          "name": "Room 322",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 322",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_323",
+      "nodeId": "n3_r_323",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 323",
+          "description": null
+        },
+        "en": {
+          "name": "Room 323",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 323",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_324",
+      "nodeId": "n3_r_324",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 324",
+          "description": null
+        },
+        "en": {
+          "name": "Room 324",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 324",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_325",
+      "nodeId": "n3_r_325",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 325",
+          "description": null
+        },
+        "en": {
+          "name": "Room 325",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 325",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_326",
+      "nodeId": "n3_r_326",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 326",
+          "description": null
+        },
+        "en": {
+          "name": "Room 326",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 326",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_327",
+      "nodeId": "n3_r_327",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 327",
+          "description": null
+        },
+        "en": {
+          "name": "Room 327",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 327",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_328",
+      "nodeId": "n3_r_328",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 328",
+          "description": null
+        },
+        "en": {
+          "name": "Room 328",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 328",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_329",
+      "nodeId": "n3_r_329",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 329",
+          "description": null
+        },
+        "en": {
+          "name": "Room 329",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 329",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_330",
+      "nodeId": "n3_r_330",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 330",
+          "description": null
+        },
+        "en": {
+          "name": "Room 330",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 330",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_331",
+      "nodeId": "n3_r_331",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 331",
+          "description": null
+        },
+        "en": {
+          "name": "Room 331",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 331",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_334",
+      "nodeId": "n3_r_334",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 334",
+          "description": null
+        },
+        "en": {
+          "name": "Room 334",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 334",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_337",
+      "nodeId": "n3_r_337",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 337",
+          "description": null
+        },
+        "en": {
+          "name": "Room 337",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 337",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_339",
+      "nodeId": "n3_r_339",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 339",
+          "description": null
+        },
+        "en": {
+          "name": "Room 339",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 339",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_340",
+      "nodeId": "n3_r_340",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 340",
+          "description": null
+        },
+        "en": {
+          "name": "Room 340",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 340",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_341",
+      "nodeId": "n3_r_341",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 341",
+          "description": null
+        },
+        "en": {
+          "name": "Room 341",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 341",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_342",
+      "nodeId": "n3_r_342",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 342",
+          "description": null
+        },
+        "en": {
+          "name": "Room 342",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 342",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_343",
+      "nodeId": "n3_r_343",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 343",
+          "description": null
+        },
+        "en": {
+          "name": "Room 343",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 343",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_347",
+      "nodeId": "n3_r_347",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 347",
+          "description": null
+        },
+        "en": {
+          "name": "Room 347",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 347",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_348",
+      "nodeId": "n3_r_348",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 348",
+          "description": null
+        },
+        "en": {
+          "name": "Room 348",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 348",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_349",
+      "nodeId": "n3_r_349",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 349",
+          "description": null
+        },
+        "en": {
+          "name": "Room 349",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 349",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_349A",
+      "nodeId": "n3_r_349A",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 349A",
+          "description": null
+        },
+        "en": {
+          "name": "Room 349A",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 349A",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_r_350",
+      "nodeId": "n3_r_350",
+      "category": "ROOM",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Sala 350",
+          "description": null
+        },
+        "en": {
+          "name": "Room 350",
+          "description": null
+        },
+        "uk": {
+          "name": "Аудиторія 350",
+          "description": null
+        }
+      }
+    },
+    {
+      "id": "p3_st_01",
+      "nodeId": "n3_st_01",
+      "category": "STAIRS",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Klatka schodowa 1",
+          "description": "Droga ewakuacyjna"
+        },
+        "en": {
+          "name": "Staircase 1",
+          "description": "Evacuation route"
+        },
+        "uk": {
+          "name": "Сходова клітка 1",
+          "description": "Шлях евакуації"
+        }
+      }
+    },
+    {
+      "id": "p3_st_02",
+      "nodeId": "n3_st_02",
+      "category": "STAIRS",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Klatka schodowa 2",
+          "description": "Droga ewakuacyjna"
+        },
+        "en": {
+          "name": "Staircase 2",
+          "description": "Evacuation route"
+        },
+        "uk": {
+          "name": "Сходова клітка 2",
+          "description": "Шлях евакуації"
+        }
+      }
+    },
+    {
+      "id": "p3_st_03",
+      "nodeId": "n3_st_03",
+      "category": "STAIRS",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Klatka schodowa 3",
+          "description": "Droga ewakuacyjna"
+        },
+        "en": {
+          "name": "Staircase 3",
+          "description": "Evacuation route"
+        },
+        "uk": {
+          "name": "Сходова клітка 3",
+          "description": "Шлях евакуації"
+        }
+      }
+    },
+    {
+      "id": "p3_st_04",
+      "nodeId": "n3_st_04",
+      "category": "STAIRS",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Klatka schodowa 4",
+          "description": "Droga ewakuacyjna"
+        },
+        "en": {
+          "name": "Staircase 4",
+          "description": "Evacuation route"
+        },
+        "uk": {
+          "name": "Сходова клітка 4",
+          "description": "Шлях евакуації"
+        }
+      }
+    },
+    {
+      "id": "p3_st_05",
+      "nodeId": "n3_st_05",
+      "category": "STAIRS",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Klatka schodowa 5",
+          "description": "Droga ewakuacyjna"
+        },
+        "en": {
+          "name": "Staircase 5",
+          "description": "Evacuation route"
+        },
+        "uk": {
+          "name": "Сходова клітка 5",
+          "description": "Шлях евакуації"
+        }
+      }
+    },
+    {
+      "id": "p3_st_06",
+      "nodeId": "n3_st_06",
+      "category": "STAIRS",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Klatka schodowa 6",
+          "description": "Droga ewakuacyjna"
+        },
+        "en": {
+          "name": "Staircase 6",
+          "description": "Evacuation route"
+        },
+        "uk": {
+          "name": "Сходова клітка 6",
+          "description": "Шлях евакуації"
+        }
+      }
+    },
+    {
+      "id": "p_start",
+      "nodeId": "n3_qr_314",
+      "category": "QR_CODE",
+      "subCategory": null,
+      "translations": {
+        "pl": {
+          "name": "Korytarz przy sali 314",
+          "description": "Kod QR obok planu ewakuacji"
+        },
+        "en": {
+          "name": "Corridor by room 314",
+          "description": "QR code next to the evacuation plan"
+        },
+        "uk": {
+          "name": "Коридор біля кабінету 314",
+          "description": "QR-код біля плану евакуації"
         }
       }
     }
