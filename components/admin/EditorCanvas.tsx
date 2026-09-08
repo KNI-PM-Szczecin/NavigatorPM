@@ -62,6 +62,17 @@ export default function EditorCanvas() {
 
   const [edgeToDeleteId, setEdgeToDeleteId] = useState<string | null>(null);
 
+  const [prevFloorId, setPrevFloorId] = useState<string | null>(activeFloorId);
+
+  if (activeFloorId !== prevFloorId) {
+    setPrevFloorId(activeFloorId);
+    if (
+      !activeFloorId ||
+      !floors.find((f) => f.id === activeFloorId)?.mapImageUrl
+    ) {
+      setSvgDimensions({ width: 2000, height: 1500 });
+    }
+  }
   const activeFloor = floors.find((f) => f.id === activeFloorId);
   const floorNodes = nodes.filter((n) => n.floorId === activeFloorId);
   const floorEdges = edges.filter(
@@ -109,7 +120,8 @@ export default function EditorCanvas() {
           setCurrentScale(e.state.scale);
         }}
       >
-        {({ zoomIn, zoomOut, resetTransform }) => {
+        {({ zoomIn, zoomOut, resetTransform, state: transformState }) => {
+          const actualScale = transformState.scale;
           const handleCanvasClick = (e: MouseEvent<HTMLDivElement>) => {
             if (!activeFloorId) {
               setErrorMessage("Select or create a floor before seting nodes!");
@@ -123,10 +135,10 @@ export default function EditorCanvas() {
               return;
 
             const rect = canvasRef.current.getBoundingClientRect();
-            let calcX = (e.clientX - rect.left) / currentScale;
-            let calcY = (e.clientY - rect.top) / currentScale;
+            let calcX = (e.clientX - rect.left) / actualScale;
+            let calcY = (e.clientY - rect.top) / actualScale;
 
-            const SNAP_RADIUS = 15 / currentScale;
+            const SNAP_RADIUS = 15 / actualScale;
             let isGhostSnapped = false;
 
             // GHOST SNAPPING
@@ -219,8 +231,8 @@ export default function EditorCanvas() {
             if (!canvasRef.current) return;
 
             const rect = canvasRef.current.getBoundingClientRect();
-            let currentX = (e.clientX - rect.left) / currentScale;
-            let currentY = (e.clientY - rect.top) / currentScale;
+            let currentX = (e.clientX - rect.left) / actualScale;
+            let currentY = (e.clientY - rect.top) / actualScale;
 
             const activeNodeId = isDrawingEdge
               ? drawingEdgeFromId

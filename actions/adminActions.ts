@@ -4,7 +4,7 @@ import { MapData } from "@/types/map";
 import fs from "fs/promises";
 import path from "path";
 
-const DATA_FILE_PATH = path.join(process.cwd(), "src", "data", "mapData.json");
+const DATA_FILE_PATH = path.join(process.cwd(), "data", "map.json");
 
 export async function saveMapDataAction(newData: MapData) {
   if (process.env.NODE_ENV !== "development") {

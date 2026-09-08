@@ -35,7 +35,7 @@ export default function CreatePoiForm({ onClose, nodeId, existingPoi }: Props) {
       translations: translations as POI["translations"],
     };
 
-    if (existingPoi) updatePoi(poiData);
+    if (existingPoi) updatePoi(nodeId, poiData);
     else addPoi(poiData);
 
     onClose();

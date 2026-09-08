@@ -119,6 +119,7 @@ export const useEditorStore = create<EditorState>()(
         set((state) => ({
           buildings: [...state.buildings, building],
           activeBuildingId: building.id,
+          activeFloorId: null,
         })),
 
       updateBuilding: (building) =>
@@ -129,12 +130,30 @@ export const useEditorStore = create<EditorState>()(
         })),
 
       deleteBuilding: (id: string) =>
-        set((state) => ({
-          buildings: state.buildings.filter((b) => b.id !== id),
-          floors: state.floors.filter((f) => f.buildingId !== id), // Usuwamy też piętra tego budynku
-          activeBuildingId: null,
-          activeFloorId: null,
-        })),
+        set((state) => {
+          const floorsToDelete = state.floors
+            .filter((f) => f.buildingId === id)
+            .map((f) => f.id);
+          const nodesToDelete = state.nodes
+            .filter((n) => floorsToDelete.includes(n.floorId))
+            .map((n) => n.id);
+
+          return {
+            buildings: state.buildings.filter((b) => b.id !== id),
+            floors: state.floors.filter((f) => f.buildingId !== id),
+            nodes: state.nodes.filter(
+              (n) => !floorsToDelete.includes(n.floorId)
+            ),
+            edges: state.edges.filter(
+              (e) =>
+                !nodesToDelete.includes(e.nodeAId) &&
+                !nodesToDelete.includes(e.nodeBId)
+            ),
+            pois: state.pois.filter((p) => !nodesToDelete.includes(p.nodeId)),
+            activeBuildingId: null,
+            activeFloorId: null,
+          };
+        }),
 
       addFloor: (floor) =>
         set((state) => ({
@@ -148,10 +167,22 @@ export const useEditorStore = create<EditorState>()(
         })),
 
       deleteFloor: (id: string) =>
-        set((state) => ({
-          floors: state.floors.filter((f) => f.id !== id),
-          activeFloorId: null,
-        })),
+        set((state) => {
+          const nodesToDelete = state.nodes
+            .filter((n) => n.floorId === id)
+            .map((n) => n.id);
+          return {
+            floors: state.floors.filter((f) => f.id !== id),
+            nodes: state.nodes.filter((n) => n.floorId !== id),
+            edges: state.edges.filter(
+              (e) =>
+                !nodesToDelete.includes(e.nodeAId) &&
+                !nodesToDelete.includes(e.nodeBId)
+            ),
+            pois: state.pois.filter((p) => !nodesToDelete.includes(p.nodeId)),
+            activeFloorId: null,
+          };
+        }),
 
       addPoi: (poi) =>
         set((state) => ({
@@ -169,7 +200,7 @@ export const useEditorStore = create<EditorState>()(
             updatedPOIs[existingPOIIndex] = {
               ...updatedPOIs[existingPOIIndex],
               ...poiData,
-            };
+            } as POI;
             return { pois: updatedPOIs };
           } else {
             const newPOI: POI = {
@@ -207,9 +238,7 @@ export const useEditorStore = create<EditorState>()(
           edges: state.edges.filter(
             (e) => e.nodeAId !== id && e.nodeBId !== id
           ),
-          pois: state.pois.map((p) =>
-            p.nodeId === id ? { ...p, nodeId: "" } : p
-          ),
+          pois: state.pois.filter((p) => p.nodeId !== id),
           selectedNodeId:
             state.selectedNodeId === id ? null : state.selectedNodeId,
           drawingEdgeFromId:

@@ -156,23 +156,33 @@ export default function EditorHeader() {
 
   useEffect(() => {
     const fetchServerData = async () => {
-      if (nodes.length === 0 && buildings.length === 0) {
+      // Check directly from store to bypass React's useSyncExternalStore initial empty state
+      const state = useEditorStore.getState();
+      if (state.nodes.length === 0 && state.buildings.length === 0) {
         const result = await getMapDataAction();
 
         if (result.success && result.data) {
-          loadMapData(result.data);
+          const currentState = useEditorStore.getState();
+          // Double check in case user added something while fetching
+          if (
+            currentState.nodes.length === 0 &&
+            currentState.buildings.length === 0
+          ) {
+            currentState.loadMapData(result.data);
 
-          toast.add({
-            title: "Zsynchronizowano",
-            description: "Wczytano projekt z serwera (brak danych lokalnych).",
-            type: "success",
-          });
+            toast.add({
+              title: "Zsynchronizowano",
+              description:
+                "Wczytano projekt z serwera (brak danych lokalnych).",
+              type: "success",
+            });
+          }
         }
       }
     };
 
     fetchServerData();
-  }, [nodes.length, buildings.length, loadMapData]);
+  }, []);
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between border-b border-border bg-background px-4">
