@@ -10,6 +10,8 @@ export interface Floor {
   buildingId: string;
   level: number;
   mapImageUrl: string;
+  // [x, y, width, height] of the floor SVG's viewBox; node coordinates live in this space
+  viewBox?: number[];
   translations: Translated<{ name: string }>;
 }
 

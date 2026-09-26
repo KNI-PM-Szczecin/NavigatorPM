@@ -26,6 +26,7 @@
       "buildingId": "b1",
       "level": 3,
       "mapImageUrl": "/maps/floor_0.svg",
+      "viewBox": [106.7, 123.7, 654.5, 311.5],
       "isVisible": true,
       "translations": {
         "pl": {
@@ -44,6 +45,7 @@
       "buildingId": "b1",
       "level": 1,
       "mapImageUrl": "/maps/floor_1.svg",
+      "viewBox": [106.7, 123.7, 654.5, 311.5],
       "isVisible": true,
       "translations": {
         "pl": {

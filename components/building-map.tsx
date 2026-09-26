@@ -12,6 +12,7 @@ type FloorInfo = {
   id: string;
   level: number;
   mapImageUrl: string | null;
+  viewBox: number[] | null;
   name: string;
 };
 
@@ -61,18 +62,28 @@ const BuildingMap = ({
   const activeFloor = floors.find((f) => f.id === activeFloorId);
   const floorUrl = activeFloor?.mapImageUrl || "";
 
+  // Node coordinates are in the floor SVG's viewBox space, which may not start at 0,0
+  // and is not the same unit as the image's natural pixel size (pt vs px).
+  // Floors without a stored viewBox fall back to the natural image size.
+  const [vbX = 0, vbY = 0, vbW = mapSize.w, vbH = mapSize.h] =
+    activeFloor?.viewBox ?? [];
+  const hasViewBox = vbW > 0 && vbH > 0;
+  const toPct = (x: number, y: number) => ({
+    left: `${((x - vbX) / vbW) * 100}%`,
+    top: `${((y - vbY) / vbH) * 100}%`,
+  });
+
   const focusBox = useRef<HTMLDivElement | null>(null);
 
   const FOCUS = 90;
   let focusStyle = null;
 
-  if (originPoi && originPoi.floorId === activeFloorId && mapSize.w > 0) {
+  if (originPoi && originPoi.floorId === activeFloorId && hasViewBox) {
     focusStyle = {
       position: "absolute" as const,
-      left: `${((originPoi.userX - FOCUS / 2) / mapSize.w) * 100}%`,
-      top: `${((originPoi.userY - FOCUS / 2) / mapSize.h) * 100}%`,
-      width: `${(FOCUS / mapSize.w) * 100}%`,
-      height: `${(FOCUS / mapSize.h) * 100}%`,
+      ...toPct(originPoi.userX - FOCUS / 2, originPoi.userY - FOCUS / 2),
+      width: `${(FOCUS / vbW) * 100}%`,
+      height: `${(FOCUS / vbH) * 100}%`,
     };
   }
 
@@ -160,12 +171,11 @@ const BuildingMap = ({
                 {/* Origin Marker */}
                 {originPoi &&
                   originPoi.floorId === activeFloorId &&
-                  mapSize.w > 0 && (
+                  hasViewBox && (
                     <div
                       style={{
                         position: "absolute",
-                        left: `${(originPoi.userX / mapSize.w) * 100}%`,
-                        top: `${(originPoi.userY / mapSize.h) * 100}%`,
+                        ...toPct(originPoi.userX, originPoi.userY),
                         transform: "translate(-50%, -50%)",
                       }}
                     >
@@ -176,12 +186,11 @@ const BuildingMap = ({
                 {/* Destination Marker */}
                 {destinationPoi &&
                   destinationPoi.floorId === activeFloorId &&
-                  mapSize.w > 0 && (
+                  hasViewBox && (
                     <div
                       style={{
                         position: "absolute",
-                        left: `${(destinationPoi.userX / mapSize.w) * 100}%`,
-                        top: `${(destinationPoi.userY / mapSize.h) * 100}%`,
+                        ...toPct(destinationPoi.userX, destinationPoi.userY),
                         transform: "translate(-50%, -50%)",
                       }}
                     >
@@ -193,9 +202,9 @@ const BuildingMap = ({
               </div>
 
               {/* Route SVG */}
-              {activeRouteSegment && mapSize.w > 0 && (
+              {activeRouteSegment && hasViewBox && (
                 <svg
-                  viewBox={`0 0 ${mapSize.w} ${mapSize.h}`}
+                  viewBox={`${vbX} ${vbY} ${vbW} ${vbH}`}
                   className="pointer-events-none absolute inset-0 z-30 h-full w-full"
                 >
                   <path

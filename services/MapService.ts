@@ -46,6 +46,7 @@ export function getBuildings(lang: AppLanguage = DEFAULT_LANGUAGE) {
         id: floor.id,
         level: floor.level,
         mapImageUrl: floor.mapImageUrl,
+        viewBox: floor.viewBox ?? null,
         name: fTrans?.name || `Poziom ${floor.level}`,
       };
     });
