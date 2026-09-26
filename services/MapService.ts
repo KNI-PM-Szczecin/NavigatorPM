@@ -8,7 +8,7 @@ import {
 import { generateSvgPath } from "@/utils/generateSvgPath";
 import { pathfindingAlgorithm } from "@/utils/pathfinding";
 
-import { AppLanguage } from "@/types/map";
+import { AppLanguage, Node } from "@/types/map";
 
 const SUPPORTED_LANGUAGES: AppLanguage[] = ["pl", "en", "uk"];
 const DEFAULT_LANGUAGE: AppLanguage = "pl";
@@ -122,7 +122,12 @@ export function getMapData() {
   };
 }
 
-export function getSVGRoute(originId: string, destinationId: string) {
+export type RouteSegment = {
+  floorId: string;
+  path: string;
+};
+
+export function getRouteSegments(originId: string, destinationId: string): RouteSegment[] | undefined {
   const originNodeId = poisById[originId] ? poisById[originId].nodeId : null;
   const destinationNodeId = poisById[destinationId]
     ? poisById[destinationId].nodeId
@@ -138,7 +143,7 @@ export function getSVGRoute(originId: string, destinationId: string) {
     return;
   }
 
-  const nodes = pathfindingAlgorithm(
+  const rawNodes = pathfindingAlgorithm(
     originNodeId,
     destinationNodeId,
     mapData.nodes,
@@ -146,12 +151,43 @@ export function getSVGRoute(originId: string, destinationId: string) {
     false
   );
 
-  if (!nodes || nodes.length < 2) {
+  if (!rawNodes || rawNodes.length < 2) {
     console.error(`Path from ${originId} to ${destinationId} has no nodes`);
     return;
   }
 
-  return generateSvgPath(nodes);
+  const nodes = rawNodes.filter((n): n is Node => n !== undefined);
+  if (nodes.length < 2) return;
+
+  const segments: RouteSegment[] = [];
+  const firstNode = nodes[0]!;
+  let currentFloorId = firstNode.floorId;
+  let currentSegmentNodes = [firstNode];
+
+  for (let i = 1; i < nodes.length; i++) {
+    const node = nodes[i]!;
+    if (node.floorId === currentFloorId) {
+      currentSegmentNodes.push(node);
+    } else {
+      if (currentSegmentNodes.length > 1) {
+        segments.push({
+          floorId: currentFloorId,
+          path: generateSvgPath(currentSegmentNodes),
+        });
+      }
+      currentFloorId = node.floorId;
+      currentSegmentNodes = [node];
+    }
+  }
+
+  if (currentSegmentNodes.length > 1) {
+    segments.push({
+      floorId: currentFloorId,
+      path: generateSvgPath(currentSegmentNodes),
+    });
+  }
+
+  return segments;
 }
 
 export function getPoiContext(
