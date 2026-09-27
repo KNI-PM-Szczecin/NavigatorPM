@@ -122,6 +122,12 @@ export default function EditorCanvas() {
       >
         {({ zoomIn, zoomOut, resetTransform, state: transformState }) => {
           const actualScale = transformState.scale;
+          
+          const vbX = activeFloor?.viewBox?.[0] ?? 0;
+          const vbY = activeFloor?.viewBox?.[1] ?? 0;
+          const vbW = activeFloor?.viewBox?.[2] ?? svgDimensions.width;
+          const vbH = activeFloor?.viewBox?.[3] ?? svgDimensions.height;
+
           const handleCanvasClick = (e: MouseEvent<HTMLDivElement>) => {
             if (!activeFloorId) {
               setErrorMessage("Select or create a floor before seting nodes!");
@@ -135,17 +141,20 @@ export default function EditorCanvas() {
               return;
 
             const rect = canvasRef.current.getBoundingClientRect();
-            let calcX = (e.clientX - rect.left) / actualScale;
-            let calcY = (e.clientY - rect.top) / actualScale;
+            const pixelX = (e.clientX - rect.left) / actualScale;
+            const pixelY = (e.clientY - rect.top) / actualScale;
+            let calcX = vbX + (pixelX / svgDimensions.width) * vbW;
+            let calcY = vbY + (pixelY / svgDimensions.height) * vbH;
 
             const SNAP_RADIUS = 15 / actualScale;
+            const snapRadiusVB = SNAP_RADIUS * (vbW / svgDimensions.width);
             let isGhostSnapped = false;
 
             // GHOST SNAPPING
             for (const ghost of ghostNodes) {
               const dx = calcX - ghost.xCoordinate;
               const dy = calcY - ghost.yCoordinate;
-              if (Math.sqrt(dx * dx + dy * dy) < SNAP_RADIUS) {
+              if (Math.sqrt(dx * dx + dy * dy) < snapRadiusVB) {
                 calcX = ghost.xCoordinate;
                 calcY = ghost.yCoordinate;
                 isGhostSnapped = true;
@@ -231,8 +240,10 @@ export default function EditorCanvas() {
             if (!canvasRef.current) return;
 
             const rect = canvasRef.current.getBoundingClientRect();
-            let currentX = (e.clientX - rect.left) / actualScale;
-            let currentY = (e.clientY - rect.top) / actualScale;
+            const pixelX = (e.clientX - rect.left) / actualScale;
+            const pixelY = (e.clientY - rect.top) / actualScale;
+            let currentX = vbX + (pixelX / svgDimensions.width) * vbW;
+            let currentY = vbY + (pixelY / svgDimensions.height) * vbH;
 
             const activeNodeId = isDrawingEdge
               ? drawingEdgeFromId
@@ -292,7 +303,10 @@ export default function EditorCanvas() {
                   )}
 
                   {/* Edge map (SVG) */}
-                  <svg className="absolute inset-0 z-10 h-full w-full">
+                  <svg 
+                    className="absolute inset-0 z-10 h-full w-full"
+                    viewBox={`${vbX} ${vbY} ${vbW} ${vbH}`}
+                  >
                     {/* WIZUALIZACJA: Duchy z poprzedniego piętra */}
                     {ghostNodes.map((ghost) => {
                       const scaleFactor = Math.max(0.3, 1 / currentScale);
@@ -443,8 +457,8 @@ export default function EditorCanvas() {
                               : "border-zinc-900 bg-zinc-400 hover:bg-zinc-300"
                         }`}
                         style={{
-                          left: `${node.xCoordinate}px`,
-                          top: `${node.yCoordinate}px`,
+                          left: `${((node.xCoordinate - vbX) / vbW) * 100}%`,
+                          top: `${((node.yCoordinate - vbY) / vbH) * 100}%`,
                           transform: `translate(-50%, -50%) scale(${finalScale})`,
                         }}
                       />
