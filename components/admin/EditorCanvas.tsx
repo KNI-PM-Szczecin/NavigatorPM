@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { MouseEvent, useRef, useState } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { useShallow } from "zustand/shallow";
 
 export default function EditorCanvas() {
   const {
@@ -42,14 +43,29 @@ export default function EditorCanvas() {
     handleNodeClickForEdge,
     isGridSnapEnabled,
     toggleGridSnap,
-  } = useEditorStore();
+  } = useEditorStore(
+    useShallow((state) => ({
+      nodes: state.nodes,
+      edges: state.edges,
+      floors: state.floors,
+      activeFloorId: state.activeFloorId,
+      selectedNodeId: state.selectedNodeId,
+      activeTool: state.activeTool,
+      drawingEdgeFromId: state.drawingEdgeFromId,
+      addNode: state.addNode,
+      deleteEdge: state.deleteEdge,
+      setSelectedNode: state.setSelectedNode,
+      setActiveTool: state.setActiveTool,
+      handleNodeClickForEdge: state.handleNodeClickForEdge,
+      isGridSnapEnabled: state.isGridSnapEnabled,
+      toggleGridSnap: state.toggleGridSnap,
+    }))
+  );
 
   useHotkeys();
 
-  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(
-    null
-  );
-
+  const dynamicLineRef = useRef<SVGLineElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -122,39 +138,51 @@ export default function EditorCanvas() {
       >
         {({ zoomIn, zoomOut, resetTransform, state: transformState }) => {
           const actualScale = transformState.scale;
-          
+
           const vbX = activeFloor?.viewBox?.[0] ?? 0;
           const vbY = activeFloor?.viewBox?.[1] ?? 0;
           const vbW = activeFloor?.viewBox?.[2] ?? svgDimensions.width;
           const vbH = activeFloor?.viewBox?.[3] ?? svgDimensions.height;
 
-          const handleCanvasClick = (e: MouseEvent<HTMLDivElement>) => {
+          const handleCanvasClick = (e: MouseEvent<SVGSVGElement>) => {
             if (!activeFloorId) {
-              setErrorMessage("Select or create a floor before seting nodes!");
+              setErrorMessage(
+                "Wybierz lub stwórz piętro przed dodaniem węzłów!"
+              );
               return;
             }
 
             if (
               (activeTool !== "ADD_NODE" && activeTool !== "DRAW_PATH") ||
               !canvasRef.current
-            )
+            ) {
               return;
+            }
 
-            const rect = canvasRef.current.getBoundingClientRect();
-            const pixelX = (e.clientX - rect.left) / actualScale;
-            const pixelY = (e.clientY - rect.top) / actualScale;
-            let calcX = vbX + (pixelX / svgDimensions.width) * vbW;
-            let calcY = vbY + (pixelY / svgDimensions.height) * vbH;
+            const svg = svgRef.current;
+            if (!svg) return;
 
-            const SNAP_RADIUS = 15 / actualScale;
-            const snapRadiusVB = SNAP_RADIUS * (vbW / svgDimensions.width);
+            const ctm = svg.getScreenCTM();
+            if (!ctm) return;
+
+            const pt = svg.createSVGPoint();
+            pt.x = e.clientX;
+            pt.y = e.clientY;
+
+            const svgPos = pt.matrixTransform(ctm.inverse());
+            let calcX = svgPos.x;
+            let calcY = svgPos.y;
+
+            // Obliczanie promienia przyciągania
+            // ctm.a to obecna skala ekranu względem SVG.
+            const snapRadius = 15 / ctm.a;
             let isGhostSnapped = false;
 
-            // GHOST SNAPPING
+            // GHOST SNAPPING (Przyciąganie do duchów z niższego piętra)
             for (const ghost of ghostNodes) {
               const dx = calcX - ghost.xCoordinate;
               const dy = calcY - ghost.yCoordinate;
-              if (Math.sqrt(dx * dx + dy * dy) < snapRadiusVB) {
+              if (Math.sqrt(dx * dx + dy * dy) < snapRadius) {
                 calcX = ghost.xCoordinate;
                 calcY = ghost.yCoordinate;
                 isGhostSnapped = true;
@@ -163,7 +191,6 @@ export default function EditorCanvas() {
             }
 
             if (!isGhostSnapped) {
-              // Grid Snapping
               if (isGridSnapEnabled) {
                 calcX = Math.round(calcX / 24) * 24;
                 calcY = Math.round(calcY / 24) * 24;
@@ -172,7 +199,6 @@ export default function EditorCanvas() {
                 calcY = Math.round(calcY);
               }
 
-              // Orthogonal Snapping (Shift)
               if (e.shiftKey) {
                 const referenceNodeId =
                   activeTool === "DRAW_PATH" || activeTool === "ADD_NODE"
@@ -233,7 +259,6 @@ export default function EditorCanvas() {
             const isDrawingPath = activeTool === "DRAW_PATH" && selectedNodeId;
 
             if (!isDrawingEdge && !isDrawingPath) {
-              if (mousePos) setMousePos(null);
               return;
             }
 
@@ -257,7 +282,10 @@ export default function EditorCanvas() {
               else currentX = startNode.xCoordinate;
             }
 
-            setMousePos({ x: currentX, y: currentY });
+            if (dynamicLineRef.current) {
+              dynamicLineRef.current.setAttribute("x2", currentX.toString());
+              dynamicLineRef.current.setAttribute("y2", currentY.toString());
+            }
           };
 
           return (
@@ -267,9 +295,7 @@ export default function EditorCanvas() {
               >
                 <div
                   ref={canvasRef}
-                  onClick={handleCanvasClick}
                   onMouseMove={handleMouseMove}
-                  onMouseLeave={() => setMousePos(null)}
                   className={`relative origin-top-left bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] ${
                     activeTool === "SELECT"
                       ? "cursor-grab active:cursor-grabbing"
@@ -303,7 +329,9 @@ export default function EditorCanvas() {
                   )}
 
                   {/* Edge map (SVG) */}
-                  <svg 
+                  <svg
+                    ref={svgRef}
+                    onClick={handleCanvasClick}
                     className="absolute inset-0 z-10 h-full w-full"
                     viewBox={`${vbX} ${vbY} ${vbW} ${vbH}`}
                   >
@@ -402,68 +430,74 @@ export default function EditorCanvas() {
                     })}
 
                     {/* WIZUALIZACJA: Rysowana krawędź w locie */}
-                    {(activeTool === "DRAW_EDGE" ||
-                      activeTool === "DRAW_PATH") &&
-                      mousePos &&
-                      (() => {
-                        const activeStartId =
-                          activeTool === "DRAW_EDGE"
-                            ? drawingEdgeFromId
-                            : selectedNodeId;
-                        if (!activeStartId) return null;
+                    {(() => {
+                      const isDrawingEdge =
+                        activeTool === "DRAW_EDGE" && drawingEdgeFromId;
+                      const isDrawingPath =
+                        activeTool === "DRAW_PATH" && selectedNodeId;
 
-                        const startNode = floorNodes.find(
-                          (n) => n.id === activeStartId
-                        );
-                        if (!startNode) return null;
+                      if (!isDrawingEdge && !isDrawingPath) return null;
 
-                        const scaleFactor = Math.max(0.3, 1 / currentScale);
+                      const activeStartId =
+                        activeTool === "DRAW_EDGE"
+                          ? drawingEdgeFromId
+                          : selectedNodeId;
+                      if (!activeStartId) return null;
 
-                        return (
-                          <line
-                            x1={startNode.xCoordinate}
-                            y1={startNode.yCoordinate}
-                            x2={mousePos.x}
-                            y2={mousePos.y}
-                            stroke={
-                              activeTool === "DRAW_PATH" ? "#10b981" : "#f97316"
-                            } /* Ścieżka: zielona, Zwykła linia: pomarańczowa */
-                            strokeWidth={2 * scaleFactor}
-                            strokeDasharray={`${4 * scaleFactor} ${4 * scaleFactor}`}
-                            className="pointer-events-none opacity-70"
-                          />
-                        );
-                      })()}
+                      const startNode = floorNodes.find(
+                        (n) => n.id === activeStartId
+                      );
+                      if (!startNode) return null;
+
+                      const scaleFactor = Math.max(0.3, 1 / currentScale);
+
+                      return (
+                        <line
+                          ref={dynamicLineRef}
+                          x1={startNode.xCoordinate}
+                          y1={startNode.yCoordinate}
+                          x2={startNode.xCoordinate}
+                          y2={startNode.yCoordinate}
+                          stroke={
+                            activeTool === "DRAW_PATH" ? "#10b981" : "#f97316"
+                          } /* Ścieżka: zielona, Zwykła linia: pomarańczowa */
+                          strokeWidth={2 * scaleFactor}
+                          strokeDasharray={`${4 * scaleFactor} ${4 * scaleFactor}`}
+                          className="pointer-events-none opacity-70"
+                        />
+                      );
+                    })()}
+
+                    {/* Nodes */}
+                    {floorNodes.map((node) => {
+                      const isSelected = selectedNodeId === node.id;
+                      const isDrawing = drawingEdgeFromId === node.id;
+                      const isActive = isSelected || isDrawing;
+
+                      const baseScale = Math.max(0.3, 1 / currentScale);
+                      const finalScale = isActive
+                        ? baseScale * 1.25
+                        : baseScale;
+
+                      return (
+                        <circle
+                          key={node.id}
+                          cx={node.xCoordinate}
+                          cy={node.yCoordinate}
+                          r={6 * finalScale}
+                          onClick={(e) => handleNodeClick(e, node.id)}
+                          strokeWidth={2 * finalScale}
+                          className={`pointer-events-auto cursor-pointer transition-all ${
+                            isSelected
+                              ? "fill-blue-500 stroke-white"
+                              : isDrawing
+                                ? "fill-orange-500 stroke-white"
+                                : "fill-zinc-400 stroke-zinc-900 hover:fill-zinc-300"
+                          }`}
+                        />
+                      );
+                    })}
                   </svg>
-
-                  {/* Nodes */}
-                  {floorNodes.map((node) => {
-                    const isSelected = selectedNodeId === node.id;
-                    const isDrawing = drawingEdgeFromId === node.id;
-                    const isActive = isSelected || isDrawing;
-
-                    const baseScale = Math.max(0.3, 1 / currentScale);
-                    const finalScale = isActive ? baseScale * 1.25 : baseScale;
-
-                    return (
-                      <div
-                        key={node.id}
-                        onClick={(e) => handleNodeClick(e, node.id)}
-                        className={`pointer-events-auto absolute z-20 h-4 w-4 cursor-pointer rounded-full border-2 transition-all ${
-                          isSelected
-                            ? "z-10 border-white bg-blue-500 shadow-[0_0_0_4px_rgba(59,130,246,0.3)]"
-                            : isDrawing
-                              ? "z-10 border-white bg-orange-500"
-                              : "border-zinc-900 bg-zinc-400 hover:bg-zinc-300"
-                        }`}
-                        style={{
-                          left: `${((node.xCoordinate - vbX) / vbW) * 100}%`,
-                          top: `${((node.yCoordinate - vbY) / vbH) * 100}%`,
-                          transform: `translate(-50%, -50%) scale(${finalScale})`,
-                        }}
-                      />
-                    );
-                  })}
                 </div>
               </TransformComponent>
 
