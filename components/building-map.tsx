@@ -1,33 +1,14 @@
 "use client";
 
+import FloorControls from "@/components/floor-controls";
 import UseIsLandscape from "@/components/use-is-landscape";
-import { useEffect, useRef, useState } from "react";
+import { FloorInfo, PoiDetails, RouteSegment } from "@/types/map";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ReactZoomPanPinchContentRef,
   TransformComponent,
   TransformWrapper,
 } from "react-zoom-pan-pinch";
-
-type FloorInfo = {
-  id: string;
-  level: number;
-  mapImageUrl: string | null;
-  viewBox: number[] | null;
-  name: string;
-};
-
-type PoiDetails = {
-  nodeId: string;
-  floorId: string;
-  userX: number;
-  userY: number;
-  poiName?: string;
-};
-
-type RouteSegment = {
-  floorId: string;
-  path: string;
-};
 
 const unfocusInput = () => {
   if (document.activeElement instanceof HTMLElement) {
@@ -57,17 +38,29 @@ const BuildingMap = ({
   const [activeFloorId, setActiveFloorId] = useState<string | null>(
     defaultFloor
   );
-  const [mapSize, setMapSize] = useState({ w: 0, h: 0 });
 
   const activeFloor = floors.find((f) => f.id === activeFloorId);
   const floorUrl = activeFloor?.mapImageUrl || "";
 
-  // Node coordinates are in the floor SVG's viewBox space, which may not start at 0,0
-  // and is not the same unit as the image's natural pixel size (pt vs px).
-  // Floors without a stored viewBox fall back to the natural image size.
-  const [vbX = 0, vbY = 0, vbW = mapSize.w, vbH = mapSize.h] =
-    activeFloor?.viewBox ?? [];
+  const [vbX = 0, vbY = 0, vbW = 841.7, vbH = 595.2] = activeFloor?.viewBox ?? [
+    0, 0, 841.7, 595.2,
+  ];
   const hasViewBox = vbW > 0 && vbH > 0;
+
+  const [svgDimensions, setSvgDimensions] = useState({
+    width: vbW || 1122,
+    height: vbH || 793,
+  });
+
+  const [prevFloorId, setPrevFloorId] = useState<string | null>(activeFloorId);
+  if (activeFloorId !== prevFloorId) {
+    setPrevFloorId(activeFloorId);
+    const newFloor = floors.find((f) => f.id === activeFloorId);
+    const nw = newFloor?.viewBox?.[2] || 1122;
+    const nh = newFloor?.viewBox?.[3] || 793;
+    setSvgDimensions({ width: nw, height: nh });
+  }
+
   const toPct = (x: number, y: number) => ({
     left: `${((x - vbX) / vbW) * 100}%`,
     top: `${((y - vbY) / vbH) * 100}%`,
@@ -75,29 +68,53 @@ const BuildingMap = ({
 
   const focusBox = useRef<HTMLDivElement | null>(null);
 
-  const FOCUS = 90;
+  const FOCUS_W = 90;
+  const FOCUS_H = 150; // Rozszerzenie w dół przesuwa optyczny środek ponad dolny drawer
   let focusStyle = null;
 
-  if (originPoi && originPoi.floorId === activeFloorId && hasViewBox) {
+  // Cel powiększenia: punkt początkowy (z QR) lub punkt docelowy (jeśli nie ma QR)
+  const focusTarget =
+    originPoi && originPoi.floorId === activeFloorId
+      ? originPoi
+      : destinationPoi && destinationPoi.floorId === activeFloorId && !originPoi
+        ? destinationPoi
+        : null;
+  const hasFocusTarget = focusTarget != null;
+
+  if (focusTarget && hasViewBox) {
     focusStyle = {
       position: "absolute" as const,
-      ...toPct(originPoi.userX - FOCUS / 2, originPoi.userY - FOCUS / 2),
-      width: `${(FOCUS / vbW) * 100}%`,
-      height: `${(FOCUS / vbH) * 100}%`,
+      ...toPct(focusTarget.userX - FOCUS_W / 2, focusTarget.userY - FOCUS_W / 2),
+      width: `${(FOCUS_W / vbW) * 100}%`,
+      height: `${(FOCUS_H / vbH) * 100}%`,
     };
   }
 
-  // Reset the map view when the screen orientation is changed
-  useEffect(() => {
+  // Centrowanie / zoom widoku przy załadowaniu rzutu, zmianie orientacji lub piętra
+  const handleMapReady = useCallback(() => {
     const api = transformWrapperRef.current;
     if (api == null) return;
 
-    if (focusBox.current != null) {
+    if (hasFocusTarget && focusBox.current != null) {
       api.zoomToElement(focusBox.current, undefined, 600);
     } else {
-      api.centerView(1, 0);
+      // Oblicz optymalną skalę, aby cały rzut piętra idealnie mieścił się na ekranie z marginesem
+      const wrapperW = window.innerWidth;
+      const wrapperH = window.innerHeight;
+      const padX = wrapperW < 768 ? 32 : 96;
+      const padY = wrapperW < 768 ? 160 : 96; // Większy margines od dołu na telefonie przez drawer
+      const fitScale = Math.min(
+        Math.max(0.15, (wrapperW - padX) / svgDimensions.width),
+        Math.max(0.15, (wrapperH - padY) / svgDimensions.height),
+        1.5
+      );
+      api.centerView(fitScale, 200);
     }
-  }, [orientation]);
+  }, [hasFocusTarget, svgDimensions]);
+
+  useEffect(() => {
+    handleMapReady();
+  }, [activeFloorId, orientation, svgDimensions, handleMapReady]);
 
   const [prevInitialFloorId, setPrevInitialFloorId] = useState(initialFloorId);
   if (initialFloorId !== prevInitialFloorId) {
@@ -113,55 +130,51 @@ const BuildingMap = ({
 
   return (
     <div
-      className="fixed inset-0 overflow-hidden bg-white"
+      className="fixed inset-0 overflow-hidden bg-zinc-100 transition-colors duration-300 dark:bg-zinc-950"
       onPointerDown={unfocusInput}
     >
       <TransformWrapper
         ref={transformWrapperRef}
         initialScale={1}
-        minScale={1}
-        maxScale={8}
-        limitToBounds
-        doubleClick={{
-          mode: "toggle",
-          step: 2,
+        minScale={0.15}
+        maxScale={15}
+        centerOnInit={true}
+        centerZoomedOut={true}
+        wheel={{
+          step: 0.01,
         }}
       >
-        {({ centerView, zoomToElement }) => (
+        {() => (
           <TransformComponent
             wrapperStyle={{
-              width: "100vw",
-              height: "100dvh",
-              overflow: "hidden",
+              width: "100%",
+              height: "100%",
               touchAction: "none",
             }}
-            contentStyle={{
-              width: "max-content",
-              height: "100dvh",
-            }}
           >
-            <div className="relative h-[67dvh] bg-white">
+            <div
+              className="relative origin-top-left"
+              style={{
+                width: `${svgDimensions.width}px`,
+                height: `${svgDimensions.height}px`,
+              }}
+            >
               {floorUrl && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={floorUrl}
-                  alt="Map"
-                  draggable={false}
+                  alt="Plan piętra"
                   onLoad={(e) => {
                     const img = e.currentTarget;
                     if (img.naturalWidth && img.naturalHeight) {
-                      setMapSize({ w: img.naturalWidth, h: img.naturalHeight });
+                      setSvgDimensions({
+                        width: img.naturalWidth,
+                        height: img.naturalHeight,
+                      });
                     }
-                    if (enteredViaQR && focusBox.current != null) {
-                      return zoomToElement(focusBox.current, undefined, 600);
-                    }
-                    return centerView(1, 0);
                   }}
-                  onError={(e) => {
-                    console.error("Failed to load map image");
-                    e.currentTarget.style.display = "none";
-                  }}
-                  className="block h-full w-auto max-w-none select-none"
+                  className="pointer-events-none absolute top-0 left-0 h-full w-full opacity-85 dark:invert dark:hue-rotate-180"
+                  draggable={false}
                 />
               )}
 
@@ -215,7 +228,6 @@ const BuildingMap = ({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     vectorEffect="non-scaling-stroke"
-                    className="drop-shadow-sm"
                   />
                 </svg>
               )}
@@ -224,24 +236,12 @@ const BuildingMap = ({
         )}
       </TransformWrapper>
 
-      {/* Floor Switcher */}
-      {floors.length > 1 && (
-        <div className="absolute top-1/2 left-4 z-50 flex -translate-y-1/2 flex-col gap-2 rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-md">
-          {floors.map((f) => (
-            <button
-              key={f.id}
-              onClick={() => setActiveFloorId(f.id)}
-              className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition-colors ${
-                f.id === activeFloorId
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "bg-transparent text-slate-700 hover:bg-slate-200"
-              }`}
-            >
-              {f.level}
-            </button>
-          ))}
-        </div>
-      )}
+      <FloorControls
+        floors={floors}
+        activeFloorId={activeFloorId}
+        onFloorChange={setActiveFloorId}
+        destinationFloorId={destinationPoi?.floorId ?? null}
+      />
     </div>
   );
 };

@@ -50,3 +50,38 @@ export interface MapData {
 }
 
 export type AppLanguage = "pl" | "en" | "uk";
+
+export interface FloorInfo {
+  id: string;
+  level: number;
+  mapImageUrl: string | null;
+  viewBox: number[] | null;
+  name: string;
+}
+
+export interface BuildingInfo {
+  id: string;
+  address: string;
+  name: string;
+  floors: FloorInfo[];
+}
+
+export interface PoiDetails {
+  nodeId: string;
+  floorId: string;
+  buildingId?: string;
+  mapImageUrl?: string | null;
+  poiName?: string;
+  poiDescription?: string | null;
+  floorName?: string;
+  floorLevel?: number;
+  userX: number;
+  userY: number;
+  buildingName?: string;
+}
+
+export interface RouteSegment {
+  floorId: string;
+  path: string;
+}
+

@@ -8,7 +8,7 @@ import {
 import { generateSvgPath } from "@/utils/generateSvgPath";
 import { pathfindingAlgorithm } from "@/utils/pathfinding";
 
-import { AppLanguage, Node } from "@/types/map";
+import { AppLanguage, Node, RouteSegment } from "@/types/map";
 
 const SUPPORTED_LANGUAGES: AppLanguage[] = ["pl", "en", "uk"];
 const DEFAULT_LANGUAGE: AppLanguage = "pl";
@@ -123,10 +123,8 @@ export function getMapData() {
   };
 }
 
-export type RouteSegment = {
-  floorId: string;
-  path: string;
-};
+export type { RouteSegment };
+
 
 export function getRouteSegments(originId: string, destinationId: string): RouteSegment[] | undefined {
   const originNodeId = poisById[originId] ? poisById[originId].nodeId : null;
